@@ -1,0 +1,9 @@
+10 A = 10:B = 20
+20 IF A>0
+30 A = A - 2
+40 ELSE
+50 A = A + 3
+60 ENDIF
+70 PRINT A + $64
+80 B = B - 1
+90 IF B>0 THEN GOTO 20

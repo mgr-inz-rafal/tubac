@@ -1,0 +1,1 @@
+10 IF 1=1 THEN PRINT 1

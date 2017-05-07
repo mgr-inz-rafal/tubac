@@ -1,0 +1,197 @@
+#pragma once
+
+#include <set>
+#include <string>
+#include <map>
+#include <stack>
+#include <vector>
+
+#include "config.h"
+#include "synthesizer.h"
+#include "token_provider.h"
+#include "stack.h"
+
+class generator
+{
+public:
+	enum class STACK
+	{
+		EXPRESSION,
+		FOR_CONDITION,
+		FOR_COUNTER,
+		RETURN_ADDRESS_STACK,
+		FOR_STEP
+	};
+
+	enum class LOOP_CONTEXT
+	{
+		OUTSIDE,
+		FOR,
+		WHILE,
+		REPEAT,
+		DO
+	};
+
+private:
+	const config& cfg;
+
+	const int EXPRESSION_STACK_CAPACITY = 64;
+	const int RETURN_ADDRESS_STACK_CAPACITY = 64;
+	const int FOR_LOOP_STACK_CAPACITY = 16;
+
+	const int ZERO_PAGE_START = 0x80;
+	const int PROGRAM_START = 0x2000;
+	const int POINTER_SIZE = 2;
+	const std::map<std::string, int> ATARI_REGISTERS = {
+		{ "RUNAD",		0x02E0 },
+		{ "FR0",		0x00D4 },
+		{ "FR1",		0x00E0 },
+		{ "LBUFF",		0x0580 },
+		{ "INBUFP",		0x00F3 },
+		{ "ICCOM",		0x0342 },
+		{ "ICBAL",		0x0344 },
+		{ "ICBLL",		0x0348 },
+		{ "CIOV",		0xE456 },
+		{ "AUDF1",		0xD200 },
+		{ "AUDC1",		0xD201 },
+		{ "SKCTL",		0xD20F },
+		{ "SSKCTL",		0x0232 }
+	};
+	const std::map<std::string, int> ATARI_CONSTANTS = {
+		{ "PUTCHR",		0x000B },
+		{ "EOL",		0x009B }
+	};
+
+	const std::map<STACK, stack> stacks = {
+		{ STACK::EXPRESSION, stack(
+			token(token_provider::TOKENS::EXPRESSION_STACK),
+			cfg.get_number_interpretation()->get_size(),
+			EXPRESSION_STACK_CAPACITY) },
+		{ STACK::FOR_CONDITION, stack(
+			token(token_provider::TOKENS::FOR_CONDITION_STACK),
+			POINTER_SIZE,
+			FOR_LOOP_STACK_CAPACITY) },
+		{ STACK::FOR_COUNTER, stack(
+			token(token_provider::TOKENS::FOR_COUNTER_STACK),
+			POINTER_SIZE,
+			FOR_LOOP_STACK_CAPACITY) },
+		{ STACK::RETURN_ADDRESS_STACK, stack(
+			token(token_provider::TOKENS::RETURN_ADDRESS_STACK),
+			POINTER_SIZE,
+			RETURN_ADDRESS_STACK_CAPACITY) },
+		{ STACK::FOR_STEP, stack(
+			token(token_provider::TOKENS::FOR_STEP_STACK),
+			POINTER_SIZE,
+			FOR_LOOP_STACK_CAPACITY) }
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////
+	// TODO: Rework as loop control structures. Currently each
+	// loop type has its own:
+	// - counter
+	// - stack
+
+	// IF support structures
+	int counter_after_if = 0;
+	std::stack<int> stack_if;		
+	std::set<int> ifs_with_else;	
+
+	// WHILE support structures
+	int counter_while = 0;
+	std::stack<int> stack_while;	
+
+	// REPEAT support structures
+	int counter_repeat = 0;
+	std::stack<int> stack_repeat;	
+
+	// DO support structures
+	int counter_do = 0;
+	std::stack<int> stack_do;	
+
+	// PROC support structures
+	std::stack<std::string> stack_procedure;
+
+	// Other support structures
+	int counter_generic_label = 0;
+	std::stack<LOOP_CONTEXT> loop_context;
+	///////////////////////////////////////////////////////////////////////////////////////////
+
+	char E_;
+	std::set<std::string> integers;
+	std::set<std::string> variables;
+	bool pokey_initialized;
+
+	synthesizer synth;
+
+	void write_code_header();
+	void write_code_footer();
+	void register_generator_runtime();
+
+	void write_stacks_initialization();
+	void write_stacks();
+	void write_integers();
+	void write_variables();
+	void write_atari_registers();
+	void write_atari_constants();
+	void write_internal_variables();
+	void write_run_segment();
+
+	void write_runtime();
+
+	void spawn_compiler_variable(const std::string& name, bool zero_page);
+	void init_pointer(const std::string& name, const std::string& source);
+
+	const std::string& token(const token_provider::TOKENS& token) const;
+	std::string get_next_generic_label();
+	std::string last_generic_label;
+
+public:
+	generator(std::ostream& _stream, const config& _cfg);
+	~generator();
+
+	void new_integer(const std::string& i);
+	void new_variable(const std::string& v);
+	void new_line(const int& i);
+	void put_integer_on_stack(const std::string& i);
+	void pop_to(const std::string& target, const generator::STACK& stack = generator::STACK::EXPRESSION);
+	void pop_to_variable(const std::string& target);
+	void peek_to(const std::string& target, const generator::STACK& stack = generator::STACK::EXPRESSION);
+	void push_from(const std::string& source, const generator::STACK& stack = generator::STACK::EXPRESSION);
+	void push_from_variable(const std::string& source);
+	void FP_to_ASCII();
+	void FR0_boolean_invert();
+	void print_LBUFF();
+	void goto_line(const int& i);
+	void gosub(const int& i);
+	void gosub(const std::string& s);
+	void sound();
+	void poke();
+	void peek();
+	void after_if();
+	void inside_if();
+	void skip_if_on_false();
+	void for_loop_condition();
+	void for_loop_counter(const std::string& counting_variable);
+	void for_step(bool default_step = false);
+	void next();
+	void while_();
+	void while_condition();
+	void wend();
+	void exit();
+	void repeat();
+	void until();
+	void do_();
+	void loop();
+	void return_();
+	void proc(const std::string& s);
+	void end();
+
+	void addition();
+	void subtraction();
+	void multiplication();
+	void division();
+	void compare_equal();
+	void compare_less();
+	void compare_greater();
+};
+
