@@ -1,0 +1,1 @@
+This directory is used by test code to store temporary data.
