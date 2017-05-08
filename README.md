@@ -1,5 +1,5 @@
 # The Tubac
-Turbo Basic Compiler by mgr_inz_rafal.
+ATARI Turbo Basic Compiler by mgr_inz_rafal.
 
 ## License
 This project is licensed under "THE BEER-WARE LICENSE" (Revision 42).
