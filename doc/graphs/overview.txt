@@ -1,11 +1,10 @@
 digraph G {
-   main -> parse -> execute;
-   main -> init;
-   main -> cleanup;
-   execute -> make_string;
-   execute -> printf
-   init -> make_string;
-   main -> printf;
-   execute -> compare;
+   Start [shape=box, style=filled, color=chartreuse];
+   End [shape=box, style=filled, color=red];
+   TUBAC [shape=doubleoctagon, style="filled,dashed" color=cadetblue1, xlabel="You are here!"];
+   Start -> "ATARI Turbo Basic Listing" [shape=box];
+   "ATARI Turbo Basic Listing" -> TUBAC;
+   TUBAC -> "6502 assembly code";
+   "6502 assembly code" -> "ATARI executable";
+   "ATARI executable" -> End [shape=box];
  }
- 
