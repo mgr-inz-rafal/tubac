@@ -158,7 +158,8 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 			atari_path,
 			{
 				test_tmp_bin,
-				"-turbo"
+				"-turbo",
+				"-c .atari800.cfg"
 			},
 			2s);
 
