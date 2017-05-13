@@ -32,19 +32,23 @@
 #include "process_group_executor.h"
 
 #define CATCH_CONFIG_MAIN
-#ifdef _WIN32
-#define CATCH_CONFIG_COLOUR_WINDOWS
-#endif
 #include "../../external/catch/catch.hpp"
 
+#ifdef _WIN32
+#define CATCH_CONFIG_COLOUR_WINDOWS
 const std::string tubac_path = "../x64/Debug/020_TuBaC.exe";
 const std::string mads_path = "tools/mads.exe";
 const std::string atari_path = "tools/atari800/atari800.exe";
+const std::string franny_path = "tools/franny/franny.exe";
+#elif __linux
+const std::string tubac_path = "../020_TuBaC/tubac";
+const std::string mads_path = "tools/mads";
+const std::string atari_path = "tools/atari800/atari800";
+const std::string franny_path = "tools/franny/franny";
+#endif
 const std::string atari_DOS_path = "tools/atari800/DOS.atr";
 const std::string atari_TBXL_path = "tools/atari800/TBXL.atr";
-const std::string franny_path = "tools/franny/franny.exe";
 const std::string suites_path = "suites/";
- 
 const std::string test_tmp_dir = "tools/tmp";
 const std::string test_tmp_source_name = "SOURCE.TXT";		// Uppercase to make Atari happy
 const std::string test_tmp_source = "tmp/" + test_tmp_source_name;
