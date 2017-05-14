@@ -1,0 +1,10 @@
+digraph G {
+   Start [shape=box, style=filled, color=chartreuse];
+   End [shape=box, style=filled, color=red];
+   TUBAC [shape=doubleoctagon, style="filled,dashed" color=cadetblue1, xlabel="You are here!"];
+   Start -> "ATARI Turbo Basic Listing" [shape=box];
+   "ATARI Turbo Basic Listing" -> TUBAC;
+   TUBAC -> "6502 assembly code";
+   "6502 assembly code" -> "ATARI executable";
+   "ATARI executable" -> End [shape=box];
+ }
