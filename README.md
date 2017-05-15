@@ -19,7 +19,7 @@ This project aims to provide a tool that helps transfer the ATARI Turbo Basic li
 ## Supported commands
 ### Atari Basic
 |Command|Status|Comment|
-|-------------|-------------|------|
+|-------------|:-----------:|------|
 |ABS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |AND|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |ASC|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
@@ -46,13 +46,13 @@ This project aims to provide a tool that helps transfer the ATARI Turbo Basic li
 |FOR|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |GET|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |GOSUB|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
-|GOTO|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)|Only direct jumps to line numbers. GOTO A+8 is not (and will not be) supported. I did it once in the past, just for fun, but it didn't bring any value besides slowing the GOTO down tremendously.|
+|GOTO|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)|Only direct jumps to line numbers. ```GOTO A+8``` is not (and will not be) supported. I did it once in the past, just for fun, but it didn't bring any value besides slowing the jumps down tremendously.|
 |GRAPHICS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |IF...THEN|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |INPUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |INT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LEN|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|LET|![#1589F0](https://placehold.it/15/1589F0/000000?text=+) `Partially supported`|But you can simply write the assignment without LET and it'll work.|
+|LET|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|But you can simply write the assignment without LET and it'll work.|
 |LIST|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LOAD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LOCATE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
@@ -73,7 +73,7 @@ This project aims to provide a tool that helps transfer the ATARI Turbo Basic li
 |POKE|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |POP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |POSITION|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|PRINT|![#1589F0](https://placehold.it/15/1589F0/000000?text=+) `Partially supported`|Currently only prints single integer expressions.|
+|PRINT|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Currently only prints single integer expressions.|
 |PTRIG|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |PUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |RAD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
