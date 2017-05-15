@@ -105,12 +105,12 @@ Compiler fully supports arithmetic expressions with parenthesis.
 |Command|Status|Comment|
 |-------------|:-----------:|------|
 |BLOAD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|BRUN|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|DELETE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|DIR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|RENAME|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|LOCK|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|UNLOCK|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|BRUN|![#000000](https://placehold.it/15/000000/000000?text=+)||
+|DELETE|![#000000](https://placehold.it/15/000000/000000?text=+)||
+|DIR|![#000000](https://placehold.it/15/000000/000000?text=+)||
+|RENAME|![#000000](https://placehold.it/15/000000/000000?text=+)||
+|LOCK|![#000000](https://placehold.it/15/000000/000000?text=+)||
+|UNLOCK|![#000000](https://placehold.it/15/000000/000000?text=+)||
 |DPOKE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |DPEEK|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |MOVE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
@@ -119,7 +119,7 @@ Compiler fully supports arithmetic expressions with parenthesis.
 |%GET|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |CLS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |PAUSE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|RENUM|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|RENUM|![#000000](https://placehold.it/15/000000/000000?text=+)|No line numbers - no renumeration.|
 |DEL|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |DUMP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |TRACE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
@@ -136,8 +136,8 @@ Compiler fully supports arithmetic expressions with parenthesis.
 |INKEY$|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |INSTR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |UINSTR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|ERR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|ERL|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|ERR|![#000000](https://placehold.it/15/000000/000000?text=+)||
+|ERL|![#000000](https://placehold.it/15/000000/000000?text=+)||
 |REPEAT...UNTIL|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |WHILE...WEND|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |DO...LOOP|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
