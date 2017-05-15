@@ -43,7 +43,7 @@ This project aims to provide a tool that helps transfer the ATARI Turbo Basic li
 |END|![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `Not supported`||
 |ENTER|![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `Not supported`||
 |EXP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `Not supported`||
-|FOR|![#c5f015](https://placehold.it/15/c5f015/000000?text=+) `Supported`||
+|FOR|![#00ff00](https://placehold.it/15/00ff00/000000?text=+) `Supported`||
 |GET|![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `Not supported`||
 |GOSUB|![#c5f015](https://placehold.it/15/c5f015/000000?text=+) `Supported`||
 |GOTO|![#c5f015](https://placehold.it/15/c5f015/000000?text=+) `Supported`|Only direct jumps to line numbers. GOTO A+8 is not (and will not be) supported. I did it once in the past, just for fun, but it didn't bring any value besides slowing the GOTO down tremendously.|
