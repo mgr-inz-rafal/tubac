@@ -136,11 +136,11 @@ This project aims to provide a tool that helps transfer the ATARI Turbo Basic li
 |UINSTR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |ERR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |ERL|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|REPEAT...UNTIL|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|WHILE...WEND|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|DO...LOOP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|IF...ELSE...ENDIF|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|PROC...ENDPROC|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|REPEAT...UNTIL|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
+|WHILE...WEND|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
+|DO...LOOP|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
+|IF...ELSE...ENDIF|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
+|PROC...ENDPROC|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |CIRCLE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |FCOLOR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |FILLTO|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
