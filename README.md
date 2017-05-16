@@ -55,7 +55,7 @@ Compiler fully supports arithmetic expressions with parenthesis.
 |INT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LEN|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LET|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|But you can simply write the assignment without LET and it'll work.|
-|LIST|![#000000](https://placehold.it/15/000000/000000?text=+)|It doesn't make sens to list compiled program.|
+|LIST|![#000000](https://placehold.it/15/000000/000000?text=+)|It doesn't make sense to list compiled program.|
 |LOAD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LOCATE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LOG|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
@@ -143,6 +143,7 @@ Compiler fully supports arithmetic expressions with parenthesis.
 |DO...LOOP|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |IF...ELSE...ENDIF|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |PROC...ENDPROC|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
+|EXEC|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |CIRCLE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |FCOLOR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |FILLTO|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
