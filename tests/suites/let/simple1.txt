@@ -1,0 +1,5 @@
+5 J = 8
+6 PRINT J
+10 LET I = 10
+20 LET X = I+J
+30 PRINT X

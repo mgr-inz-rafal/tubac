@@ -141,7 +141,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		// Variables
 		variable_name = qi::alpha >> *(qi::alnum);
 
-		assignment = (variable_name >> '=' >> expr)
+		assignment = -LET >> (variable_name >> '=' >> expr)
 				[
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
@@ -288,6 +288,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				boost::bind(&reactor::got_end, &r)
 			];
 
+		LET = qi::string("LET");
+
 		command =
 			(assignment)		|
 			(PRINT)				|
@@ -312,6 +314,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(ENDPROC)			|
 			(EXEC)				|
 			(END)				|
+			(LET)				|
 			(GOTO);
 	}
 
@@ -352,6 +355,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> PROC;
 	qi::rule<Iterator, Skipper> ENDPROC;
 	qi::rule<Iterator, Skipper> END;
+	qi::rule<Iterator, Skipper> LET;
 };
 
 
