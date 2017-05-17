@@ -67,4 +67,6 @@ public:
 	void got_proc(const std::string& s) const;
 	void got_endproc() const;
 	void got_end() const;
+	void got_separator_semicolon() const;
+	void got_separator_comma() const;
 };

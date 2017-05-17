@@ -146,8 +146,21 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
 
+		printable_separator =
+			(qi::string(";")
+				[
+					boost::bind(&reactor::got_separator_semicolon, &r)
+				]
+			|
+			qi::string(",")
+				[
+					boost::bind(&reactor::got_separator_comma, &r)
+				]);
+
+		printable = (expr % printable_separator);
+
 		// TBXL commands
-		PRINT = (qi::string("PRINT") >> expr)
+		PRINT = (qi::string("PRINT") >> printable)
 			[
 				boost::bind(&reactor::got_print_expression, &r)
 			];
@@ -330,6 +343,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> command_terminator;
 	qi::rule<Iterator, Skipper> line;
 	qi::rule<Iterator, Skipper> program;
+	qi::rule<Iterator, Skipper> printable;
+	qi::rule<Iterator, Skipper> printable_separator;
 
 	// TBXL commands
 	qi::rule<Iterator, Skipper> PRINT;

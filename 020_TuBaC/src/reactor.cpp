@@ -307,3 +307,13 @@ void reactor::got_end() const
 {
 	_g.end();
 }
+
+void reactor::got_separator_semicolon() const
+{
+	std::cout << "SEPARATOR COLON" << std::endl;
+}
+
+void reactor::got_separator_comma() const
+{
+	std::cout << "SEPARATOR COMMA" << std::endl;
+}
