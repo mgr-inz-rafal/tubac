@@ -21,6 +21,7 @@ class reactor
 	generator& _g;
 	std::string variable_recently_assigned_to;
 	bool recent_for_had_step;
+	bool last_printed_token_was_separator;
 
 public:
 	reactor(generator& g);
@@ -37,7 +38,7 @@ public:
 	void got_compare_greater() const;
 	void got_compare_less_equal() const;
 	void got_integer(int i);
-	void got_print_expression() const;
+	void got_print_expression();
 	void got_goto_integer(const int& i) const;
 	void got_gosub_integer(const int& i) const;
 	void got_sound() const;
@@ -67,6 +68,8 @@ public:
 	void got_proc(const std::string& s) const;
 	void got_endproc() const;
 	void got_end() const;
-	void got_separator_semicolon() const;
-	void got_separator_comma() const;
+	void got_separator_semicolon();
+	void got_separator_comma();
+	void got_after_print() const;
+	void got_print();
 };

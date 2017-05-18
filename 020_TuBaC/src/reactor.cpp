@@ -20,6 +20,7 @@ reactor::reactor(generator& g) : _g(g) {};
 
 void reactor::got_line_number(const int& i) const
 {
+	std::cout << std::endl << "*** LINE " << i << " ***" << std::endl;
 	_g.new_line(i);
 }
 
@@ -124,12 +125,13 @@ void reactor::got_integer(int i)
 	_g.put_integer_on_stack(std::to_string(i));
 }
 
-void reactor::got_print_expression() const
+void reactor::got_print_expression()
 {
 	std::cout << "PRINT EXPRESSION" << std::endl;
 	_g.pop_to("FR0");
 	_g.FP_to_ASCII();
 	_g.print_LBUFF();
+	last_printed_token_was_separator = false;
 }
 
 void reactor::got_goto_integer(const int& i) const
@@ -308,12 +310,29 @@ void reactor::got_end() const
 	_g.end();
 }
 
-void reactor::got_separator_semicolon() const
+void reactor::got_separator_semicolon()
 {
 	std::cout << "SEPARATOR COLON" << std::endl;
+	last_printed_token_was_separator = true;
 }
 
-void reactor::got_separator_comma() const
+void reactor::got_separator_comma()
 {
 	std::cout << "SEPARATOR COMMA" << std::endl;
+	last_printed_token_was_separator = true;
+}
+
+void reactor::got_after_print() const
+{
+	std::cout << "PRINT NEW LINE: " << !last_printed_token_was_separator << std::endl;
+	if (!last_printed_token_was_separator)
+	{
+		_g.print_newline();
+	}
+}
+
+void reactor::got_print()
+{
+	std::cout << "PRINT" << std::endl;
+	last_printed_token_was_separator = false;
 }

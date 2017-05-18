@@ -173,6 +173,7 @@ public:
 	void FP_to_ASCII();
 	void FR0_boolean_invert();
 	void print_LBUFF();
+	void print_newline();
 	void goto_line(const int& i);
 	void gosub(const int& i);
 	void gosub(const std::string& s);

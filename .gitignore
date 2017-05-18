@@ -259,3 +259,15 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# Assembler-related temporaries
+compile.bat
+mads.exe
+source.lab
+source.lst
+source.asm
+source.txt
+source.xex
+test.atr
+.atari800.cfg
+tests.exe

@@ -574,3 +574,8 @@ void generator::end()
 {
 	synth.synth() << "jmp " << token(token_provider::TOKENS::PROGRAM_END) << E_;
 }
+
+void generator::print_newline()
+{
+	synth.synth() << "jsr PUTNEWLINE" << E_;
+}
