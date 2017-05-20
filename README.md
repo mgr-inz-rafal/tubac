@@ -75,7 +75,7 @@ Compiler fully supports arithmetic expressions with parenthesis.
 |POKE|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |POP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |POSITION|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|PRINT|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Currently only prints single integer expressions.|
+|PRINT|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Comma separator is not supported yet. It acts in the same way as semicolon|
 |PTRIG|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |PUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |RAD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
