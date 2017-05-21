@@ -154,11 +154,14 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 				"-x"
 			});
 
+
 		process_executor pr_atari_binary(
 			atari_path,
 			{
 				test_tmp_bin,
-				"-turbo"
+				"-turbo",
+				"-config",
+			   	"tools/atari800/.atari800.cfg"
 			},
 			2s);
 
@@ -192,7 +195,9 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 				atari_DOS_path,
 				atari_TBXL_path,
 				test_tmp_image,
-				"-turbo"
+				"-turbo",
+				"-config", 
+				"tools/atari800/.atari800.cfg"
 			},
 			2s);
 		pr_atari_listing
