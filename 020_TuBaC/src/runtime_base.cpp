@@ -42,7 +42,9 @@ void runtime_base::synth_implementation() const
 	synth_FASC();
 	synth_PUTCHAR();
 	synth_PUTNEWLINE();
+	synth_PUTSPACE();
 	synth_PUTSTRING();
+	synth_PUTCOMMA();
 	synth_SOUND();
 	synth_POKEY_INIT();
 	synth_POP_TO();
@@ -94,6 +96,17 @@ PUTNEWLINE
 )";
 }
 
+void runtime_base::synth_PUTSPACE() const
+{
+	synth.synth() << R"(
+PUTSPACE
+	lda #'.'
+	jsr PUTCHAR
+	rts
+)";
+}
+
+
 /*
 Outputs string located in LBUFF to the screen char-by-char by
 using PUTCHAR. Last character must be inverted.
@@ -135,6 +148,29 @@ PUTSTRING_LABEL_0
 	pla
 	rts
 .var PUTSTRING_END .byte
+)";
+}
+
+void runtime_base::synth_PUTCOMMA() const
+{
+	synth.synth() << R"(
+PUTCOMMA
+	mwa COLCRS PUTCOMMA_TMP
+	sec
+	lda PUTCOMMA_TMP
+	sbc PTABW
+	sta PUTCOMMA_TMP
+	lda PUTCOMMA_TMP+1
+	sbc #0
+	sta PUTCOMMA_TMP+1	
+	bmi PUTCOMMA_NOT_MULTIPLE
+	beq PUTCOMMA_MULTIPLE
+PUTCOMMA_NOT_MULTIPLE
+	jsr PUTSPACE
+	jmp PUTCOMMA
+PUTCOMMA_MULTIPLE
+	rts
+.zpvar PUTCOMMA_TMP .word
 )";
 }
 

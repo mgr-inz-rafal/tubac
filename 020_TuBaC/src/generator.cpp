@@ -51,6 +51,9 @@ void generator::write_code_header()
 	synth.synth(false) << token(token_provider::TOKENS::PROGRAM_START) << " equ $" << std::hex << PROGRAM_START << std::dec << E_;
 	synth.synth() << "org " << token(token_provider::TOKENS::PROGRAM_START) << E_;
 	synth.synth(false) << ".zpvar = $" << std::hex << ZERO_PAGE_START << std::dec << E_;
+	
+	synth.synth() << "mwa #10 PTABW" << E_;
+
 	write_stacks_initialization();
 };
 
@@ -578,4 +581,9 @@ void generator::end()
 void generator::print_newline()
 {
 	synth.synth() << "jsr PUTNEWLINE" << E_;
+}
+
+void generator::print_comma()
+{
+	synth.synth() << "jsr PUTCOMMA" << E_;
 }
