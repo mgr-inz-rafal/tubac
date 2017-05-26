@@ -155,22 +155,11 @@ void runtime_base::synth_PUTCOMMA() const
 {
 	synth.synth() << R"(
 PUTCOMMA
-	mwa COLCRS PUTCOMMA_TMP
-	sec
-	lda PUTCOMMA_TMP
-	sbc PTABW
-	sta PUTCOMMA_TMP
-	lda PUTCOMMA_TMP+1
-	sbc #0
-	sta PUTCOMMA_TMP+1	
-	bmi PUTCOMMA_NOT_MULTIPLE
-	beq PUTCOMMA_MULTIPLE
-PUTCOMMA_NOT_MULTIPLE
-	jsr PUTSPACE
-	jmp PUTCOMMA
-PUTCOMMA_MULTIPLE
+	mwa COLCRS FR0
+	mva PTABW FR1
+	mva #0 FR1+1
+	jsr BDIV
 	rts
-.zpvar PUTCOMMA_TMP .word
 )";
 }
 
