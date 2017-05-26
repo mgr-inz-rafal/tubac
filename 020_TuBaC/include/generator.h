@@ -69,7 +69,7 @@ private:
 		{ "SKCTL",		0xD20F },
 		{ "SSKCTL",		0x0232 },
 		{ "COLCRS",		0x0055 },
-		{ "LMARGIN",	0x0052 },
+		{ "LMARGN",		0x0052 },
 		{ "PTABW",		0x00C9 }
 	};
 	const std::map<std::string, int> ATARI_CONSTANTS = {

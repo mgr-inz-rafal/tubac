@@ -100,7 +100,7 @@ void runtime_base::synth_PUTSPACE() const
 {
 	synth.synth() << R"(
 PUTSPACE
-	lda #'.'
+	lda #' '
 	jsr PUTCHAR
 	rts
 )";
@@ -156,6 +156,15 @@ void runtime_base::synth_PUTCOMMA() const
 	synth.synth() << R"(
 PUTCOMMA
 	mwa COLCRS FR0
+	mva LMARGN PUTCOMMA_TMP
+PUTCOMMA_LABEL_1
+	ldx PUTCOMMA_TMP
+	cpx #0
+	beq PUTCOMMA_LABEL_0
+	dec PUTCOMMA_TMP
+	dew FR0
+	jmp	PUTCOMMA_LABEL_1
+PUTCOMMA_LABEL_0
 	mva PTABW FR1
 	mva #0 FR1+1
 	jsr BDIV
@@ -168,6 +177,7 @@ PUTCOMMA
 	jmp PUTCOMMA
 PUTCOMMA_EXIT
 	rts
+.var PUTCOMMA_TMP .byte
 )";
 }
 
@@ -338,9 +348,8 @@ void runtime_base::synth_PEEK() const
 	ldy #0
 	lda (FR0),y
 	sta FR1,y
-	iny
-	lda (FR0),y
-	sta FR1,y
+	lda #0
+	sta FR1+1
 )";
 	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
 	synth.synth() << R"(
