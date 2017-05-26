@@ -137,6 +137,9 @@ BMUL_RES
 /*
 Divides two numbers located at FR0 and FR1.
 Result is stored in FR0.
+
+FR1 keeps the remainder. Maybe not exactly, but at least
+it indicated whether the division for with a remainder or not.
 */
 void runtime_integer::synth_BDIV() const
 {
@@ -145,17 +148,23 @@ BDIV
 	lda #0
 	sta BDIV_RES
 	sta BDIV_RES+1
-DBIV_LABEL_1
+BDIV_LABEL_1
+	#if .word FR0 = #0
+		lda #0
+		sta FR1
+		sta FR1+1
+		jmp BDIV_LABEL_2
+	#end
 	sbw FR0 FR1 FR0
-	bmi DBIV_LABEL_0
+	bmi BDIV_LABEL_0
 	inw BDIV_RES
-	jmp DBIV_LABEL_1
-DBIV_LABEL_0
+	jmp BDIV_LABEL_1
+BDIV_LABEL_0
 	mwa FR0 FR1
+BDIV_LABEL_2
 	mwa BDIV_RES FR0
 	rts
-BDIV_RES
-	dta b(0), b(0)
+.var BDIV_RES .word
 	)";
 }
 

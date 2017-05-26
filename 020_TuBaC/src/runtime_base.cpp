@@ -159,6 +159,14 @@ PUTCOMMA
 	mva PTABW FR1
 	mva #0 FR1+1
 	jsr BDIV
+	ldx FR1
+	ldy FR1+1
+	jsr IsXY00
+	cmp #1
+	beq PUTCOMMA_EXIT
+	jsr PUTSPACE
+	jmp PUTCOMMA
+PUTCOMMA_EXIT
 	rts
 )";
 }
