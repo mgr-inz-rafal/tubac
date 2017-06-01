@@ -78,6 +78,10 @@ PUTCHAR
 	sta ICBLL+1
 	ldx #0
 	jsr CIOV
+	inc COX
+	#if .byte COX >= AUXBR
+		adw AUXBR PTABW AUXBR
+	#end
 	rts
 .var PUTCHAR_TO_OUTPUT .byte
 )";
@@ -100,7 +104,7 @@ void runtime_base::synth_PUTSPACE() const
 {
 	synth.synth() << R"(
 PUTSPACE
-	lda #' '
+	lda #'.'
 	jsr PUTCHAR
 	rts
 )";
@@ -155,29 +159,11 @@ void runtime_base::synth_PUTCOMMA() const
 {
 	synth.synth() << R"(
 PUTCOMMA
-	mwa COLCRS FR0
-	mva LMARGN PUTCOMMA_TMP
-PUTCOMMA_LABEL_1
-	ldx PUTCOMMA_TMP
-	cpx #0
-	beq PUTCOMMA_LABEL_0
-	dec PUTCOMMA_TMP
-	dew FR0
-	jmp	PUTCOMMA_LABEL_1
-PUTCOMMA_LABEL_0
-	mva PTABW FR1
-	mva #0 FR1+1
-	jsr BDIV
-	ldx FR1
-	ldy FR1+1
-	jsr IsXY00
-	cmp #1
-	beq PUTCOMMA_EXIT
-	jsr PUTSPACE
-	jmp PUTCOMMA
-PUTCOMMA_EXIT
+	
 	rts
-.var PUTCOMMA_TMP .byte
+.var PTABW .byte
+.var AUXBR .byte
+.var COX .byte
 )";
 }
 

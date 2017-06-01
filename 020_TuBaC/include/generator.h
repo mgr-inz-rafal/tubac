@@ -67,10 +67,7 @@ private:
 		{ "AUDF1",		0xD200 },
 		{ "AUDC1",		0xD201 },
 		{ "SKCTL",		0xD20F },
-		{ "SSKCTL",		0x0232 },
-		{ "COLCRS",		0x0055 },
-		{ "LMARGN",		0x0052 },
-		{ "PTABW",		0x00C9 }
+		{ "SSKCTL",		0x0232 }
 	};
 	const std::map<std::string, int> ATARI_CONSTANTS = {
 		{ "PUTCHR",		0x000B },
@@ -175,6 +172,7 @@ public:
 	void push_from_variable(const std::string& source);
 	void FP_to_ASCII();
 	void FR0_boolean_invert();
+	void init_print();
 	void print_LBUFF();
 	void print_newline();
 	void print_comma();

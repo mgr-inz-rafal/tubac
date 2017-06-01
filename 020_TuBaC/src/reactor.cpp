@@ -335,5 +335,6 @@ void reactor::got_after_print() const
 void reactor::got_print()
 {
 	std::cout << "PRINT" << std::endl;
+	_g.init_print();
 	last_printed_token_was_separator = false;
 }
