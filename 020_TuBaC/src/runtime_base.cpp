@@ -80,7 +80,9 @@ PUTCHAR
 	jsr CIOV
 	inc COX
 	#if .byte COX >= AUXBR
-		adw AUXBR PTABW AUXBR
+		lda AUXBR
+		add PTABW
+		sta AUXBR
 	#end
 	rts
 .var PUTCHAR_TO_OUTPUT .byte
@@ -104,7 +106,7 @@ void runtime_base::synth_PUTSPACE() const
 {
 	synth.synth() << R"(
 PUTSPACE
-	lda #'.'
+	lda #' '
 	jsr PUTCHAR
 	rts
 )";
@@ -155,15 +157,41 @@ PUTSTRING_LABEL_0
 )";
 }
 
+// Inspired by the following code in Python provided by Mono
+//from __future__ import print_function
+//ptabw = 10
+//def basic_print(*items):
+//	auxbr = ptabw
+//	cox = 0
+//	for text in items:
+//		for ch in text:
+//			print(ch, sep="", end="")
+//			cox += 1
+//			if cox >= auxbr:
+//				auxbr += ptabw
+//		for i in range(cox, auxbr):
+//			print(" ", sep="", end="")
+//			cox += 1
+//			if cox >= auxbr:
+//				auxbr += ptabw
+//	print()
+//	
+//basic_print("","abc","","1234567890","!@#$")
 void runtime_base::synth_PUTCOMMA() const
 {
 	synth.synth() << R"(
 PUTCOMMA
-	
+	mva AUXBR AUXBRT
+PUTCOMMA_LABEL_0
+	#if .byte COX < AUXBRT
+		jsr PUTSPACE
+		jmp PUTCOMMA_LABEL_0
+	#end
 	rts
 .var PTABW .byte
 .var AUXBR .byte
 .var COX .byte
+.var AUXBRT .byte
 )";
 }
 
