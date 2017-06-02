@@ -43,10 +43,12 @@ protected:
 	virtual void synth_FAKE_POP() const;
 	virtual void synth_PUSH_FROM() const;
 
-	// String printing
+	// Printing
 	virtual void synth_PUTCHAR() const;
 	virtual void synth_PUTNEWLINE() const;
+	virtual void synth_PUTSPACE() const;
 	virtual void synth_PUTSTRING() const;
+	virtual void synth_PUTCOMMA() const;
 
 	// POKEY routines
 	virtual void synth_POKEY_INIT() const;

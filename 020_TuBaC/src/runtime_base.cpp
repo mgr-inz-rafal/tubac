@@ -42,7 +42,9 @@ void runtime_base::synth_implementation() const
 	synth_FASC();
 	synth_PUTCHAR();
 	synth_PUTNEWLINE();
+	synth_PUTSPACE();
 	synth_PUTSTRING();
+	synth_PUTCOMMA();
 	synth_SOUND();
 	synth_POKEY_INIT();
 	synth_POP_TO();
@@ -76,6 +78,12 @@ PUTCHAR
 	sta ICBLL+1
 	ldx #0
 	jsr CIOV
+	inc COX
+	#if .byte COX >= AUXBR
+		lda AUXBR
+		add PTABW
+		sta AUXBR
+	#end
 	rts
 .var PUTCHAR_TO_OUTPUT .byte
 )";
@@ -93,6 +101,17 @@ PUTNEWLINE
 	rts
 )";
 }
+
+void runtime_base::synth_PUTSPACE() const
+{
+	synth.synth() << R"(
+PUTSPACE
+	lda #' '
+	jsr PUTCHAR
+	rts
+)";
+}
+
 
 /*
 Outputs string located in LBUFF to the screen char-by-char by
@@ -135,6 +154,44 @@ PUTSTRING_LABEL_0
 	pla
 	rts
 .var PUTSTRING_END .byte
+)";
+}
+
+// Inspired by the following code in Python provided by Mono
+//from __future__ import print_function
+//ptabw = 10
+//def basic_print(*items):
+//	auxbr = ptabw
+//	cox = 0
+//	for text in items:
+//		for ch in text:
+//			print(ch, sep="", end="")
+//			cox += 1
+//			if cox >= auxbr:
+//				auxbr += ptabw
+//		for i in range(cox, auxbr):
+//			print(" ", sep="", end="")
+//			cox += 1
+//			if cox >= auxbr:
+//				auxbr += ptabw
+//	print()
+//	
+//basic_print("","abc","","1234567890","!@#$")
+void runtime_base::synth_PUTCOMMA() const
+{
+	synth.synth() << R"(
+PUTCOMMA
+	mva AUXBR AUXBRT
+PUTCOMMA_LABEL_0
+	#if .byte COX < AUXBRT
+		jsr PUTSPACE
+		jmp PUTCOMMA_LABEL_0
+	#end
+	rts
+.var PTABW .byte
+.var AUXBR .byte
+.var COX .byte
+.var AUXBRT .byte
 )";
 }
 
@@ -305,9 +362,8 @@ void runtime_base::synth_PEEK() const
 	ldy #0
 	lda (FR0),y
 	sta FR1,y
-	iny
-	lda (FR0),y
-	sta FR1,y
+	lda #0
+	sta FR1+1
 )";
 	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
 	synth.synth() << R"(

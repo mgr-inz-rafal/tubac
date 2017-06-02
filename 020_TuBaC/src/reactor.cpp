@@ -319,6 +319,7 @@ void reactor::got_separator_semicolon()
 void reactor::got_separator_comma()
 {
 	std::cout << "SEPARATOR COMMA" << std::endl;
+	_g.print_comma();
 	last_printed_token_was_separator = true;
 }
 
@@ -334,5 +335,6 @@ void reactor::got_after_print() const
 void reactor::got_print()
 {
 	std::cout << "PRINT" << std::endl;
+	_g.init_print();
 	last_printed_token_was_separator = false;
 }

@@ -172,8 +172,10 @@ public:
 	void push_from_variable(const std::string& source);
 	void FP_to_ASCII();
 	void FR0_boolean_invert();
+	void init_print();
 	void print_LBUFF();
 	void print_newline();
+	void print_comma();
 	void goto_line(const int& i);
 	void gosub(const int& i);
 	void gosub(const std::string& s);
