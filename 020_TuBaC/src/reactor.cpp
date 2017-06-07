@@ -338,3 +338,16 @@ void reactor::got_print()
 	_g.init_print();
 	last_printed_token_was_separator = false;
 }
+
+void reactor::got_single_dim_integer_array(const std::string& s)
+{
+	std::cout << "DIM (SINGLE INTEGER) - " << s << std::endl;
+	array_being_declared = s;
+}
+
+void reactor::got_single_dim_integer_array_size(int i)
+{
+	std::cout << "DIM SIZE (SINGLE INTEGER) - " << i << std::endl;
+	_g.init_array_single_integer(array_being_declared, i);
+}
+

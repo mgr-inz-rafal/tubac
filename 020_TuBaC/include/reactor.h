@@ -22,6 +22,7 @@ class reactor
 	std::string variable_recently_assigned_to;
 	bool recent_for_had_step;
 	bool last_printed_token_was_separator;
+	std::string array_being_declared;
 
 public:
 	reactor(generator& g);
@@ -43,6 +44,8 @@ public:
 	void got_gosub_integer(const int& i) const;
 	void got_sound() const;
 	void got_variable_to_assign(const std::string& s);
+	void got_single_dim_integer_array(const std::string& s);
+	void got_single_dim_integer_array_size(int i);
 	void got_variable_to_retrieve(const std::string& s) const;
 	void got_poke() const;
 	void got_peek() const;

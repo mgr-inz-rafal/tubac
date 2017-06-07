@@ -311,6 +311,16 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		LET = qi::string("LET");
 
+		DIM = (qi::string("DIM ") >> variable_name
+			[
+				boost::bind(&reactor::got_single_dim_integer_array, &r, ::_1)
+			]
+			>> '(' >> qi::int_
+			[
+				boost::bind(&reactor::got_single_dim_integer_array_size, &r, ::_1)
+			]
+			>> ')');
+
 		command =
 			(assignment)		|
 			(PRINT)				|
@@ -336,6 +346,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(EXEC)				|
 			(END)				|
 			(LET)				|
+			(DIM)				|
 			(GOTO);
 	}
 
@@ -379,6 +390,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> ENDPROC;
 	qi::rule<Iterator, Skipper> END;
 	qi::rule<Iterator, Skipper> LET;
+	qi::rule<Iterator, Skipper> DIM;
 };
 
 

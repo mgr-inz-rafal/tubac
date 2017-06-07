@@ -156,6 +156,7 @@ private:
 	const std::string& token(const token_provider::TOKENS& token) const;
 	std::string get_next_generic_label();
 	std::string last_generic_label;
+	std::string get_array_token(const std::string& name) const;
 
 public:
 	generator(std::ostream& _stream, const config& _cfg);
@@ -200,6 +201,7 @@ public:
 	void return_();
 	void proc(const std::string& s);
 	void end();
+	void init_array_single_integer(const std::string& name, int size);
 
 	void addition();
 	void subtraction();
