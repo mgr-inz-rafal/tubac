@@ -311,15 +311,27 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		LET = qi::string("LET");
 
-		DIM = (((qi::string("DIM") || qi::string("COM"))) >> variable_name
+		DIM = (((qi::string("DIM") || qi::string("COM"))
 			[
-				boost::bind(&reactor::got_integer_array, &r, ::_1)
+				boost::bind(&reactor::got_array_declaration, &r)
+			]
+			) >> variable_name
+			[
+				boost::bind(&reactor::got_integer_array_name, &r, ::_1)
 			]
 			>> '(' >> qi::int_
 			[
 				boost::bind(&reactor::got_integer_array_size, &r, ::_1)
 			]
-			>> ')');
+			>>
+			-(',' >> qi::int_)
+			[
+				boost::bind(&reactor::got_integer_array_size_2, &r, ::_1)
+			]
+			>> ')')
+			[
+				boost::bind(&reactor::got_array_declaration_finished, &r)
+			];
 
 		command =
 			(assignment)		|

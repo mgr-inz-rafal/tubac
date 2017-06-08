@@ -604,7 +604,7 @@ void generator::init_integer_array(const std::string& name, int size_1, int size
 	// TODO: Rework this "get_indent()-crap. Consider enabling synth() to user-provided streams.
 	std::stringstream ss;
 	ss << get_array_token(name) << E_;
-	ss << cfg.get_indent() << "dta b(" << size_1 << "), b(" << size_2 << ')' << E_;
+	ss << cfg.get_indent() << "dta b(" << size_1 << "),b(" << size_2 << ')' << E_;
 	ss << ':' << ((size_1+1)*(size_2+1)) << cfg.get_indent() << cfg.get_number_interpretation()->get_initializer() << E_;
 
 	cfg.get_runtime()->register_own_runtime_funtion(ss.str());

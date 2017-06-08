@@ -339,15 +339,32 @@ void reactor::got_print()
 	last_printed_token_was_separator = false;
 }
 
-void reactor::got_integer_array(const std::string& s)
+void reactor::got_integer_array_name(const std::string& s)
 {
-	std::cout << "DIM (INTEGER) - " << s << std::endl;
-	array_being_declared = s;
+	std::cout << "INTEGER ARRAY NAME: " << s << std::endl;
+	array_being_declared.name = s;
+}
+
+void reactor::got_array_declaration()
+{
+	std::cout << "INTEGER ARRAY DECLARATION" << std::endl;
+	array_being_declared.init();
 }
 
 void reactor::got_integer_array_size(int i)
 {
-	std::cout << "DIM SIZE (INTEGER) - " << i << std::endl;
-	_g.init_integer_array(array_being_declared, i);
+	std::cout << "INTEGER ARRAY SIZE 1: " << i << std::endl;
+	array_being_declared.size_1 = i;
 }
 
+void reactor::got_integer_array_size_2(int i)
+{
+	std::cout << "INTEGER ARRAY SIZE 2: " << i << std::endl;
+	array_being_declared.size_2 = i;
+}
+
+void reactor::got_array_declaration_finished()
+{
+	std::cout << "INTEGER ARRAY DECLARATION FINISHED" << std::endl;
+	_g.init_integer_array(array_being_declared.name, array_being_declared.size_1, array_being_declared.size_2);
+}
