@@ -48,7 +48,7 @@ public:
 		DO_INDICATOR,
 		AFTER_DO_INDICATOR,
 		PROCEDURE,
-		ARRAY_SINGLE_INTEGER
+		INTEGER_ARRAY
 	};
 
 private:
@@ -82,7 +82,7 @@ private:
 		{ TOKENS::DO_INDICATOR,				make_token("DO_INDICATOR_") },
 		{ TOKENS::AFTER_DO_INDICATOR,		make_token("AFTER_DO_INDICATOR_") },
 		{ TOKENS::PROCEDURE,				make_token("PROCEDURE_") },
-		{ TOKENS::ARRAY_SINGLE_INTEGER,		make_token("ARRAY_SINGLE_INTEGER_") }
+		{ TOKENS::INTEGER_ARRAY,			make_token("INTEGER_ARRAY_") }
 	};
 
 	std::string make_token(const std::string& name);

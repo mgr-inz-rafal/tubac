@@ -201,7 +201,7 @@ public:
 	void return_();
 	void proc(const std::string& s);
 	void end();
-	void init_array_single_integer(const std::string& name, int size);
+	void init_integer_array(const std::string& name, int size_1, int size_2 = 0);
 
 	void addition();
 	void subtraction();

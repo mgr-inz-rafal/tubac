@@ -313,11 +313,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		DIM = (((qi::string("DIM") || qi::string("COM"))) >> variable_name
 			[
-				boost::bind(&reactor::got_single_dim_integer_array, &r, ::_1)
+				boost::bind(&reactor::got_integer_array, &r, ::_1)
 			]
 			>> '(' >> qi::int_
 			[
-				boost::bind(&reactor::got_single_dim_integer_array_size, &r, ::_1)
+				boost::bind(&reactor::got_integer_array_size, &r, ::_1)
 			]
 			>> ')');
 
