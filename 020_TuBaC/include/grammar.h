@@ -311,11 +311,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		LET = qi::string("LET");
 
-		DIM = (((qi::string("DIM") || qi::string("COM"))
-			[
-				boost::bind(&reactor::got_array_declaration, &r)
-			]
-			) >> variable_name
+		array_declaration = 
+			(variable_name
 			[
 				boost::bind(&reactor::got_integer_array_name, &r, ::_1)
 			]
@@ -332,6 +329,12 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			[
 				boost::bind(&reactor::got_array_declaration_finished, &r)
 			];
+
+		DIM = (((qi::string("DIM") || qi::string("COM"))
+			[
+				boost::bind(&reactor::got_array_declaration, &r)
+			]
+			) >> (array_declaration % ','));
 
 		command =
 			(assignment)		|
@@ -376,6 +379,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> program;
 	qi::rule<Iterator, Skipper> printable;
 	qi::rule<Iterator, Skipper> printable_separator;
+	qi::rule<Iterator, Skipper> array_declaration;
 
 	// TBXL commands
 	qi::rule<Iterator, Skipper> PRINT;
