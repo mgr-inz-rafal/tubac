@@ -295,7 +295,7 @@ void generator::compare_greater()
 void generator::assign_to_array(const std::string& a)
 {
 	synth.synth(false) << "DUPA" << E_;
-	synth.synth() << "mwa #" << token(token_provider::TOKENS::INTEGER_ARRAY) << a << " ARRAY_ASSIGNMENT_TMP_ADDRESS" << E_;
+	synth.synth() << "mwa #" << token(token_provider::TOKENS::INTEGER_ARRAY) << a << "+4 ARRAY_ASSIGNMENT_TMP_ADDRESS" << E_;
 	synth.synth() << "mwa " << token(token_provider::TOKENS::INTEGER_ARRAY) << a << "+2 ARRAY_ASSIGNMENT_TMP_SIZE" << E_;
 	synth.synth() << "jsr INIT_ARRAY_OFFSET" << E_;
 }
