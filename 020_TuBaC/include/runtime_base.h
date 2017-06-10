@@ -42,6 +42,9 @@ protected:
 	virtual void synth_PEEK_TO() const;
 	virtual void synth_FAKE_POP() const;
 	virtual void synth_PUSH_FROM() const;
+	virtual void synth_INIT_ARRAY_OFFSET() const;
+	virtual void synth_CALCULATE_ARRAY_ROW_SIZE_IN_BYTES() const;
+	virtual void synth_helpers() const;
 
 	// Printing
 	virtual void synth_PUTCHAR() const;
@@ -70,7 +73,6 @@ protected:
 	virtual void synth_COMPARE_FR0_FR1() const = 0;
 	virtual void synth_FR0_boolean_invert() const = 0;
 	virtual void synth_Is_FR0_true() const = 0;
-	virtual void synth_helpers() const = 0;
 
 	// Utility functions
 	const std::string& token(const token_provider::TOKENS& token) const;

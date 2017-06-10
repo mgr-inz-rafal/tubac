@@ -306,5 +306,6 @@ Is_FR0_true
 
 void runtime_integer::synth_helpers() const
 {
+	runtime_base::synth_helpers();
 	synth.synth(false) << "INTEGER_COMPARE_TMP dta b(0)" << E_;
 }

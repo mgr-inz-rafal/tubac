@@ -33,6 +33,8 @@ void runtime_base::synth_implementation() const
 	synth_TRUE_FALSE();
 	synth_FR0_boolean_invert();
 	synth_Is_FR0_true();
+	synth_INIT_ARRAY_OFFSET();
+	synth_CALCULATE_ARRAY_ROW_SIZE_IN_BYTES();
 	synth_helpers();
 
 	synth_BADD();
@@ -383,4 +385,50 @@ void runtime_base::synth_own_functions() const
 	{
 		synth.synth(false) << foo;
 	}
+}
+
+void runtime_base::synth_CALCULATE_ARRAY_ROW_SIZE_IN_BYTES() const
+{
+	// ARRAY_ASSIGNMENT_TMP_SIZE stores the second index of an array.
+	// We need to multiply it by single number size
+	synth.synth() << R"(
+CALCULATE_ARRAY_ROW_SIZE_IN_BYTES
+	mwa #0 ARRAY_CALCULATION_TMP
+CALCULATE_ARRAY_ROW_SIZE_IN_BYTES_L0
+	#if .word ARRAY_ASSIGNMENT_TMP_SIZE = #0
+		mwa ARRAY_CALCULATION_TMP ARRAY_ASSIGNMENT_TMP_SIZE
+		rts
+	#end
+)";
+	synth.synth() << "adw ARRAY_CALCULATION_TMP #" << cfg.get_number_interpretation()->get_size() << " ARRAY_CALCULATION_TMP" << E_;
+	synth.synth() << R"(
+	dew ARRAY_ASSIGNMENT_TMP_SIZE
+	jmp CALCULATE_ARRAY_ROW_SIZE_IN_BYTES_L0
+	rts
+ARRAY_CALCULATION_TMP dta a(0)
+)";
+}
+
+void runtime_base::synth_INIT_ARRAY_OFFSET() const
+{
+	synth.synth() << R"(
+INIT_ARRAY_OFFSET
+	jsr CALCULATE_ARRAY_ROW_SIZE_IN_BYTES
+INIT_ARRAY_OFFSET_L0
+	#if .word FR0 = #0
+		mwa FR1 ARRAY_ASSIGNMENT_TMP_SIZE
+		jsr CALCULATE_ARRAY_ROW_SIZE_IN_BYTES
+		adw ARRAY_ASSIGNMENT_TMP_ADDRESS ARRAY_ASSIGNMENT_TMP_SIZE ARRAY_ASSIGNMENT_TMP_ADDRESS
+		rts
+	#end
+	adw ARRAY_ASSIGNMENT_TMP_ADDRESS ARRAY_ASSIGNMENT_TMP_SIZE ARRAY_ASSIGNMENT_TMP_ADDRESS
+	dew FR0
+	jmp INIT_ARRAY_OFFSET_L0
+)";
+}
+
+void runtime_base::synth_helpers() const
+{
+	synth.synth(false) << "ARRAY_ASSIGNMENT_TMP_ADDRESS dta a(0)" << E_;
+	synth.synth(false) << "ARRAY_ASSIGNMENT_TMP_SIZE dta a(0)" << E_;
 }

@@ -292,6 +292,14 @@ void generator::compare_greater()
 	synth.synth() << "jsr COMPARE_FR0_FR1" << E_;
 }
 
+void generator::assign_to_array(const std::string& a)
+{
+	synth.synth(false) << "DUPA" << E_;
+	synth.synth() << "mwa #" << token(token_provider::TOKENS::INTEGER_ARRAY) << a << " ARRAY_ASSIGNMENT_TMP_ADDRESS" << E_;
+	synth.synth() << "mwa " << token(token_provider::TOKENS::INTEGER_ARRAY) << a << "+2 ARRAY_ASSIGNMENT_TMP_SIZE" << E_;
+	synth.synth() << "jsr INIT_ARRAY_OFFSET" << E_;
+}
+
 void generator::FP_to_ASCII()
 {
 	synth.synth() << "jsr FASC" << E_;
@@ -604,7 +612,7 @@ void generator::init_integer_array(const std::string& name, int size_1, int size
 	// TODO: Rework this "get_indent()-crap. Consider enabling synth() to user-provided streams.
 	std::stringstream ss;
 	ss << get_array_token(name) << E_;
-	ss << cfg.get_indent() << "dta b(" << size_1 << "),b(" << size_2 << ')' << E_;
+	ss << cfg.get_indent() << "dta a(" << size_1 << "),a(" << size_2 << ')' << E_;
 	ss << ':' << ((size_1+1)*(size_2+1)) << cfg.get_indent() << cfg.get_number_interpretation()->get_initializer() << E_;
 
 	cfg.get_runtime()->register_own_runtime_funtion(ss.str());
@@ -614,3 +622,10 @@ std::string generator::get_array_token(const std::string& name) const
 {
 	return token(token_provider::TOKENS::INTEGER_ARRAY) + name;
 }
+
+void generator::init_memory()
+{
+	// TODO: So far it simply puts integer 1 in FR0. Generalize it
+	synth.synth() << "mwa #1 FR0" << E_;
+}
+

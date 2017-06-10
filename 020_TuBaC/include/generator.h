@@ -203,6 +203,8 @@ public:
 	void end();
 	void init_integer_array(const std::string& name, int size_1, int size_2);
 
+	void init_memory();
+
 	void addition();
 	void subtraction();
 	void multiplication();
@@ -210,5 +212,6 @@ public:
 	void compare_equal();
 	void compare_less();
 	void compare_greater();
+	void assign_to_array(const std::string& a);
 };
 

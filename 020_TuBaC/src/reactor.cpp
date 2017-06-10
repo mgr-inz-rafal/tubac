@@ -372,6 +372,20 @@ void reactor::got_array_declaration_finished()
 void reactor::got_integer_array_to_assign(const std::string& s)
 {
 	std::cout << "ASSIGN TO ARRAY " << s << std::endl;
+
+	_g.pop_to("FR0");	// TODO: Here's the value we need to assign. Take care of it.
+
+	if(assigning_to_two_dimensional_array)
+	{
+		_g.pop_to("FR0");
+	}
+	else
+	{
+		_g.init_memory();
+	}
+	_g.pop_to("FR1");
+
+	_g.assign_to_array(s);
 }
 
 void reactor::got_integer_array_to_assign_first_dimension()
