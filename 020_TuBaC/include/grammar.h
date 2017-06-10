@@ -61,6 +61,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		
 		// Arithmetic expressions
 		expr_factor =
+			expr_array
+				[
+					boost::bind(&reactor::got_integer_array_to_retrieve, &r)
+				]
+			|
 			PEEK
 			|
 			qi::int_
@@ -146,17 +151,22 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
 
-		integer_array_assignment = -LET >> (variable_name >> '(' >> expr
+		expr_array = (variable_name >> '(' >> expr
 				[
-					boost::bind(&reactor::got_integer_array_to_assign_first_dimension, &r)
+					boost::bind(&reactor::got_integer_array_first_dimension, &r)
 				]
 				>> -(',' >> expr)
 				[
-					boost::bind(&reactor::got_integer_array_to_assign_second_dimension, &r)
+					boost::bind(&reactor::got_integer_array_second_dimension, &r)
 				]
-				>> ')' >> '=' >> expr)
+				>> ')')
 				[
-					boost::bind(&reactor::got_integer_array_to_assign, &r, ::_1)
+					boost::bind(&reactor::got_integer_array_name, &r, ::_1)
+				];
+
+		integer_array_assignment = (-LET >> expr_array >> '=' >> expr)
+				[
+					boost::bind(&reactor::got_integer_array_to_assign, &r)
 				];
 
 		printable_separator =
@@ -384,6 +394,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> expr;
 	qi::rule<Iterator, Skipper> expr_factor;
 	qi::rule<Iterator, Skipper> expr_terminals;
+	qi::rule<Iterator, Skipper> expr_array;
 	qi::rule<Iterator, std::string()> variable_name;
 	qi::rule<Iterator, Skipper> assignment;
 	qi::rule<Iterator, Skipper> integer_array_assignment;

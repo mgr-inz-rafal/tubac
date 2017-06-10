@@ -58,9 +58,10 @@ public:
 	void got_gosub_integer(const int& i) const;
 	void got_sound() const;
 	void got_variable_to_assign(const std::string& s);
-	void got_integer_array_to_assign(const std::string& s);
-	void got_integer_array_to_assign_first_dimension();
-	void got_integer_array_to_assign_second_dimension();
+	void got_integer_array_to_assign();
+	void got_integer_array_to_retrieve();
+	void got_integer_array_first_dimension();
+	void got_integer_array_second_dimension();
 	void got_integer_array_name(const std::string& s);
 	void got_integer_array_size(int i);
 	void got_integer_array_size_2(int i);

@@ -119,7 +119,7 @@ void reactor::got_compare_less_equal() const
 
 void reactor::got_integer(int i)
 {
-	std::cout << "INTEGER: " << i << "..." << std::endl;
+	std::cout << "INTEGER: " << i << std::endl;
 
 	_g.new_integer(std::to_string(i));
 	_g.put_integer_on_stack(std::to_string(i));
@@ -369,9 +369,14 @@ void reactor::got_array_declaration_finished()
 	_g.init_integer_array(array_being_declared.name, array_being_declared.size_1, array_being_declared.size_2);
 }
 
-void reactor::got_integer_array_to_assign(const std::string& s)
+void reactor::got_integer_array_to_retrieve()
 {
-	std::cout << "ASSIGN TO ARRAY " << s << std::endl;
+	std::cout << "RETRIEVE FROM ARRAY" << std::endl;
+}
+
+void reactor::got_integer_array_to_assign()
+{
+	std::cout << "ASSIGN TO ARRAY " << array_being_declared.name << std::endl;
 
 	_g.pop_to("ARRAY_ASSIGNMENT_TMP_VALUE");
 	if(assigning_to_two_dimensional_array)
@@ -383,17 +388,17 @@ void reactor::got_integer_array_to_assign(const std::string& s)
 		_g.init_memory();
 	}
 	_g.pop_to("FR1");
-	_g.assign_to_array(s);
+	_g.assign_to_array(array_being_declared.name);
 }
 
-void reactor::got_integer_array_to_assign_first_dimension()
+void reactor::got_integer_array_first_dimension()
 {
-	std::cout << "ASSIGN TO ARRAY (FIRST DIMENSION)" << std::endl;
+	std::cout << "SETUP FIRST DIMENSION OF ARRAY" << std::endl;
 	assigning_to_two_dimensional_array = false;
 }
 
-void reactor::got_integer_array_to_assign_second_dimension()
+void reactor::got_integer_array_second_dimension()
 {
-	std::cout << "ASSIGN TO ARRAY (SECOND DIMENSION)" << std::endl;
+	std::cout << "SETUP SECOND DIMENSION OF ARRAY" << std::endl;
 	assigning_to_two_dimensional_array = true;
 }
