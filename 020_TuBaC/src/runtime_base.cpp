@@ -429,6 +429,7 @@ INIT_ARRAY_OFFSET_L0
 
 void runtime_base::synth_helpers() const
 {
-	synth.synth(false) << "ARRAY_ASSIGNMENT_TMP_ADDRESS dta a(0)" << E_;
+	synth.synth(false) << ".zpvar ARRAY_ASSIGNMENT_TMP_ADDRESS .word" << E_;
 	synth.synth(false) << "ARRAY_ASSIGNMENT_TMP_SIZE dta a(0)" << E_;
+	synth.synth(false) << "ARRAY_ASSIGNMENT_TMP_VALUE " << cfg.get_number_interpretation()->get_initializer() << E_;
 }
