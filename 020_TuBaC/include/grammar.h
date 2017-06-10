@@ -61,12 +61,12 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		
 		// Arithmetic expressions
 		expr_factor =
+			PEEK
+			|
 			expr_array
 				[
 					boost::bind(&reactor::got_integer_array_to_retrieve, &r)
 				]
-			|
-			PEEK
 			|
 			qi::int_
 				[
