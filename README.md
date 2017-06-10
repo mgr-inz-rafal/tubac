@@ -33,13 +33,13 @@ Compiler fully supports arithmetic expressions with parenthesis.
 |CLOSE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |CLR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |COLOR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|COM|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|COM|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |CONT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |COS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |CSAVE|![#000000](https://placehold.it/15/000000/000000?text=+)|Compiled program will not allow saving to cassettes without OS.|
 |DATA|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |DEG|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|DIM|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|DIM|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |DOS|![#000000](https://placehold.it/15/000000/000000?text=+)|Compiled program will not exit to DOS.|
 |DRAWTO|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |END|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
