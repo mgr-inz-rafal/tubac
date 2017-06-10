@@ -368,3 +368,20 @@ void reactor::got_array_declaration_finished()
 	std::cout << "INTEGER ARRAY DECLARATION FINISHED" << std::endl;
 	_g.init_integer_array(array_being_declared.name, array_being_declared.size_1, array_being_declared.size_2);
 }
+
+void reactor::got_integer_array_to_assign(const std::string& s)
+{
+	std::cout << "ASSIGN TO ARRAY " << s << std::endl;
+}
+
+void reactor::got_integer_array_to_assign_first_dimension()
+{
+	std::cout << "ASSIGN TO ARRAY (FIRST DIMENSION)" << std::endl;
+	assigning_to_two_dimensional_array = false;
+}
+
+void reactor::got_integer_array_to_assign_second_dimension()
+{
+	std::cout << "ASSIGN TO ARRAY (SECOND DIMENSION)" << std::endl;
+	assigning_to_two_dimensional_array = true;
+}

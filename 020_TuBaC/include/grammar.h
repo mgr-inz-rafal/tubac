@@ -146,6 +146,19 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
 
+		integer_array_assignment = -LET >> (variable_name >> '(' >> expr
+				[
+					boost::bind(&reactor::got_integer_array_to_assign_first_dimension, &r)
+				]
+				>> -(',' >> expr)
+				[
+					boost::bind(&reactor::got_integer_array_to_assign_second_dimension, &r)
+				]
+				>> ')' >> '=' >> expr)
+				[
+					boost::bind(&reactor::got_integer_array_to_assign, &r, ::_1)
+				];
+
 		printable_separator =
 			(qi::string(";")
 				[
@@ -337,31 +350,32 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			) >> (array_declaration % ','));
 
 		command =
-			(assignment)		|
-			(PRINT)				|
-			(SOUND)				|
-			(POKE)				|
-			(FOR)				|
-			(NEXT)				|
-			(IF)				|
-			(ENDIF)				|
-			(ELSE)				|
-			(ENDIF)				|
-			(WHILE)				|
-			(WEND)				|
-			(EXIT)				|
-			(REPEAT)			|
-			(UNTIL)				|
-			(DO)				|
-			(LOOP)				|
-			(GOSUB)				|
-			(RETURN)			|
-			(PROC)				|
-			(ENDPROC)			|
-			(EXEC)				|
-			(END)				|
-			(LET)				|
-			(DIM)				|
+			(assignment)					|
+			(integer_array_assignment)		|
+			(PRINT)							|
+			(SOUND)							|
+			(POKE)							|
+			(FOR)							|
+			(NEXT)							|
+			(IF)							|
+			(ENDIF)							|
+			(ELSE)							|
+			(ENDIF)							|
+			(WHILE)							|
+			(WEND)							|
+			(EXIT)							|
+			(REPEAT)						|
+			(UNTIL)							|
+			(DO)							|
+			(LOOP)							|
+			(GOSUB)							|
+			(RETURN)						|
+			(PROC)							|
+			(ENDPROC)						|
+			(EXEC)							|
+			(END)							|
+			(LET)							|
+			(DIM)							|
 			(GOTO);
 	}
 
@@ -372,6 +386,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> expr_terminals;
 	qi::rule<Iterator, std::string()> variable_name;
 	qi::rule<Iterator, Skipper> assignment;
+	qi::rule<Iterator, Skipper> integer_array_assignment;
 	qi::rule<Iterator, Skipper> command;
 	qi::rule<Iterator, Skipper> commands;
 	qi::rule<Iterator, Skipper> command_terminator;
