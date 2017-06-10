@@ -632,6 +632,6 @@ std::string generator::get_array_token(const std::string& name) const
 void generator::init_memory()
 {
 	// TODO: So far it simply puts integer 1 in FR0. Generalize it
-	synth.synth() << "mwa #1 FR0" << E_;
+	synth.synth() << "mwa #0 FR0" << E_;
 }
 
