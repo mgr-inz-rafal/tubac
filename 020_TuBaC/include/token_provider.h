@@ -85,7 +85,7 @@ private:
 		{ TOKENS::INTEGER_ARRAY,			make_token("INTEGER_ARRAY_") }
 	};
 
-	std::string make_token(const std::string& name);
+	std::string make_token(const std::string& name) const;
 
 public:
 	const std::string& get(TOKENS token) const;

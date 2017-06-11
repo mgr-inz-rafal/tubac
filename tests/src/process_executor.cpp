@@ -65,7 +65,7 @@ std::string process_executor::parse_output()
 	return tmp_stream.str();
 }
 
-bool process_executor::succeeded(int code)
+bool process_executor::succeeded(int code) const
 {
 	return std::find(allowed_return_codes.begin(), allowed_return_codes.end(), code) != allowed_return_codes.end();
 }

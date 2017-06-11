@@ -18,7 +18,7 @@ const std::string& token_provider::get(TOKENS token) const
 	return TOKEN_MAP.at(token);
 }
 
-std::string token_provider::make_token(const std::string& name)
+std::string token_provider::make_token(const std::string& name) const
 {
 	return TOKEN_INDICATOR + name;
 }

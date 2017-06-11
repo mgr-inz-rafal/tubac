@@ -57,7 +57,7 @@ void generator::write_code_header()
 	write_stacks_initialization();
 };
 
-void generator::write_stacks()
+void generator::write_stacks() const
 {
 	for(const auto& s: stacks)
 	{
@@ -81,7 +81,7 @@ void generator::write_stacks_initialization()
 	}
 }
 
-void generator::write_run_segment()
+void generator::write_run_segment() const
 {
 	// Synth run address
 	synth.synth() << "org RUNAD" << E_;
@@ -146,7 +146,7 @@ void generator::new_line(const int& i)
 	synth.synth(false) << token(token_provider::TOKENS::LINE_INDICATOR) << i << E_;
 }
 
-void generator::write_atari_registers()
+void generator::write_atari_registers() const
 {
 	synth.synth(false) << "; ATARI registers" << E_;
 	for (const auto& r : ATARI_REGISTERS)
@@ -301,6 +301,20 @@ void generator::assign_to_array(const std::string& a)
 	synth.synth(false) << "@" << E_;
 	synth.synth() << "lda ARRAY_ASSIGNMENT_TMP_VALUE,y" << E_;
 	synth.synth() << "sta (ARRAY_ASSIGNMENT_TMP_ADDRESS),y" << E_;
+	synth.synth() << "dey" << E_;
+	synth.synth() << "cpy #-1" << E_;
+	synth.synth() << "bne @-" << E_;
+}
+
+void generator::retrieve_from_array(const std::string& a)
+{
+	synth.synth() << "mwa #" << token(token_provider::TOKENS::INTEGER_ARRAY) << a << "+4 ARRAY_ASSIGNMENT_TMP_ADDRESS" << E_;
+	synth.synth() << "mwa " << token(token_provider::TOKENS::INTEGER_ARRAY) << a << " ARRAY_ASSIGNMENT_TMP_SIZE" << E_;
+	synth.synth() << "jsr INIT_ARRAY_OFFSET" << E_;
+	synth.synth() << "ldy #" << cfg.get_number_interpretation()->get_size()-1 << E_;
+	synth.synth(false) << "@" << E_;
+	synth.synth() << "lda (ARRAY_ASSIGNMENT_TMP_ADDRESS),y" << E_;
+	synth.synth() << "sta FR0,y" << E_;
 	synth.synth() << "dey" << E_;
 	synth.synth() << "cpy #-1" << E_;
 	synth.synth() << "bne @-" << E_;
@@ -490,7 +504,7 @@ void generator::next()
 	synth.synth() << "jsr CLEAR_FOR_LOOP_STACKS" << E_;
 }
 
-void generator::register_generator_runtime()
+void generator::register_generator_runtime() const
 {
 	// TODO: Rework this "get_indent()-crap. Consider enabling synth() to user-provided streams.
 	std::stringstream ss;
@@ -597,22 +611,22 @@ void generator::proc(const std::string& s)
 	synth.synth(false) << token(token_provider::TOKENS::PROCEDURE) << s << E_;
 }
 
-void generator::end()
+void generator::end() const
 {
 	synth.synth() << "jmp " << token(token_provider::TOKENS::PROGRAM_END) << E_;
 }
 
-void generator::print_newline()
+void generator::print_newline() const
 {
 	synth.synth() << "jsr PUTNEWLINE" << E_;
 }
 
-void generator::print_comma()
+void generator::print_comma() const
 {
 	synth.synth() << "jsr PUTCOMMA" << E_;
 }
 
-void generator::init_integer_array(const std::string& name, int size_1, int size_2)
+void generator::init_integer_array(const std::string& name, int size_1, int size_2) const
 {
 	// TODO: Check whether such array has already been declared
 	// TODO: Rework this "get_indent()-crap. Consider enabling synth() to user-provided streams.
@@ -629,7 +643,7 @@ std::string generator::get_array_token(const std::string& name) const
 	return token(token_provider::TOKENS::INTEGER_ARRAY) + name;
 }
 
-void generator::init_memory()
+void generator::init_memory() const
 {
 	// TODO: So far it simply puts integer 0 in FR0. Generalize it
 	synth.synth() << "mwa #0 FR0" << E_;

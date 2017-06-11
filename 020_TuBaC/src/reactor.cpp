@@ -117,7 +117,7 @@ void reactor::got_compare_less_equal() const
 	_g.push_from("FR0");
 }
 
-void reactor::got_integer(int i)
+void reactor::got_integer(int i) const
 {
 	std::cout << "INTEGER: " << i << std::endl;
 
@@ -369,12 +369,25 @@ void reactor::got_array_declaration_finished()
 	_g.init_integer_array(array_being_declared.name, array_being_declared.size_1, array_being_declared.size_2);
 }
 
-void reactor::got_integer_array_to_retrieve()
+void reactor::got_integer_array_to_retrieve() const
 {
-	std::cout << "RETRIEVE FROM ARRAY" << std::endl;
+	std::cout << "RETRIEVE FROM ARRAY" << array_being_declared.name << std::endl;
+
+	// TODO: Rename "assigning_to..." since it is also used in retrieval
+	if(assigning_to_two_dimensional_array)
+	{
+		_g.pop_to("FR0");
+	}
+	else
+	{
+		_g.init_memory();
+	}
+	_g.pop_to("FR1");
+	_g.retrieve_from_array(array_being_declared.name);
+	_g.push_from("FR0");
 }
 
-void reactor::got_integer_array_to_assign()
+void reactor::got_integer_array_to_assign() const
 {
 	std::cout << "ASSIGN TO ARRAY " << array_being_declared.name << std::endl;
 

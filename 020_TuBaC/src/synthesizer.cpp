@@ -21,7 +21,7 @@ synthesizer::synthesizer(std::ostream& _stream, const std::string& _INDENT, char
 {
 }
 
-std::ostream& synthesizer::synth(bool indent)
+std::ostream& synthesizer::synth(bool indent) const
 {
 	if (indent)
 	{

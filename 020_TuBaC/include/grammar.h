@@ -151,6 +151,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
 
+		integer_array_assignment = (-LET >> expr_array >> '=' >> expr)
+				[
+					boost::bind(&reactor::got_integer_array_to_assign, &r)
+				];
+
 		expr_array = (variable_name >> '(' >> expr
 				[
 					boost::bind(&reactor::got_integer_array_first_dimension, &r)
@@ -162,11 +167,6 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				>> ')')
 				[
 					boost::bind(&reactor::got_integer_array_name, &r, ::_1)
-				];
-
-		integer_array_assignment = (-LET >> expr_array >> '=' >> expr)
-				[
-					boost::bind(&reactor::got_integer_array_to_assign, &r)
 				];
 
 		printable_separator =

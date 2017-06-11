@@ -36,7 +36,7 @@ class process_executor
 	std::chrono::milliseconds timeout;
 
 	std::string parse_output();
-	bool succeeded(int code);
+	bool succeeded(int code) const;
 
 	template<typename T> friend process_executor& operator<<(process_executor& pr, const T& val);
 	

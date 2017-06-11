@@ -137,16 +137,16 @@ private:
 
 	void write_code_header();
 	void write_code_footer();
-	void register_generator_runtime();
+	void register_generator_runtime() const;
 
 	void write_stacks_initialization();
-	void write_stacks();
+	void write_stacks() const;
 	void write_integers();
 	void write_variables();
-	void write_atari_registers();
+	void write_atari_registers() const;
 	void write_atari_constants();
 	void write_internal_variables();
-	void write_run_segment();
+	void write_run_segment() const;
 
 	void write_runtime();
 
@@ -175,8 +175,8 @@ public:
 	void FR0_boolean_invert();
 	void init_print();
 	void print_LBUFF();
-	void print_newline();
-	void print_comma();
+	void print_newline() const;
+	void print_comma() const;
 	void goto_line(const int& i);
 	void gosub(const int& i);
 	void gosub(const std::string& s);
@@ -200,10 +200,10 @@ public:
 	void loop();
 	void return_();
 	void proc(const std::string& s);
-	void end();
-	void init_integer_array(const std::string& name, int size_1, int size_2);
+	void end() const;
+	void init_integer_array(const std::string& name, int size_1, int size_2) const;
 
-	void init_memory();
+	void init_memory() const;
 
 	void addition();
 	void subtraction();
@@ -213,5 +213,6 @@ public:
 	void compare_less();
 	void compare_greater();
 	void assign_to_array(const std::string& a);
+	void retrieve_from_array(const std::string& a);
 };
 
