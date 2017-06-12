@@ -50,7 +50,10 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			[
 				boost::bind(&reactor::got_line_number, &r, _1)
 			];
-		commands = (command % ':');
+		commands = (command % qi::string(":")
+			[
+				boost::bind(&reactor::got_command_separator, &r)
+			]);
 		line = line_number >> commands;
 		program = +(line % qi::eol);
 
@@ -151,7 +154,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
 
-		integer_array_assignment = (-LET >> expr_array >> '=' >> expr)
+		integer_array_assignment = (-LET >> expr_array >> qi::string("=")
+				[
+					boost::bind(&reactor::got_execute_array_assignment, &r)
+				]
+				>> expr)
 				[
 					boost::bind(&reactor::got_integer_array_to_assign, &r)
 				];

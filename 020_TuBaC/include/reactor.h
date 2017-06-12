@@ -35,13 +35,17 @@ class reactor
 	std::string variable_recently_assigned_to;
 	bool recent_for_had_step;
 	bool last_printed_token_was_separator;
-	basic_array array_being_declared;
-	bool assigning_to_two_dimensional_array;
+	basic_array array_being_declared[2];
+	bool assigning_to_two_dimensional_array[2];
+
+	// TODO: Refactor and introduce correct compiler context
+	int left_side;	// 0 - left, 1 - right
 
 public:
 	reactor(generator& g);
 
-	void got_line_number(const int& i) const;
+	void got_line_number(const int& i);
+	void got_command_separator();
 	void got_asterisk() const;
 	void got_slash() const;
 	void got_plus() const;
@@ -96,4 +100,5 @@ public:
 	void got_separator_comma();
 	void got_after_print() const;
 	void got_print();
+	void got_execute_array_assignment();
 };
