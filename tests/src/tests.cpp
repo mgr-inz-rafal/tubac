@@ -36,7 +36,12 @@
 
 #ifdef _WIN32
 #define CATCH_CONFIG_COLOUR_WINDOWS
+#ifdef NDEBUG
+const std::string tubac_path = "../x64/Release/020_TuBaC.exe";
+#endif
+#ifdef _DEBUG
 const std::string tubac_path = "../x64/Debug/020_TuBaC.exe";
+#endif
 const std::string mads_path = "tools/mads.exe";
 const std::string atari_path = "tools/atari800/atari800.exe";
 const std::string franny_path = "tools/franny/franny.exe";
