@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\020_TuBaC.cpp" />
+    <ClCompile Include="src\basic_array.cpp" />
     <ClCompile Include="src\command_line.cpp" />
     <ClCompile Include="src\config.cpp" />
     <ClCompile Include="src\context.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="src\token_provider.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\basic_array.h" />
     <ClInclude Include="include\command_line.h" />
     <ClInclude Include="include\config.h" />
     <ClInclude Include="include\context.h" />

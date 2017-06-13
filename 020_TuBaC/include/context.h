@@ -1,27 +1,8 @@
 #pragma once
 
-#include <string>
+#include "basic_array.h"
+
 #include <map>
-
-struct basic_array
-{
-	std::string name;
-	int size_1;
-	int size_2;
-	bool two_dimensional;
-
-	void init()
-	{
-		name = "";
-		size_1 = size_2 = 0;
-		two_dimensional = false;
-	}
-
-	bool is_2d() const
-	{
-		return two_dimensional;
-	}
-};
 
 // Represents current compilation context
 class context
