@@ -369,7 +369,7 @@ void reactor::got_array_declaration_finished()
 	_g.init_integer_array(ctx.array_get());
 }
 
-void reactor::got_integer_array_to_retrieve() const
+void reactor::got_integer_array_to_retrieve()
 {
 	std::cout << "RETRIEVE FROM ARRAY " << ctx.array_get().get_name() << std::endl;
 
@@ -387,7 +387,7 @@ void reactor::got_integer_array_to_retrieve() const
 	_g.push_from("FR0");
 }
 
-void reactor::got_integer_array_to_assign() const
+void reactor::got_integer_array_to_assign()
 {
 	std::cout << "ASSIGN TO ARRAY " << ctx.array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name() << std::endl;
 

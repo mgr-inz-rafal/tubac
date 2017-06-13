@@ -19,7 +19,6 @@ private:
 	std::map<ARRAY_ASSIGNMENT_SIDE, basic_array> array_being_declared = {
 		{ context::ARRAY_ASSIGNMENT_SIDE::LEFT, {} },
 		{ context::ARRAY_ASSIGNMENT_SIDE::RIGHT, {} }};
-	std::map<ARRAY_ASSIGNMENT_SIDE, bool> assigning_to_two_dimensional_array;
 
 public:
 	basic_array& array_get();

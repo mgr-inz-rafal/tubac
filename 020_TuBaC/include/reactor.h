@@ -20,7 +20,7 @@
 class reactor
 {
 	generator& _g;
-	mutable context ctx;	// TODO: Not mutable
+	context ctx;
 
 	std::string variable_recently_assigned_to;
 	bool recent_for_had_step;
@@ -47,8 +47,8 @@ public:
 	void got_gosub_integer(const int& i) const;
 	void got_sound() const;
 	void got_variable_to_assign(const std::string& s);
-	void got_integer_array_to_assign() const;
-	void got_integer_array_to_retrieve() const;
+	void got_integer_array_to_assign();
+	void got_integer_array_to_retrieve();
 	void got_integer_array_first_dimension();
 	void got_integer_array_second_dimension();
 	void got_integer_array_name(const std::string& s);
