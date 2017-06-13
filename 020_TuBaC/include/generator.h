@@ -13,15 +13,14 @@
 #pragma once
 
 #include <set>
-#include <string>
 #include <map>
 #include <stack>
-#include <vector>
 
 #include "config.h"
 #include "synthesizer.h"
 #include "token_provider.h"
 #include "stack.h"
+#include "basic_array.h"
 
 class generator
 {
@@ -201,7 +200,7 @@ public:
 	void return_();
 	void proc(const std::string& s);
 	void end() const;
-	void init_integer_array(const std::string& name, int size_1, int size_2) const;
+	void init_integer_array(const basic_array& arr) const;
 
 	void init_memory() const;
 

@@ -626,14 +626,14 @@ void generator::print_comma() const
 	synth.synth() << "jsr PUTCOMMA" << E_;
 }
 
-void generator::init_integer_array(const std::string& name, int size_1, int size_2) const
+void generator::init_integer_array(const basic_array& arr) const
 {
 	// TODO: Check whether such array has already been declared
 	// TODO: Rework this "get_indent()-crap. Consider enabling synth() to user-provided streams.
 	std::stringstream ss;
-	ss << get_array_token(name) << E_;
-	ss << cfg.get_indent() << "dta a(" << size_1+1 << "),a(" << size_2+1 << ')' << E_;
-	ss << ':' << ((size_1+1)*(size_2+1)) << cfg.get_indent() << cfg.get_number_interpretation()->get_initializer() << E_;
+	ss << get_array_token(arr.get_name()) << E_;
+	ss << cfg.get_indent() << "dta a(" << arr.get_size(0)+1 << "),a(" << arr.get_size(1)+1 << ')' << E_;
+	ss << ':' << ((arr.get_size(0)+1)*(arr.get_size(1)+1)) << cfg.get_indent() << cfg.get_number_interpretation()->get_initializer() << E_;
 
 	cfg.get_runtime()->register_own_runtime_funtion(ss.str());
 }
