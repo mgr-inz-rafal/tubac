@@ -166,6 +166,7 @@
     <ClCompile Include="src\020_TuBaC.cpp" />
     <ClCompile Include="src\command_line.cpp" />
     <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\context.cpp" />
     <ClCompile Include="src\generator.cpp" />
     <ClCompile Include="src\number_type_base.cpp" />
     <ClCompile Include="src\number_type_integer.cpp" />
@@ -179,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="include\command_line.h" />
     <ClInclude Include="include\config.h" />
+    <ClInclude Include="include\context.h" />
     <ClInclude Include="include\generator.h" />
     <ClInclude Include="include\grammar.h" />
     <ClInclude Include="include\number_type_base.h" />

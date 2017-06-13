@@ -13,33 +13,18 @@
 #pragma once
 
 #include "generator.h"
+#include "context.h"
 
 #include <string>
-
-struct basic_array
-{
-	std::string name;
-	int size_1;
-	int size_2;
-
-	void init()
-	{
-		name = "";
-		size_1 = size_2 = 0;
-	}
-};
 
 class reactor
 {
 	generator& _g;
+	mutable context ctx;	// TODO: Not mutable
+
 	std::string variable_recently_assigned_to;
 	bool recent_for_had_step;
 	bool last_printed_token_was_separator;
-	basic_array array_being_declared[2];
-	bool assigning_to_two_dimensional_array[2];
-
-	// TODO: Refactor and introduce correct compiler context
-	int left_side;	// 0 - left, 1 - right
 
 public:
 	reactor(generator& g);
