@@ -292,8 +292,8 @@ std::string content_of_file(const std::string& name)
 //		__CLRCALL_OR_CDECL endl(basic_ostream<_Elem, _Traits>& _Ostr)
 //	{	// insert newline and flush stream
 //	_Ostr.put(_Ostr.widen('\n'));
-//	_Ostr.flush();
-//	return (_Ostr);		<--- This call blocks forever for reasons unknown
+//	_Ostr.flush();		<--- This call blocks forever for reasons unknown
+//	return (_Ostr);
 //	}
 void remove_linux_specific_tests(std::vector<bf::path>& tests)
 {
