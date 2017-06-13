@@ -8,6 +8,8 @@ find_package(Boost 1.64.0 COMPONENTS program_options REQUIRED)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
     add_executable(tubac
+	src/basic_array.cpp
+	src/context.cpp
         src/020_TuBaC.cpp
         src/number_type_integer.cpp
         src/command_line.cpp
