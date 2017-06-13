@@ -41,12 +41,8 @@ private:
 	std::map<ARRAY_ASSIGNMENT_SIDE, bool> assigning_to_two_dimensional_array;
 
 public:
-
 	basic_array& array_get();
 	basic_array& array_get(ARRAY_ASSIGNMENT_SIDE side);
 	void array_assignment_side_reset();
 	void array_assignment_side_switch_to_right();
-	bool array_assignment_side_is_right() const;
-
-	//int left_side;	// 0 - left, 1 - right
 };
