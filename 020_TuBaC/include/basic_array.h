@@ -11,9 +11,9 @@ private:
 
 public:
 	void init();
-	const std::string& name() const;
+	const std::string& get_name() const;
 	void set_name(const std::string& name);
-	const bool& two_dimensional() const;
+	const bool& is_two_dimensional() const;
 	void set_two_dimensional(const bool two_dimensional);
 	void set_size(int which, size_t size);
 	const size_t& get_size(int which) const;

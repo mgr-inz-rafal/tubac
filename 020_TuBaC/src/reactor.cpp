@@ -371,10 +371,10 @@ void reactor::got_array_declaration_finished()
 
 void reactor::got_integer_array_to_retrieve() const
 {
-	std::cout << "RETRIEVE FROM ARRAY " << ctx.array_get().name() << std::endl;
+	std::cout << "RETRIEVE FROM ARRAY " << ctx.array_get().get_name() << std::endl;
 
 	// TODO: Rename "assigning_to..." since it is also used in retrieval
-	if(ctx.array_get().two_dimensional())
+	if(ctx.array_get().is_two_dimensional())
 	{
 		_g.pop_to("FR0");
 	}
@@ -383,16 +383,16 @@ void reactor::got_integer_array_to_retrieve() const
 		_g.init_memory();
 	}
 	_g.pop_to("FR1");
-	_g.retrieve_from_array(ctx.array_get().name());
+	_g.retrieve_from_array(ctx.array_get().get_name());
 	_g.push_from("FR0");
 }
 
 void reactor::got_integer_array_to_assign() const
 {
-	std::cout << "ASSIGN TO ARRAY " << ctx.array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).name() << std::endl;
+	std::cout << "ASSIGN TO ARRAY " << ctx.array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name() << std::endl;
 
 	_g.pop_to("ARRAY_ASSIGNMENT_TMP_VALUE");
-	if(ctx.array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).two_dimensional())
+	if(ctx.array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).is_two_dimensional())
 	{
 		_g.pop_to("FR0");
 	}
@@ -401,7 +401,7 @@ void reactor::got_integer_array_to_assign() const
 		_g.init_memory();
 	}
 	_g.pop_to("FR1");
-	_g.assign_to_array(ctx.array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).name());
+	_g.assign_to_array(ctx.array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name());
 }
 
 void reactor::got_integer_array_first_dimension()

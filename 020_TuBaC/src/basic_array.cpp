@@ -1,6 +1,6 @@
 #include "basic_array.h"
 
-const std::string& basic_array::name() const
+const std::string& basic_array::get_name() const
 {
 	return _name;
 }
@@ -10,7 +10,7 @@ void basic_array::set_name(const std::string& name)
 	_name = name;
 }
 
-const bool& basic_array::two_dimensional() const
+const bool& basic_array::is_two_dimensional() const
 {
 	return _two_dimensional;
 }
