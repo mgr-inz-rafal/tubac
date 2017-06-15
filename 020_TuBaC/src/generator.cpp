@@ -643,9 +643,8 @@ std::string generator::get_array_token(const std::string& name) const
 	return token(token_provider::TOKENS::INTEGER_ARRAY) + name;
 }
 
-void generator::init_memory() const
+void generator::put_zero_in_FR0() const
 {
-	// TODO: So far it simply puts integer 0 in FR0. Generalize it
-	synth.synth() << "mwa #0 FR0" << E_;
+	synth.synth() << "jsr PUT_ZERO_IN_FR0" << E_;
 }
 

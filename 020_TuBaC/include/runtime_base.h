@@ -73,6 +73,7 @@ protected:
 	virtual void synth_COMPARE_FR0_FR1() const = 0;
 	virtual void synth_FR0_boolean_invert() const = 0;
 	virtual void synth_Is_FR0_true() const = 0;
+	virtual void synth_PUT_ZERO_IN_FR0() const = 0;
 
 	// Utility functions
 	const std::string& token(const token_provider::TOKENS& token) const;

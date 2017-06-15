@@ -201,9 +201,7 @@ public:
 	void proc(const std::string& s);
 	void end() const;
 	void init_integer_array(const basic_array& arr) const;
-
-	void init_memory() const;
-
+	void put_zero_in_FR0() const;
 	void addition();
 	void subtraction();
 	void multiplication();

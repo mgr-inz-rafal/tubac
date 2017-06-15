@@ -33,6 +33,7 @@ protected:
 	virtual void synth_COMPARE_FR0_FR1() const;
 	virtual void synth_FR0_boolean_invert() const;
 	virtual void synth_Is_FR0_true() const;
+	virtual void synth_PUT_ZERO_IN_FR0() const;
 	virtual void synth_helpers() const;
 
 public:

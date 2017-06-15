@@ -380,7 +380,7 @@ void reactor::got_integer_array_to_retrieve()
 	}
 	else
 	{
-		_g.init_memory();
+		_g.put_zero_in_FR0();
 	}
 	_g.pop_to("FR1");
 	_g.retrieve_from_array(ctx.array_get().get_name());
@@ -398,7 +398,7 @@ void reactor::got_integer_array_to_assign()
 	}
 	else
 	{
-		_g.init_memory();
+		_g.put_zero_in_FR0();
 	}
 	_g.pop_to("FR1");
 	_g.assign_to_array(ctx.array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name());

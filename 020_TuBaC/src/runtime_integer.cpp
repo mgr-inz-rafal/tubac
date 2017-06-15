@@ -309,3 +309,10 @@ void runtime_integer::synth_helpers() const
 	runtime_base::synth_helpers();
 	synth.synth(false) << "INTEGER_COMPARE_TMP dta b(0)" << E_;
 }
+
+void runtime_integer::synth_PUT_ZERO_IN_FR0() const
+{
+	synth.synth(false) << "PUT_ZERO_IN_FR0" << E_;
+	synth.synth() << "mwa #0 FR0" << E_;
+	synth.synth() << "rts" << E_;
+}
