@@ -27,12 +27,12 @@ void basic_array::init()
 	_two_dimensional = false;
 }
 
-void basic_array::set_size(int which, size_t size)
+void basic_array::set_size(int which, std::size_t size)
 {
 	_size[which] = size;
 }
 
-const size_t& basic_array::get_size(int which) const
+const std::size_t& basic_array::get_size(int which) const
 {
 	return _size[which];
 }
