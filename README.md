@@ -85,7 +85,7 @@ In addition to the commands listed below compiler fully supports:
 |REM|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |RESTORE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |RETURN|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
-|RND|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|RND|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |RUN|![#000000](https://placehold.it/15/000000/000000?text=+)|Nope.|
 |SAVE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |SETCOLOR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
