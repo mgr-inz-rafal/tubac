@@ -74,11 +74,13 @@ protected:
 	virtual void synth_FR0_boolean_invert() const = 0;
 	virtual void synth_Is_FR0_true() const = 0;
 	virtual void synth_PUT_ZERO_IN_FR0() const = 0;
+	virtual void synth_PUT_RANDOM_IN_FR0() const = 0;
 
 	// Utility functions
 	const std::string& token(const token_provider::TOKENS& token) const;
 
 public:
+	virtual ~runtime_base() = default;
 	runtime_base(char endline, synthesizer& _synth, const config& _tp);
 	virtual void synth_implementation() const = 0;
 	virtual void register_own_runtime_funtion(const std::string& body);

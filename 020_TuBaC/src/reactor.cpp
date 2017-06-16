@@ -427,3 +427,10 @@ void reactor::got_execute_array_assignment()
 	std::cout << "SWITCH TO RIGHT SIDE FOR ARRAY ASSIGNMENT" << std::endl;
 	ctx.array_assignment_side_switch_to_right();
 }
+
+void reactor::got_random() const
+{
+	std::cout << "RANDOM" << std::endl;
+	_g.random();
+	_g.push_from("FR0");
+}

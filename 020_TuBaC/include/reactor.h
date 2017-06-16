@@ -86,4 +86,5 @@ public:
 	void got_after_print() const;
 	void got_print();
 	void got_execute_array_assignment();
+	void got_random() const;
 };

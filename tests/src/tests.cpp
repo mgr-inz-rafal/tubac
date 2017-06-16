@@ -74,7 +74,7 @@ using namespace std::chrono_literals;
 void remove_n_lines_from_stream(std::stringstream& stream, unsigned int n)
 {
 	std::string tmp;
-	for (auto i = 0; i < n; ++i)
+	for (unsigned int i = 0; i < n; ++i)
 	{
 		std::getline(stream, tmp);
 	}

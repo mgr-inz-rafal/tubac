@@ -19,6 +19,7 @@ class number_type_base
 	int size;
 
 public:
+	virtual ~number_type_base() = default;
 	number_type_base(int _size);
 	virtual int get_size() const;
 	virtual std::string get_initializer() const = 0;

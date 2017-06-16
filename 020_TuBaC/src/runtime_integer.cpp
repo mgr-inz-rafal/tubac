@@ -316,3 +316,11 @@ void runtime_integer::synth_PUT_ZERO_IN_FR0() const
 	synth.synth() << "mwa #0 FR0" << E_;
 	synth.synth() << "rts" << E_;
 }
+
+void runtime_integer::synth_PUT_RANDOM_IN_FR0() const
+{
+	synth.synth(false) << "PUT_RANDOM_IN_FR0" << E_;
+	synth.synth() << "mva RANDOM FR0" << E_;
+	synth.synth() << "mva RANDOM FR0+1" << E_;
+	synth.synth() << "rts" << E_;
+}

@@ -33,6 +33,7 @@ void runtime_base::synth_implementation() const
 	synth_TRUE_FALSE();
 	synth_FR0_boolean_invert();
 	synth_PUT_ZERO_IN_FR0();
+	synth_PUT_RANDOM_IN_FR0();
 	synth_Is_FR0_true();
 	synth_INIT_ARRAY_OFFSET();
 	synth_CALCULATE_ARRAY_ROW_SIZE_IN_BYTES();

@@ -66,7 +66,8 @@ private:
 		{ "AUDF1",		0xD200 },
 		{ "AUDC1",		0xD201 },
 		{ "SKCTL",		0xD20F },
-		{ "SSKCTL",		0x0232 }
+		{ "SSKCTL",		0x0232 },
+		{ "RANDOM",		0xD20A }
 	};
 	const std::map<std::string, int> ATARI_CONSTANTS = {
 		{ "PUTCHR",		0x000B },
@@ -211,5 +212,6 @@ public:
 	void compare_greater();
 	void assign_to_array(const std::string& a);
 	void retrieve_from_array(const std::string& a);
+	void random();
 };
 

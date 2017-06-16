@@ -320,6 +320,11 @@ void generator::retrieve_from_array(const std::string& a)
 	synth.synth() << "bne @-" << E_;
 }
 
+void generator::random()
+{
+	synth.synth() << "jsr PUT_RANDOM_IN_FR0" << E_;
+}
+
 void generator::FP_to_ASCII()
 {
 	synth.synth() << "jsr FASC" << E_;

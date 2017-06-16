@@ -22,19 +22,20 @@ class runtime_integer: public runtime_base
 
 protected:
 	// Override of the pure interface
-	virtual void synth_implementation() const;
-	virtual void synth_COMPARE_NUMBER() const;
-	virtual void synth_TRUE_FALSE() const;
-	virtual void synth_BADD() const;
-	virtual void synth_BSUB() const;
-	virtual void synth_BMUL() const;
-	virtual void synth_BDIV() const;
-	virtual void synth_FASC() const;
-	virtual void synth_COMPARE_FR0_FR1() const;
-	virtual void synth_FR0_boolean_invert() const;
-	virtual void synth_Is_FR0_true() const;
-	virtual void synth_PUT_ZERO_IN_FR0() const;
-	virtual void synth_helpers() const;
+	void synth_implementation() const override;
+	void synth_COMPARE_NUMBER() const override;
+	void synth_TRUE_FALSE() const override;
+	void synth_BADD() const override;
+	void synth_BSUB() const override;
+	void synth_BMUL() const override;
+	void synth_BDIV() const override;
+	void synth_FASC() const override;
+	void synth_COMPARE_FR0_FR1() const override;
+	void synth_FR0_boolean_invert() const override;
+	void synth_Is_FR0_true() const override;
+	void synth_PUT_ZERO_IN_FR0() const override;
+	void synth_PUT_RANDOM_IN_FR0() const  override;
+	void synth_helpers() const override;
 
 public:
 	runtime_integer(char endline, synthesizer& _synth, const config& _tp);

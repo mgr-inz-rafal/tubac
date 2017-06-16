@@ -21,6 +21,6 @@ class number_type_integer : public number_type_base
 public:
 	number_type_integer();
 
-	virtual std::string get_initializer() const;
-	virtual std::string get_initializer(const std::string& number) const;
+	std::string get_initializer() const override;
+	std::string get_initializer(const std::string& number) const override;
 };
