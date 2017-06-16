@@ -232,15 +232,20 @@ void runtime_integer::synth_COMPARE_NUMBER() const
 {
 	synth.synth() << R"(
 COMPARE_NUMBER
-	#if .word FR0 = FR1
+	sbw FR0 FR1
+	bmi COMPARE_NUMBER_NEGATIVE
+	ldx FR0
+	ldy FR0+1
+	jsr IsXY00
+	cmp #0
+	beq COMPARE_NUMBER_POSITIVE
 	lda #0
 	rts
-	#end
-	#if .word FR0 < FR1
+COMPARE_NUMBER_NEGATIVE
 	lda #1
-	#else
+	rts
+COMPARE_NUMBER_POSITIVE
 	lda #-1
-	#end
 	rts
 )";
 }
