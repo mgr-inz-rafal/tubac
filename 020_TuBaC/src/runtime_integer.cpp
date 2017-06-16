@@ -224,9 +224,9 @@ FASC_RES
 
 /*
 Compares two numbers (FR0 and FR1). Result is stored in A:
--1 = FR0 is less
+ 1 = FR0 is less
  0 = FR0 equals FR1
- 1 = FR0 is greater
+-1 = FR0 is greater
 */
 void runtime_integer::synth_COMPARE_NUMBER() const
 {
