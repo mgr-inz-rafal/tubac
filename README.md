@@ -164,3 +164,4 @@ In addition to the commands listed below compiler fully supports:
 
 ### Extension
 - Support for ```EXEC``` in the middle of the line
+- Lines are not limited in length
