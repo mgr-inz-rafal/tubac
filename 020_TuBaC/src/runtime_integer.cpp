@@ -305,6 +305,45 @@ void runtime_integer::synth_helpers() const
 	synth.synth(false) << "INTEGER_COMPARE_TMP dta b(0)" << E_;
 }
 
+void runtime_integer::synth_LOGICAL_AND() const
+{
+	synth.synth() << R"(
+LOGICAL_AND
+	#if .word FR0 <> #0 .and .word FR1 <> #0
+	mwa RUNTIME_INTEGER_TRUE FR0
+	#else
+	mwa RUNTIME_INTEGER_FALSE FR0
+	#end
+	rts
+)";
+}
+
+void runtime_integer::synth_LOGICAL_OR() const
+{
+	synth.synth() << R"(
+LOGICAL_OR
+	#if .word FR0 <> #0 .or .word FR1 <> #0
+	mwa RUNTIME_INTEGER_TRUE FR0
+	#else
+	mwa RUNTIME_INTEGER_FALSE FR0
+	#end
+	rts
+)";
+}
+
+void runtime_integer::synth_LOGICAL_XOR() const
+{
+	synth.synth() << R"(
+LOGICAL_XOR
+	#if .word FR0 = #0 .and .word FR1 <> #0 .or .word FR1 = #0 .and .word FR0 <> #0
+	mwa RUNTIME_INTEGER_TRUE FR0
+	#else
+	mwa RUNTIME_INTEGER_FALSE FR0
+	#end
+	rts
+)";
+}
+
 void runtime_integer::synth_PUT_ZERO_IN_FR0() const
 {
 	synth.synth(false) << "PUT_ZERO_IN_FR0" << E_;

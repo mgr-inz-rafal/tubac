@@ -35,6 +35,9 @@ public:
 	void got_slash() const;
 	void got_plus() const;
 	void got_minus() const;
+	void got_logical_and() const;
+	void got_logical_or() const;
+	void got_logical_xor() const;
 	void got_compare_equal() const;
 	void got_compare_not_equal() const;
 	void got_compare_less() const;

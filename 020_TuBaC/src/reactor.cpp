@@ -42,6 +42,33 @@ void reactor::got_slash() const
 	_g.push_from("FR0");
 }
 
+void reactor::got_logical_and() const
+{
+	std::cout << "LOGICAL AND" << std::endl;
+	_g.pop_to("FR1");
+	_g.pop_to("FR0");
+	_g.logical_and();
+	_g.push_from("FR0");
+}
+
+void reactor::got_logical_or() const
+{
+	std::cout << "LOGICAL OR" << std::endl;
+	_g.pop_to("FR1");
+	_g.pop_to("FR0");
+	_g.logical_or();
+	_g.push_from("FR0");
+}
+
+void reactor::got_logical_xor() const
+{
+	std::cout << "LOGICAL XOR" << std::endl;
+	_g.pop_to("FR1");
+	_g.pop_to("FR0");
+	_g.logical_xor();
+	_g.push_from("FR0");
+}
+
 void reactor::got_plus() const
 {
 	std::cout << "ADD" << std::endl;
@@ -434,3 +461,4 @@ void reactor::got_random() const
 	_g.random();
 	_g.push_from("FR0");
 }
+

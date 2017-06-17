@@ -97,7 +97,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_plus, &r)
 				];
 		expr_terminals = 
-			expr_factor >> *(('*' >> expr_factor)
+			expr_factor >> *(
+			('*' >> expr_factor)
 				[
 					boost::bind(&reactor::got_asterisk, &r)
 				]
@@ -105,9 +106,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			('/' >> expr_factor)
 				[
 					boost::bind(&reactor::got_slash, &r)
-				]);
+				]
+			);
 		expr =
-			expr_terminals >> *(('+' >> expr_terminals)
+			expr_terminals >> *(
+				('+' >> expr_terminals)
 				[
 					boost::bind(&reactor::got_plus, &r)
 				]
@@ -145,6 +148,21 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				("<=" >> expr_terminals)
 				[
 					boost::bind(&reactor::got_compare_less_equal, &r)
+				]
+			|
+				("AND" >> expr_terminals)
+				[
+					boost::bind(&reactor::got_logical_and, &r)
+				]
+			|
+				("OR" >> expr_terminals)
+				[
+					boost::bind(&reactor::got_logical_or, &r)
+				]
+			|
+				("EXOR" >> expr_terminals)
+				[
+					boost::bind(&reactor::got_logical_xor, &r)
 				]
 			);
 

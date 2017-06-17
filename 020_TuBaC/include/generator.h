@@ -213,5 +213,8 @@ public:
 	void assign_to_array(const std::string& a);
 	void retrieve_from_array(const std::string& a);
 	void random();
+	void logical_and();
+	void logical_or();
+	void logical_xor();
 };
 

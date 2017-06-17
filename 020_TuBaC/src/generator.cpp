@@ -268,6 +268,24 @@ void generator::division()
 	synth.synth() << "jsr BDIV" << E_;
 }
 
+void generator::logical_and()
+{
+	synth.synth(false) << "; Execute logical and (FR0 AND FR1). Result stored in FR0" << E_;
+	synth.synth() << "jsr LOGICAL_AND" << E_;
+}
+
+void generator::logical_or()
+{
+	synth.synth(false) << "; Execute logical or (FR0 OR FR1). Result stored in FR0" << E_;
+	synth.synth() << "jsr LOGICAL_OR" << E_;
+}
+
+void generator::logical_xor()
+{
+	synth.synth(false) << "; Execute logical exclusive or (FR0 EXOR FR1). Result stored in FR0" << E_;
+	synth.synth() << "jsr LOGICAL_XOR" << E_;
+}
+
 void generator::compare_equal()
 {
 	synth.synth(false) << "; Comparing FR0 and FR1 for equality" << E_;

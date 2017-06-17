@@ -36,6 +36,9 @@ protected:
 	void synth_PUT_ZERO_IN_FR0() const override;
 	void synth_PUT_RANDOM_IN_FR0() const  override;
 	void synth_helpers() const override;
+	void synth_LOGICAL_AND() const override;
+	void synth_LOGICAL_OR() const override;
+	void synth_LOGICAL_XOR() const override;
 
 public:
 	runtime_integer(char endline, synthesizer& _synth, const config& _tp);
