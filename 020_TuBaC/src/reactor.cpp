@@ -60,12 +60,21 @@ void reactor::got_logical_or() const
 	_g.push_from("FR0");
 }
 
-void reactor::got_logical_xor() const
+void reactor::got_binary_xor() const
 {
 	std::cout << "LOGICAL XOR" << std::endl;
 	_g.pop_to("FR1");
 	_g.pop_to("FR0");
 	_g.binary_xor();
+	_g.push_from("FR0");
+}
+
+void reactor::got_binary_and() const
+{
+	std::cout << "LOGICAL AND" << std::endl;
+	_g.pop_to("FR1");
+	_g.pop_to("FR0");
+	_g.binary_and();
 	_g.push_from("FR0");
 }
 

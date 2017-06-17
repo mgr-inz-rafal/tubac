@@ -38,7 +38,8 @@ protected:
 	void synth_helpers() const override;
 	void synth_LOGICAL_AND() const override;
 	void synth_LOGICAL_OR() const override;
-	void synth_XOR() const override;
+	void synth_BINARY_XOR() const override;
+	void synth_BINARY_AND() const override;
 
 public:
 	runtime_integer(char endline, synthesizer& _synth, const config& _tp);

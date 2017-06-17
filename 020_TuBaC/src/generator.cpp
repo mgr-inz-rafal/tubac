@@ -282,8 +282,14 @@ void generator::logical_or()
 
 void generator::binary_xor()
 {
-	synth.synth(false) << "; Execute logical exclusive or (FR0 EXOR FR1). Result stored in FR0" << E_;
+	synth.synth(false) << "; Execute binary exclusive or (FR0 EXOR FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr BINARY_XOR" << E_;
+}
+
+void generator::binary_and()
+{
+	synth.synth(false) << "; Execute binary and (FR0 & FR1). Result stored in FR0" << E_;
+	synth.synth() << "jsr BINARY_AND" << E_;
 }
 
 void generator::compare_equal()

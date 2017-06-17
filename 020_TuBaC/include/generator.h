@@ -216,5 +216,6 @@ public:
 	void logical_and();
 	void logical_or();
 	void binary_xor();
+	void binary_and();
 };
 

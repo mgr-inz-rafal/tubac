@@ -331,7 +331,7 @@ LOGICAL_OR
 )";
 }
 
-void runtime_integer::synth_XOR() const
+void runtime_integer::synth_BINARY_XOR() const
 {
 	synth.synth() << R"(
 BINARY_XOR
@@ -340,6 +340,20 @@ BINARY_XOR
 	sta FR0
 	lda FR0+1
 	eor FR1+1
+	sta FR0+1
+	rts
+)";
+}
+
+void runtime_integer::synth_BINARY_AND() const
+{
+	synth.synth() << R"(
+BINARY_AND
+	lda FR0
+	and FR1
+	sta FR0
+	lda FR0+1
+	and FR1+1
 	sta FR0+1
 	rts
 )";

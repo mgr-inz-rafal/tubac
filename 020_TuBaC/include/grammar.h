@@ -162,7 +162,12 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			|
 				("EXOR" >> expr_terminals)
 				[
-					boost::bind(&reactor::got_logical_xor, &r)
+					boost::bind(&reactor::got_binary_xor, &r)
+				]
+			|
+				("&" >> expr_terminals)
+				[
+					boost::bind(&reactor::got_binary_and, &r)
 				]
 			);
 
