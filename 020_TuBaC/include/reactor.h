@@ -39,6 +39,7 @@ public:
 	void got_logical_or() const;
 	void got_binary_xor() const;
 	void got_binary_and() const;
+	void got_binary_or() const;
 	void got_compare_equal() const;
 	void got_compare_not_equal() const;
 	void got_compare_less() const;

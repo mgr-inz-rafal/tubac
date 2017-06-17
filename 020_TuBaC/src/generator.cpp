@@ -292,6 +292,12 @@ void generator::binary_and()
 	synth.synth() << "jsr BINARY_AND" << E_;
 }
 
+void generator::binary_or()
+{
+	synth.synth(false) << "; Execute binary or (FR0 ! FR1). Result stored in FR0" << E_;
+	synth.synth() << "jsr BINARY_OR" << E_;
+}
+
 void generator::compare_equal()
 {
 	synth.synth(false) << "; Comparing FR0 and FR1 for equality" << E_;

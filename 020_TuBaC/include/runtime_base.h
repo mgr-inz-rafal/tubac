@@ -74,6 +74,7 @@ protected:
 	virtual void synth_LOGICAL_OR() const = 0;
 	virtual void synth_BINARY_XOR() const = 0;
 	virtual void synth_BINARY_AND() const = 0;
+	virtual void synth_BINARY_OR() const = 0;
 	virtual void synth_COMPARE_FR0_FR1() const = 0;
 	virtual void synth_FR0_boolean_invert() const = 0;
 	virtual void synth_Is_FR0_true() const = 0;

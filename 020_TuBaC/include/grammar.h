@@ -169,6 +169,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				[
 					boost::bind(&reactor::got_binary_and, &r)
 				]
+			|
+				("!" >> expr_terminals)
+				[
+					boost::bind(&reactor::got_binary_or, &r)
+				]
 			);
 
 		// Variables

@@ -359,6 +359,20 @@ BINARY_AND
 )";
 }
 
+void runtime_integer::synth_BINARY_OR() const
+{
+	synth.synth() << R"(
+BINARY_OR
+	lda FR0
+	ora FR1
+	sta FR0
+	lda FR0+1
+	ora FR1+1
+	sta FR0+1
+	rts
+)";
+}
+
 void runtime_integer::synth_PUT_ZERO_IN_FR0() const
 {
 	synth.synth(false) << "PUT_ZERO_IN_FR0" << E_;
