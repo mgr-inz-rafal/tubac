@@ -280,10 +280,10 @@ void generator::logical_or()
 	synth.synth() << "jsr LOGICAL_OR" << E_;
 }
 
-void generator::logical_xor()
+void generator::binary_xor()
 {
 	synth.synth(false) << "; Execute logical exclusive or (FR0 EXOR FR1). Result stored in FR0" << E_;
-	synth.synth() << "jsr LOGICAL_XOR" << E_;
+	synth.synth() << "jsr BINARY_XOR" << E_;
 }
 
 void generator::compare_equal()

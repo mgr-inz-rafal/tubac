@@ -31,7 +31,7 @@ void runtime_base::synth_implementation() const
 	synth_COMPARE_FR0_FR1();
 	synth_LOGICAL_AND();
 	synth_LOGICAL_OR();
-	synth_LOGICAL_XOR();
+	synth_XOR();
 	synth_IsXY00();
 	synth_TRUE_FALSE();
 	synth_FR0_boolean_invert();

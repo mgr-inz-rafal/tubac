@@ -331,15 +331,16 @@ LOGICAL_OR
 )";
 }
 
-void runtime_integer::synth_LOGICAL_XOR() const
+void runtime_integer::synth_XOR() const
 {
 	synth.synth() << R"(
-LOGICAL_XOR
-	#if .word FR0 = #0 .and .word FR1 <> #0 .or .word FR1 = #0 .and .word FR0 <> #0
-	mwa RUNTIME_INTEGER_TRUE FR0
-	#else
-	mwa RUNTIME_INTEGER_FALSE FR0
-	#end
+BINARY_XOR
+	lda FR0
+	eor FR1
+	sta FR0
+	lda FR0+1
+	eor FR1+1
+	sta FR0+1
 	rts
 )";
 }

@@ -65,7 +65,7 @@ void reactor::got_logical_xor() const
 	std::cout << "LOGICAL XOR" << std::endl;
 	_g.pop_to("FR1");
 	_g.pop_to("FR0");
-	_g.logical_xor();
+	_g.binary_xor();
 	_g.push_from("FR0");
 }
 

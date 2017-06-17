@@ -215,6 +215,6 @@ public:
 	void random();
 	void logical_and();
 	void logical_or();
-	void logical_xor();
+	void binary_xor();
 };
 
