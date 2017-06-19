@@ -25,7 +25,7 @@ In addition to the commands listed below compiler fully supports:
 |Command|Status|Comment|
 |-------------|:-----------:|------|
 |ABS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|AND|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|AND|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |ASC|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |ATN|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |BYE|![#000000](https://placehold.it/15/000000/000000?text=+)|It makes no sense in compiled program.|
@@ -69,7 +69,7 @@ In addition to the commands listed below compiler fully supports:
 |ON...GOTO|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |ON...GOSUB|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |OPEN|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|OR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|OR|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |PADDLE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |PEEK|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |PLOT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
@@ -157,9 +157,9 @@ In addition to the commands listed below compiler fully supports:
 |MOD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |FRAC|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |TRUNC|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|&|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|!|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|EXOR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|&|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
+|!|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
+|EXOR|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |%0 - %3 (constants)|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 
 ### Extension
