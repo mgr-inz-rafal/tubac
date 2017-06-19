@@ -138,34 +138,39 @@ BMUL_RES
 Divides two numbers located at FR0 and FR1.
 Result is stored in FR0.
 
-FR1 keeps the remainder. Maybe not exactly, but at least
-it indicated whether the division for with a remainder or not.
+Inspired by: http://codebase64.org/doku.php?id=base:16bit_division_16-bit_result
 */
 void runtime_integer::synth_BDIV() const
 {
 	synth.synth() << R"(
 BDIV
 	lda #0
-	sta BDIV_RES
-	sta BDIV_RES+1
-BDIV_LABEL_1
-	#if .word FR0 = #0
-		lda #0
-		sta FR1
-		sta FR1+1
-		jmp BDIV_LABEL_2
-	#end
-	sbw FR0 FR1 FR0
-	bmi BDIV_LABEL_0
-	inw BDIV_RES
-	jmp BDIV_LABEL_1
-BDIV_LABEL_0
-	mwa FR0 FR1
-BDIV_LABEL_2
-	mwa BDIV_RES FR0
+	sta BDIV_REMAINDER
+	sta BDIV_REMAINDER+1
+	ldx #16
+BDIV_LOOP
+	asl FR0
+	rol FR0+1	
+	rol BDIV_REMAINDER
+	rol BDIV_REMAINDER+1
+	lda BDIV_REMAINDER
+	sec
+	sbc FR1
+	tay
+	lda BDIV_REMAINDER+1
+	sbc FR1+1
+	bcc BDIV_SKIP
+	sta BDIV_REMAINDER+1
+	sty BDIV_REMAINDER
+	inc BDIV_RES
+BDIV_SKIP
+	dex
+	bne BDIV_LOOP	
 	rts
-.var BDIV_RES .word
-	)";
+BDIV_RES EQU FR0
+BDIV_REMAINDER
+	dta a(0)
+)";
 }
 
 /*
