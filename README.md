@@ -64,7 +64,7 @@ In addition to the commands listed below compiler fully supports:
 |LPRINT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |NEW|![#000000](https://placehold.it/15/000000/000000?text=+)|Not gonna happen.|
 |NEXT|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
-|NOT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|NOT|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |NOTE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |ON...GOTO|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |ON...GOSUB|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
