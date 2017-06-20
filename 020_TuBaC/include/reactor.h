@@ -22,6 +22,7 @@ class reactor
 	generator& _g;
 	context ctx;
 
+	// TODO: Move these three to "context"
 	std::string variable_recently_assigned_to;
 	bool recent_for_had_step;
 	bool last_printed_token_was_separator;
