@@ -64,6 +64,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		
 		// Arithmetic expressions
 		expr_factor =
+			NOT
+			|
 			RND
 			|
 			PEEK
@@ -401,6 +403,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				boost::bind(&reactor::got_random, &r)
 			];
 
+		NOT = (qi::string("NOT") >> expr)
+			[
+				boost::bind(&reactor::got_not, &r)
+			];
+
 		command =
 			(assignment)					|
 			(integer_array_assignment)		|
@@ -428,6 +435,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(END)							|
 			(LET)							|
 			(DIM)							|
+			(NOT)							|
 			(GOTO);
 	}
 
@@ -476,6 +484,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> LET;
 	qi::rule<Iterator, Skipper> DIM;
 	qi::rule<Iterator, Skipper> RND;
+	qi::rule<Iterator, Skipper> NOT;
 };
 
 

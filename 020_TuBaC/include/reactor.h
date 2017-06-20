@@ -93,4 +93,5 @@ public:
 	void got_print();
 	void got_execute_array_assignment();
 	void got_random() const;
+	void got_not() const;
 };

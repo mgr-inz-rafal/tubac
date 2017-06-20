@@ -480,3 +480,10 @@ void reactor::got_random() const
 	_g.push_from("FR0");
 }
 
+void reactor::got_not() const
+{
+	std::cout << "NOT" << std::endl;
+	_g.pop_to("FR0");
+	_g.FR0_boolean_invert();
+	_g.push_from("FR0");
+}
