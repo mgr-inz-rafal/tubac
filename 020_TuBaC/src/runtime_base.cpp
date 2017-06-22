@@ -125,7 +125,7 @@ PUTSPACE
 /*
 Outputs string located in LBUFF to the screen char-by-char by
 using PUTCHAR. Last character must be inverted.
-New line is printed at the end.
+No new line is printed at the end.
 */
 void runtime_base::synth_PUTSTRING() const
 {
