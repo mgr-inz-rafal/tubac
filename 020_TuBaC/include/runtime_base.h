@@ -63,6 +63,7 @@ protected:
 
 	// Misc
 	virtual void synth_STICK() const;
+	virtual void synth_STRIG() const;
 
 	// *** These functions must be derived by each ***
 	// *** runtime implementation                  ***

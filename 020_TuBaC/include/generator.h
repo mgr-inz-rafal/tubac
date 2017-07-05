@@ -68,7 +68,8 @@ private:
 		{ "SKCTL",		0xD20F },
 		{ "SSKCTL",		0x0232 },
 		{ "RANDOM",		0xD20A },
-		{ "STICK0",		0x0278 }
+		{ "STICK0",		0x0278 },
+		{ "STRIG0",		0x0284 }
 	};
 	const std::map<std::string, int> ATARI_CONSTANTS = {
 		{ "PUTCHR",		0x000B },
@@ -185,6 +186,7 @@ public:
 	void poke();
 	void peek();
 	void stick();
+	void strig();
 	void after_if();
 	void inside_if();
 	void skip_if_on_false();

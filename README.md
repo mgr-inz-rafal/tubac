@@ -96,7 +96,7 @@ In addition to the commands listed below compiler fully supports:
 |STATUS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |STEP|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |STICK|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
-|STRIG|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|STRIG|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |STOP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |STR$|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |TRAP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||

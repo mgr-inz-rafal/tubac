@@ -229,6 +229,12 @@ void reactor::got_stick() const
 	_g.stick();
 }
 
+void reactor::got_strig() const
+{
+	std::cout << "STRIG" << std::endl;
+	_g.strig();
+}
+
 void reactor::got_for()
 {
 	std::cout << "FOR" << std::endl;
