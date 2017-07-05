@@ -426,6 +426,11 @@ void generator::peek()
 	synth.synth() << "jsr PEEK" << E_;
 }
 
+void generator::stick()
+{
+	synth.synth() << "jsr STICK" << E_;
+}
+
 void generator::after_if()
 {
 	// If this particular if didn't have ELSE statement, we need

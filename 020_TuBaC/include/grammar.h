@@ -70,6 +70,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			|
 			PEEK
 			|
+			STICK
+			|
 			expr_array
 				[
 					boost::bind(&reactor::got_integer_array_to_retrieve, &r)
@@ -253,6 +255,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		PEEK = (qi::string("PEEK(") >> expr >> ')')
 			[
 				boost::bind(&reactor::got_peek, &r)
+			];
+
+		STICK = (qi::string("STICK(") >> expr >> ')')
+			[
+				boost::bind(&reactor::got_stick, &r)
 			];
 
 		FOR = (qi::string("FOR")
@@ -463,6 +470,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> GOTO;
 	qi::rule<Iterator, Skipper> POKE;
 	qi::rule<Iterator, Skipper> PEEK;
+	qi::rule<Iterator, Skipper> STICK;
 	qi::rule<Iterator, Skipper> FOR;
 	qi::rule<Iterator, Skipper> NEXT;
 	qi::rule<Iterator, Skipper> WHILE;

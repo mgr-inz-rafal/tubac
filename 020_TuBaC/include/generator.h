@@ -67,7 +67,8 @@ private:
 		{ "AUDC1",		0xD201 },
 		{ "SKCTL",		0xD20F },
 		{ "SSKCTL",		0x0232 },
-		{ "RANDOM",		0xD20A }
+		{ "RANDOM",		0xD20A },
+		{ "STICK0",		0x0278 }
 	};
 	const std::map<std::string, int> ATARI_CONSTANTS = {
 		{ "PUTCHR",		0x000B },
@@ -183,6 +184,7 @@ public:
 	void sound();
 	void poke();
 	void peek();
+	void stick();
 	void after_if();
 	void inside_if();
 	void skip_if_on_false();

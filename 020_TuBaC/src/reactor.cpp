@@ -223,6 +223,12 @@ void reactor::got_peek() const
 	_g.peek();
 }
 
+void reactor::got_stick() const
+{
+	std::cout << "STICK" << std::endl;
+	_g.stick();
+}
+
 void reactor::got_for()
 {
 	std::cout << "FOR" << std::endl;

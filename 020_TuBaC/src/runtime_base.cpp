@@ -62,6 +62,7 @@ void runtime_base::synth_implementation() const
 	synth_INIT_PUSH_POP_POINTER();
 	synth_POKE();
 	synth_PEEK();
+	synth_STICK();
 	synth_FAKE_POP();
 
 	synth_own_functions();
@@ -371,6 +372,25 @@ void runtime_base::synth_PEEK() const
 	ldy #0
 	lda (FR0),y
 	sta FR1,y
+	lda #0
+	sta FR1+1
+)";
+	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	synth.synth() << R"(
+	jsr PUSH_FROM
+	rts
+)";
+}
+
+void runtime_base::synth_STICK() const
+{
+	synth.synth(false) << "STICK" << E_;
+	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	synth.synth() << R"(
+	jsr POP_TO
+	ldy FR0
+	lda STICK0,y
+	sta FR1
 	lda #0
 	sta FR1+1
 )";

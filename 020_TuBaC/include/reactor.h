@@ -65,6 +65,7 @@ public:
 	void got_variable_to_retrieve(const std::string& s) const;
 	void got_poke() const;
 	void got_peek() const;
+	void got_stick() const;
 	void got_for();
 	void got_to() const;
 	void got_step();

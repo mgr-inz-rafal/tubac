@@ -61,6 +61,9 @@ protected:
 	virtual void synth_POKE() const;
 	virtual void synth_PEEK() const;
 
+	// Misc
+	virtual void synth_STICK() const;
+
 	// *** These functions must be derived by each ***
 	// *** runtime implementation                  ***
 	virtual void synth_COMPARE_NUMBER() const = 0;
