@@ -44,7 +44,7 @@ In addition to the commands listed below compiler fully supports:
 |DIM|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Only for integer arrays. Strings yet to come...
 |DOS|![#000000](https://placehold.it/15/000000/000000?text=+)|Compiled program will not exit to DOS.|
 |DRAWTO|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|END|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|END|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |ENTER|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |EXP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |FOR|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
