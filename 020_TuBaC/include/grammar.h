@@ -254,6 +254,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				boost::bind(&reactor::got_poke, &r)
 			];
 
+		DPOKE = (qi::string("DPOKE") >> expr >> ',' >> expr)
+			[
+				boost::bind(&reactor::got_dpoke, &r)
+			];
+
 		PEEK = (qi::string("PEEK(") >> expr >> ')')
 			[
 				boost::bind(&reactor::got_peek, &r)
@@ -428,6 +433,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(PRINT)							|
 			(SOUND)							|
 			(POKE)							|
+			(DPOKE)							|
 			(FOR)							|
 			(NEXT)							|
 			(IF)							|
@@ -476,6 +482,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> SOUND;
 	qi::rule<Iterator, Skipper> GOTO;
 	qi::rule<Iterator, Skipper> POKE;
+	qi::rule<Iterator, Skipper> DPOKE;
 	qi::rule<Iterator, Skipper> PEEK;
 	qi::rule<Iterator, Skipper> STICK;
 	qi::rule<Iterator, Skipper> STRIG;

@@ -61,6 +61,7 @@ void runtime_base::synth_implementation() const
 	synth_PUSH_FROM();
 	synth_INIT_PUSH_POP_POINTER();
 	synth_POKE();
+	synth_DPOKE();
 	synth_PEEK();
 	synth_STICK();
 	synth_STRIG();
@@ -349,6 +350,21 @@ void runtime_base::synth_PUSH_FROM() const
 void runtime_base::synth_POKE() const
 {
 	synth.synth(false) << "POKE" << E_;
+	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	synth.synth() << "jsr POP_TO" << E_;
+	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	synth.synth() << R"(
+	jsr POP_TO
+	ldy #0
+	lda FR0,y
+	sta (FR1),y
+	rts
+)";
+}
+
+void runtime_base::synth_DPOKE() const
+{
+	synth.synth(false) << "DPOKE" << E_;
 	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
 	synth.synth() << "jsr POP_TO" << E_;
 	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;

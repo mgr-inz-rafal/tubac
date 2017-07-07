@@ -217,6 +217,12 @@ void reactor::got_poke() const
 	_g.poke();
 }
 
+void reactor::got_dpoke() const
+{
+	std::cout << "DPOKE" << std::endl;
+	_g.dpoke();
+}
+
 void reactor::got_peek() const
 {
 	std::cout << "PEEK" << std::endl;

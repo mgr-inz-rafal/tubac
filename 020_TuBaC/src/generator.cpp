@@ -421,6 +421,11 @@ void generator::poke()
 	synth.synth() << "jsr POKE" << E_;
 }
 
+void generator::dpoke()
+{
+	synth.synth() << "jsr DPOKE" << E_;
+}
+
 void generator::peek()
 {
 	synth.synth() << "jsr PEEK" << E_;

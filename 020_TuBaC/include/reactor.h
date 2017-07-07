@@ -64,6 +64,7 @@ public:
 	void got_array_declaration_finished();
 	void got_variable_to_retrieve(const std::string& s) const;
 	void got_poke() const;
+	void got_dpoke() const;
 	void got_peek() const;
 	void got_stick() const;
 	void got_strig() const;

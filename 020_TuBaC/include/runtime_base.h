@@ -59,6 +59,7 @@ protected:
 
 	// Memory manipulation
 	virtual void synth_POKE() const;
+	virtual void synth_DPOKE() const;
 	virtual void synth_PEEK() const;
 
 	// Misc

@@ -184,6 +184,7 @@ public:
 	void gosub(const std::string& s);
 	void sound();
 	void poke();
+	void dpoke();
 	void peek();
 	void stick();
 	void strig();
