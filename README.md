@@ -51,6 +51,7 @@ In addition to the commands listed below compiler fully supports:
 |GET|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |GOSUB|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |GOTO|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)|Only direct jumps to line numbers. ```GOTO A+8``` is not (and will not be) supported. I did it once in the past, just for fun, but it didn't bring any value besides slowing the jumps down tremendously.|
+|GO TO|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)|ditto|
 |GRAPHICS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |IF...THEN|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |INPUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
@@ -126,7 +127,6 @@ In addition to the commands listed below compiler fully supports:
 |DUMP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |TRACE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |INPUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|GO TO|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |DSOUND|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |# (line labels)|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |GO#|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||

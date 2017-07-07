@@ -244,7 +244,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				boost::bind(&reactor::got_sound, &r)
 			];
 
-		GOTO = qi::string("GOTO") >> qi::int_
+		GOTO = (qi::string("GOTO") | (qi::string("GO") >> qi::string("TO"))) >> qi::int_
 			[
 				boost::bind(&reactor::got_goto_integer, &r, _1)
 			];
