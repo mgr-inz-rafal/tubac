@@ -61,6 +61,7 @@ protected:
 	virtual void synth_POKE() const;
 	virtual void synth_DPOKE() const;
 	virtual void synth_PEEK() const;
+	virtual void synth_DPEEK() const;
 
 	// Misc
 	virtual void synth_STICK() const;

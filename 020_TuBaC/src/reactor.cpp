@@ -229,6 +229,12 @@ void reactor::got_peek() const
 	_g.peek();
 }
 
+void reactor::got_dpeek() const
+{
+	std::cout << "DPEEK" << std::endl;
+	_g.dpeek();
+}
+
 void reactor::got_stick() const
 {
 	std::cout << "STICK" << std::endl;

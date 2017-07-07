@@ -115,7 +115,7 @@ In addition to the commands listed below compiler fully supports:
 |LOCK|![#000000](https://placehold.it/15/000000/000000?text=+)||
 |UNLOCK|![#000000](https://placehold.it/15/000000/000000?text=+)||
 |DPOKE|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
-|DPEEK|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|DPEEK|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |MOVE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |-MOVE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |%PUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||

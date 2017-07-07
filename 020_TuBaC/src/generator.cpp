@@ -431,6 +431,11 @@ void generator::peek()
 	synth.synth() << "jsr PEEK" << E_;
 }
 
+void generator::dpeek()
+{
+	synth.synth() << "jsr DPEEK" << E_;
+}
+
 void generator::stick()
 {
 	synth.synth() << "jsr STICK" << E_;

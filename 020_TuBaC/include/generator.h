@@ -186,6 +186,7 @@ public:
 	void poke();
 	void dpoke();
 	void peek();
+	void dpeek();
 	void stick();
 	void strig();
 	void after_if();
