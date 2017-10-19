@@ -20,7 +20,7 @@ class number_type_base
 
 public:
 	virtual ~number_type_base() = default;
-	number_type_base(int _size);
+	explicit number_type_base(int _size);
 	virtual int get_size() const;
 	virtual std::string get_initializer() const = 0;
 	virtual std::string get_initializer(const std::string& number) const = 0;

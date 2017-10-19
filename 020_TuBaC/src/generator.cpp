@@ -21,8 +21,8 @@
 generator::generator(std::ostream& _stream, const config& _cfg):
 	cfg(_cfg),
 	E_(cfg.get_endline()), 
-	synth(_stream, _cfg.get_indent(), E_),
-	pokey_initialized(false)
+	pokey_initialized(false),
+	synth(_stream, _cfg.get_indent(), E_)
 {
 	loop_context.push(LOOP_CONTEXT::OUTSIDE);
 
@@ -46,8 +46,7 @@ const std::string& generator::token(const token_provider::TOKENS& token) const
 	return cfg.get_token_provider().get(token);
 }
 
-void generator::write_code_header()
-{
+void generator::write_code_header() const {
 	synth.synth(false) << token(token_provider::TOKENS::PROGRAM_START) << " equ $" << std::hex << PROGRAM_START << std::dec << E_;
 	synth.synth() << "org " << token(token_provider::TOKENS::PROGRAM_START) << E_;
 	synth.synth(false) << ".zpvar = $" << std::hex << ZERO_PAGE_START << std::dec << E_;
@@ -72,8 +71,7 @@ void generator::write_stacks() const
 	}
 }
 
-void generator::write_stacks_initialization()
-{
+void generator::write_stacks_initialization() const {
 	for (const auto& s : stacks)
 	{
 		spawn_compiler_variable(s.second.get_pointer(), true);
@@ -141,7 +139,7 @@ void generator::new_variable(const std::string& v)
 	variables.insert(v);
 }
 
-void generator::new_line(const int& i)
+void generator::new_line(const int& i) const
 {
 	synth.synth(false) << token(token_provider::TOKENS::LINE_INDICATOR) << i << E_;
 }
@@ -155,7 +153,7 @@ void generator::write_atari_registers() const
 	}
 }
 
-void generator::write_atari_constants()
+void generator::write_atari_constants() const
 {
 	synth.synth(false) << "; ATARI constants" << E_;
 	for (const auto& r : ATARI_CONSTANTS)
@@ -164,16 +162,14 @@ void generator::write_atari_constants()
 	}
 }
 
-void generator::put_integer_on_stack(const std::string& i)
-{
+void generator::put_integer_on_stack(const std::string& i) const {
 	synth.synth(false) << "; Put integer '" << i << "' on stack" << E_;
 
 	synth.synth() << "mwa #" << i << " FR0" << E_;
 	push_from("FR0");
 }
 
-void generator::pop_to(const std::string& target, const generator::STACK& stack)
-{
+void generator::pop_to(const std::string& target, const generator::STACK& stack) const {
 	synth.synth(false) << "; Pop from stack (" << stacks.at(stack).get_name() << ") into '" << target << '\'' << E_;
 	
 	// Do the pop
@@ -182,8 +178,7 @@ void generator::pop_to(const std::string& target, const generator::STACK& stack)
 	synth.synth() << "jsr POP_TO" << E_;
 }
 
-void generator::peek_to(const std::string& target, const generator::STACK& stack)
-{
+void generator::peek_to(const std::string& target, const generator::STACK& stack) const {
 	synth.synth(false) << "; Peek from stack (" << stacks.at(stack).get_name() << ") into '" << target << '\'' << E_;
 
 	// Do the pop
@@ -192,14 +187,12 @@ void generator::peek_to(const std::string& target, const generator::STACK& stack
 	synth.synth() << "jsr PEEK_TO" << E_;
 }
 
-void generator::pop_to_variable(const std::string& target)
-{
+void generator::pop_to_variable(const std::string& target) const {
 	synth.synth(false) << "; Pop from stack into variable '" << target << '\'' << E_;
 	pop_to(token(token_provider::TOKENS::VARIABLE) + target);
 }
 
-void generator::push_from(const std::string& source, const generator::STACK& stack)
-{
+void generator::push_from(const std::string& source, const generator::STACK& stack) const {
 	synth.synth(false) << "; Push from '" << source << "' to stack (" << stacks.at(stack).get_name() << ')' << E_;
 
 	// Do the push
@@ -208,21 +201,18 @@ void generator::push_from(const std::string& source, const generator::STACK& sta
 	synth.synth() << "jsr PUSH_FROM" << E_;
 }
 
-void generator::push_from_variable(const std::string& source)
-{
+void generator::push_from_variable(const std::string& source) const {
 	synth.synth(false) << "; Push from variable '" << source << "\' into stack" << E_;
 	push_from(token(token_provider::TOKENS::VARIABLE) + source);
 }
 
-void generator::write_internal_variables()
-{
+void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_VALUE_PTR), true);
 }
 
-void generator::spawn_compiler_variable(const std::string& name, bool zero_page)
-{
+void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {
 	synth.synth(false) << "; Creating compiler variable '" << name << '\'';
 	if (zero_page)
 	{
@@ -235,8 +225,7 @@ void generator::spawn_compiler_variable(const std::string& name, bool zero_page)
 		<< "var " << name << " .word" << E_;
 }
 
-void generator::init_pointer(const std::string& name, const std::string& source)
-{
+void generator::init_pointer(const std::string& name, const std::string& source) const {
 	synth.synth(false) << "; Init pointer '" << name << "' with address of '" << source << '\'' << E_;
 	synth.synth() << "lda <" << source << E_;
 	synth.synth() << "sta " << name << E_;
@@ -244,86 +233,73 @@ void generator::init_pointer(const std::string& name, const std::string& source)
 	synth.synth() << "sta " << name << "+1" << E_;
 }
 
-void generator::addition()
-{
+void generator::addition() const {
 	synth.synth(false) << "; Execute addition (FR0 + FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr BADD" << E_;
 }
 
-void generator::subtraction()
-{
+void generator::subtraction() const {
 	synth.synth(false) << "; Execute subtraction (FR0 - FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr BSUB" << E_;
 }
 
-void generator::multiplication()
-{
+void generator::multiplication() const {
 	synth.synth(false) << "; Execute multiplication (FR0 * FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr BMUL" << E_;
 }
 
-void generator::division()
-{
+void generator::division() const {
 	synth.synth(false) << "; Execute division (FR0 / FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr BDIV" << E_;
 }
 
-void generator::logical_and()
-{
+void generator::logical_and() const {
 	synth.synth(false) << "; Execute logical and (FR0 AND FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr LOGICAL_AND" << E_;
 }
 
-void generator::logical_or()
-{
+void generator::logical_or() const {
 	synth.synth(false) << "; Execute logical or (FR0 OR FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr LOGICAL_OR" << E_;
 }
 
-void generator::binary_xor()
-{
+void generator::binary_xor() const {
 	synth.synth(false) << "; Execute binary exclusive or (FR0 EXOR FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr BINARY_XOR" << E_;
 }
 
-void generator::binary_and()
-{
+void generator::binary_and() const {
 	synth.synth(false) << "; Execute binary and (FR0 & FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr BINARY_AND" << E_;
 }
 
-void generator::binary_or()
-{
+void generator::binary_or() const {
 	synth.synth(false) << "; Execute binary or (FR0 ! FR1). Result stored in FR0" << E_;
 	synth.synth() << "jsr BINARY_OR" << E_;
 }
 
-void generator::compare_equal()
-{
+void generator::compare_equal() const {
 	synth.synth(false) << "; Comparing FR0 and FR1 for equality" << E_;
 	synth.synth() << "lda #0" << E_;
 	synth.synth() << "sta INTEGER_COMPARE_TMP" << E_;
 	synth.synth() << "jsr COMPARE_FR0_FR1" << E_;
 }
 
-void generator::compare_less()
-{
+void generator::compare_less() const {
 	synth.synth(false) << "; Comparing FR0 and FR1 for less" << E_;
 	synth.synth() << "lda #1" << E_;
 	synth.synth() << "sta INTEGER_COMPARE_TMP" << E_;
 	synth.synth() << "jsr COMPARE_FR0_FR1" << E_;
 }
 
-void generator::compare_greater()
-{
+void generator::compare_greater() const {
 	synth.synth(false) << "; Comparing FR0 and FR1 for greater" << E_;
 	synth.synth() << "lda #-1" << E_;
 	synth.synth() << "sta INTEGER_COMPARE_TMP" << E_;
 	synth.synth() << "jsr COMPARE_FR0_FR1" << E_;
 }
 
-void generator::assign_to_array(const std::string& a)
-{
+void generator::assign_to_array(const std::string& a) const {
 	synth.synth() << "mwa #" << token(token_provider::TOKENS::INTEGER_ARRAY) << a << "+4 ARRAY_ASSIGNMENT_TMP_ADDRESS" << E_;
 	synth.synth() << "mwa " << token(token_provider::TOKENS::INTEGER_ARRAY) << a << " ARRAY_ASSIGNMENT_TMP_SIZE" << E_;
 	synth.synth() << "jsr INIT_ARRAY_OFFSET" << E_;
@@ -336,8 +312,7 @@ void generator::assign_to_array(const std::string& a)
 	synth.synth() << "bne @-" << E_;
 }
 
-void generator::retrieve_from_array(const std::string& a)
-{
+void generator::retrieve_from_array(const std::string& a) const {
 	synth.synth() << "mwa #" << token(token_provider::TOKENS::INTEGER_ARRAY) << a << "+4 ARRAY_ASSIGNMENT_TMP_ADDRESS" << E_;
 	synth.synth() << "mwa " << token(token_provider::TOKENS::INTEGER_ARRAY) << a << " ARRAY_ASSIGNMENT_TMP_SIZE" << E_;
 	synth.synth() << "jsr INIT_ARRAY_OFFSET" << E_;
@@ -350,18 +325,15 @@ void generator::retrieve_from_array(const std::string& a)
 	synth.synth() << "bne @-" << E_;
 }
 
-void generator::random()
-{
+void generator::random() const {
 	synth.synth() << "jsr PUT_RANDOM_IN_FR0" << E_;
 }
 
-void generator::FP_to_ASCII()
-{
+void generator::FP_to_ASCII() const {
 	synth.synth() << "jsr FASC" << E_;
 }
 
-void generator::init_print()
-{
+void generator::init_print() const {
 	synth.synth() << R"(
 	lda PTABW
 	sta AUXBR
@@ -370,38 +342,32 @@ void generator::init_print()
 )";
 }
 
-void generator::print_LBUFF()
-{
+void generator::print_LBUFF() const {
 	synth.synth(false) << "; Printing string located at LBUFF" << E_;
 	synth.synth() << "jsr PUTSTRING" << E_;
 }
 
-void generator::FR0_boolean_invert()
-{
+void generator::FR0_boolean_invert() const {
 	synth.synth(false) << "; Inverting logical (boolean) value stored in FR0" << E_;
 	synth.synth() << "jsr FR0_boolean_invert" << E_;
 }
 
-void generator::goto_line(const int& i)
-{
+void generator::goto_line(const int& i) const {
 	synth.synth(false) << "; Go to line " << i << E_;
 	synth.synth() << "jmp " << token(token_provider::TOKENS::LINE_INDICATOR) << i << E_;
 }
 
-void generator::gosub(const int& i)
-{
+void generator::gosub(const int& i) const {
 	synth.synth(false) << "; Go sub line " << i << E_;
 	synth.synth() << "jsr " << token(token_provider::TOKENS::LINE_INDICATOR) << i << E_;
 }
 
-void generator::gosub(const std::string& s)
-{
+void generator::gosub(const std::string& s) const {
 	synth.synth(false) << "; Go sub procedure " << s << E_;
 	synth.synth() << "jsr " << token(token_provider::TOKENS::PROCEDURE) << s << E_;
 }
 
-void generator::write_runtime()
-{
+void generator::write_runtime() const {
 	synth.synth(false) << "; Here come the compiler runtime functions" << E_;
 	cfg.get_runtime()->synth_implementation();
 }
@@ -416,33 +382,27 @@ void generator::sound()
 	synth.synth() << "jsr SOUND" << E_;
 }
 
-void generator::poke()
-{
+void generator::poke() const {
 	synth.synth() << "jsr POKE" << E_;
 }
 
-void generator::dpoke()
-{
+void generator::dpoke() const {
 	synth.synth() << "jsr DPOKE" << E_;
 }
 
-void generator::peek()
-{
+void generator::peek() const {
 	synth.synth() << "jsr PEEK" << E_;
 }
 
-void generator::dpeek()
-{
+void generator::dpeek() const {
 	synth.synth() << "jsr DPEEK" << E_;
 }
 
-void generator::stick()
-{
+void generator::stick() const {
 	synth.synth() << "jsr STICK" << E_;
 }
 
-void generator::strig()
-{
+void generator::strig() const {
 	synth.synth() << "jsr STRIG" << E_;
 }
 
@@ -486,8 +446,7 @@ void generator::for_loop_condition()
 	push_from("FR0", generator::STACK::RETURN_ADDRESS_STACK);
 }
 
-void generator::for_step(bool default_step)
-{
+void generator::for_step(bool default_step) const {
 	if (default_step)
 	{
 		// Use "1"
@@ -595,7 +554,7 @@ void generator::while_condition()
 void generator::wend()
 {
 	loop_context.pop();
-	auto while_count = stack_while.top();
+	const auto while_count = stack_while.top();
 	stack_while.pop();
 	synth.synth() << "jmp " << token(token_provider::TOKENS::WHILE_INDICATOR) << while_count << E_;
 	synth.synth(false) << token(token_provider::TOKENS::AFTER_WHILE_INDICATOR) << while_count << E_;
@@ -655,8 +614,7 @@ void generator::loop()
 	stack_do.pop();
 }
 
-void generator::return_()
-{
+void generator::return_() const {
 	synth.synth() << "rts" << E_;
 }
 

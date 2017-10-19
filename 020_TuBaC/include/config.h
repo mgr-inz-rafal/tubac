@@ -30,7 +30,7 @@ class config
 	const token_provider& tp;
 
 public:
-	config(const token_provider& _tp);
+	explicit config(const token_provider& _tp);
 	char get_endline() const;
 	const std::string& get_indent() const;
 	const token_provider& get_token_provider() const;

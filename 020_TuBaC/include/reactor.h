@@ -28,7 +28,7 @@ class reactor
 	bool last_printed_token_was_separator;
 
 public:
-	reactor(generator& g);
+	explicit reactor(generator& g);
 
 	void got_line_number(const int& i);
 	void got_command_separator();

@@ -44,7 +44,7 @@ template <typename Iterator, typename Skipper>
 struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 {
 	reactor& _r;
-	tbxl_grammar(reactor& r): _r(r), tbxl_grammar::base_type{ program }
+	explicit tbxl_grammar(reactor& r): tbxl_grammar::base_type{ program }, _r(r)
 	{
 		line_number = qi::int_
 			[
