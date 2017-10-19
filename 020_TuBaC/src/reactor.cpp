@@ -15,7 +15,7 @@
 
 #include <iostream>
 
-reactor::reactor(generator& g) : _g(g) {};
+reactor::reactor(generator& g) : _g(g) {}
 
 void reactor::got_line_number(const int& i)
 {

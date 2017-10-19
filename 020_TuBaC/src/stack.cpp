@@ -18,17 +18,17 @@ stack::stack(const std::string& _name, int _item_size, int _capacity):
 	pointer(_name + "_PTR"),
 	item_size(_item_size),
 	capacity(_capacity)
-{};
+{}
 
 const std::string& stack::get_name() const
 {
 	return name; 
-};
+}
 
 const std::string& stack::get_pointer() const 
 { 
 	return pointer; 
-};
+}
 
 int stack::get_capacity() const
 {

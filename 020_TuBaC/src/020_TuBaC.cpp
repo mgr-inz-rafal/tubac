@@ -34,7 +34,7 @@ int test_parser(grammar_t& g, std::string str)
 	std::cout << "Testing: " << str << '\n';
 
 	std::vector<boost::variant<int, bool>> v;
-	std::string::iterator it = str.begin();
+	auto it = str.begin();
 	if ((qi::phrase_parse(it, str.end(), g, skipper_t, v)) && (it == str.end()))
 	{
 		std::cout << "Parsing succeeded\n";
@@ -66,14 +66,14 @@ int main(int argc, char **argv)
 
 		// Setup synthesizer
 		std::ofstream out;
-		token_provider tp;
+		const token_provider tp;
 		config cfg(tp);
 		synthesizer s(out, cfg.get_indent(), '\n');
 		cfg.set_number_interpretation(cl.get_param("number-type"), s);
 
 		// Read input file
 		std::cout << "Compiling file '" << cl.get_param("input-file") << "' into '" << cl.get_param("output-file") << "'\n";
-		std::string program = read_file_to_string(cl.get_param("input-file"));
+		auto program = read_file_to_string(cl.get_param("input-file"));
 		boost::trim(program);
 
 		// Setup output file

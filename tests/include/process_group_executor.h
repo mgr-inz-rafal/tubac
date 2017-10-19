@@ -25,7 +25,7 @@ class process_group_executor
 	std::vector<process_executor*> group;
 
 public:
-	process_group_executor(std::vector<process_executor*> _group);
+	explicit process_group_executor(std::vector<process_executor*> _group);
 #ifdef _WIN32
 	std::optional<std::string> run();
 #else

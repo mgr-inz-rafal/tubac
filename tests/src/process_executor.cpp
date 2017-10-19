@@ -40,7 +40,7 @@ std::string process_executor::operator()()
 		bp::std_in < instream);
 	if(timeout != default_timeout)
 	{
-		std::error_code ec = std::make_error_code(std::io_errc::stream); // TODO: Introduce custom error category (http://www.cplusplus.com/reference/system_error/error_category/)
+		auto ec = std::make_error_code(std::io_errc::stream); // TODO: Introduce custom error category (http://www.cplusplus.com/reference/system_error/error_category/)
 		std::async(std::launch::async, [&]() {
 			std::this_thread::sleep_for(timeout);
 			child.terminate(ec);});
@@ -65,7 +65,6 @@ std::string process_executor::parse_output()
 	return tmp_stream.str();
 }
 
-bool process_executor::succeeded(int code) const
-{
+bool process_executor::succeeded(int code) {
 	return std::find(allowed_return_codes.begin(), allowed_return_codes.end(), code) != allowed_return_codes.end();
 }

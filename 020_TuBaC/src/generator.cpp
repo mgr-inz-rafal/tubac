@@ -32,7 +32,7 @@ generator::generator(std::ostream& _stream, const config& _cfg):
 	write_internal_variables();
 	
 	register_generator_runtime();
-};
+}
 
 generator::~generator()
 {
@@ -54,7 +54,7 @@ void generator::write_code_header() const {
 	synth.synth() << "mva #10 PTABW" << E_;
 
 	write_stacks_initialization();
-};
+}
 
 void generator::write_stacks() const
 {
@@ -63,7 +63,7 @@ void generator::write_stacks() const
 		synth.synth() << "; STACK: " << s.second.get_name() << E_;
 		synth.synth(false) << s.second.get_name() << E_;
 		synth.synth(false) << ':' << s.second.get_capacity() << cfg.get_indent() << "dta ";
-		for (int i = 0; i < cfg.get_number_interpretation()->get_size() - 1; ++i)
+		for (auto i = 0; i < cfg.get_number_interpretation()->get_size() - 1; ++i)
 		{
 			synth.synth(false) << "b(0),";
 		}

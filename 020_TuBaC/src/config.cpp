@@ -42,11 +42,11 @@ void config::set_number_interpretation(const std::string& ni, synthesizer& s)
 		runtime_type = std::make_shared<runtime_integer>(get_endline(), s, *this);
 		return;
 	}
-	else if("fixed" == ni)
+	if("fixed" == ni)
 	{
 		throw std::invalid_argument("'fixed' numbers not supported");
 	}
-	else if("floating" == ni)
+	if("floating" == ni)
 	{
 		throw std::invalid_argument("'floating point' numbers not supported");
 	}

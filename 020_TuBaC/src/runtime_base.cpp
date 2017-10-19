@@ -289,7 +289,7 @@ void runtime_base::synth_POP_TO() const
 	synth.synth() << "sbw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
 	synth.synth() << "jsr INIT_PUSH_POP_POINTER" << E_;
 	synth.synth() << "ldy #0" << E_;
-	for (int j = 0; j < cfg.get_number_interpretation()->get_size(); ++j)
+	for (auto j = 0; j < cfg.get_number_interpretation()->get_size(); ++j)
 	{
 		synth.synth() << "lda (" << token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR) << "), y" << E_;
 		synth.synth() << "sta (" << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << "), y" << E_;
@@ -333,7 +333,7 @@ void runtime_base::synth_PUSH_FROM() const
 	synth.synth(false) << "PUSH_FROM" << E_;
 	synth.synth() << "jsr INIT_PUSH_POP_POINTER" << E_;
 	synth.synth() << "ldy #0" << E_;
-	for (int j = 0; j < cfg.get_number_interpretation()->get_size(); ++j)
+	for (auto j = 0; j < cfg.get_number_interpretation()->get_size(); ++j)
 	{
 		synth.synth() << "lda (" << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << "), y" << E_;
 		synth.synth() << "sta (" << token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR) << "), y" << E_;
