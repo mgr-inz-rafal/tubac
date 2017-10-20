@@ -179,6 +179,7 @@
     <ClCompile Include="src\token_provider.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\algorithm.h" />
     <ClInclude Include="include\basic_array.h" />
     <ClInclude Include="include\command_line.h" />
     <ClInclude Include="include\config.h" />

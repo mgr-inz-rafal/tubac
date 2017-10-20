@@ -17,6 +17,7 @@
 
 #include "generator.h"
 #include "synthesizer.h"
+#include "algorithm.h"
 
 generator::generator(std::ostream& _stream, const config& _cfg):
 	cfg(_cfg),
@@ -63,10 +64,7 @@ void generator::write_stacks() const
 		synth.synth() << "; STACK: " << s.second.get_name() << E_;
 		synth.synth(false) << s.second.get_name() << E_;
 		synth.synth(false) << ':' << s.second.get_capacity() << cfg.get_indent() << "dta ";
-		for (auto i = 0; i < cfg.get_number_interpretation()->get_size() - 1; ++i)
-		{
-			synth.synth(false) << "b(0),";
-		}
+		call_n(cfg.get_number_interpretation()->get_size()-1, [&]{synth.synth(false) << "b(0),";});
 		synth.synth(false) << "b(0)" << E_;
 	}
 }
