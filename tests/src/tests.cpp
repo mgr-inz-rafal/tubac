@@ -215,13 +215,8 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 			<< (boost::format("ENTER \"D3:%1%\"\n") % test_tmp_source_name).str()
 			<< "RUN\n";
 
-#ifdef _WIN32
-		std::optional<std::string> result_binary_test;
-		std::optional<std::string> result_listing_test;
-#else
-		std::experimental::optional<std::string> result_binary_test;
-		std::experimental::optional<std::string> result_listing_test;
-#endif
+		opt::optional<std::string> result_binary_test;
+		opt::optional<std::string> result_listing_test;
 		std::thread thread_binary_test([&]()
 		{
 			process_group_executor group({
@@ -243,13 +238,11 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 
 		return std::make_pair(parse_atari_binary_test(result_binary_test.value()), parse_atari_listing_test(result_listing_test.value()));
 	}
-#ifdef _WIN32
-	catch(const std::bad_optional_access)
+	catch(const opt::bad_optional_access)
 	{
 		std::cout << "CHILD ERROR: Not all test processess finished correctly" << std::endl;
 		return std::make_pair("Exception", "caught");
 	}
-#endif
 	catch(const std::ifstream::failure& e)
 	{
 		std::cout << "FILE ACCESS ERROR: " << e.what() << std::endl;
