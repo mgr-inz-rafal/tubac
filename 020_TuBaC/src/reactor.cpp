@@ -414,9 +414,15 @@ void reactor::got_integer_array_name(const std::string& s)
 	ctx.array_get().set_name(s);
 }
 
+void reactor::got_string_array_name(const std::string& s)
+{
+	std::cout << "STRING ARRAY NAME: " << s << std::endl;
+	ctx.array_get().set_name(s);
+}
+
 void reactor::got_array_declaration()
 {
-	std::cout << "INTEGER ARRAY DECLARATION" << std::endl;
+	std::cout << "ARRAY DECLARATION" << std::endl;
 	ctx.array_get().init();
 }
 
@@ -432,10 +438,22 @@ void reactor::got_integer_array_size_2(int i)
 	ctx.array_get().set_size(1, i);
 }
 
-void reactor::got_array_declaration_finished()
+void reactor::got_string_array_size(int i)
+{
+	std::cout << "STRING ARRAY SIZE: " << i << std::endl;
+	ctx.array_get().set_size(0, i);
+}
+
+void reactor::got_integer_array_declaration_finished()
 {
 	std::cout << "INTEGER ARRAY DECLARATION FINISHED" << std::endl;
 	_g.init_integer_array(ctx.array_get());
+}
+
+void reactor::got_string_array_declaration_finished()
+{
+	std::cout << "STRING ARRAY DECLARATION FINISHED" << std::endl;
+//	_g.init_integer_array(ctx.array_get());
 }
 
 void reactor::got_integer_array_to_retrieve()
