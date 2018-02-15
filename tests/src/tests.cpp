@@ -238,7 +238,7 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 
 		return std::make_pair(parse_atari_binary_test(result_binary_test.value()), parse_atari_listing_test(result_listing_test.value()));
 	}
-	catch(const opt::bad_optional_access)
+	catch(const opt::bad_optional_access&)
 	{
 		std::cout << "CHILD ERROR: Not all test processess finished correctly" << std::endl;
 		return std::make_pair("Exception", "caught");

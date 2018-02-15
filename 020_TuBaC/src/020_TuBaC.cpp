@@ -11,6 +11,15 @@
  * ----------------------------------------------------------------------------
  */
 
+// ..\boost_1_66_0\boost\iterator.hpp(16): error C4996: 'std::iterator': warning STL4015: The std::iterator class template
+// (used as a base class to provide typedefs) is deprecated in C++17. (The <iterator> header is NOT deprecated.)
+// The C++ Standard has never required user-defined iterators to derive from std::iterator. To fix this warning, stop
+// deriving from std::iterator and start providing publicly accessible typedefs named iterator_category, value_type,
+// difference_type, pointer, and reference. Note that value_type is required to be non-const, even for constant iterators.
+// You can define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS 
+// to acknowledge that you have received this warning. (compiling source file src\020_TuBaC.cpp)
+#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
+
 #include <boost/program_options.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
