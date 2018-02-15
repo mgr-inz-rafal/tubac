@@ -271,3 +271,7 @@ source.xex
 test.atr
 .atari800.cfg
 tests.exe
+
+# Other
+Output-Build.txt
+*.bak
