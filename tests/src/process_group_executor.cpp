@@ -21,19 +21,11 @@ process_group_executor::process_group_executor(std::vector<process_executor*> _g
 {
 }
 
-#ifdef _WIN32
-std::optional<std::string> process_group_executor::run()
-#else
-std::experimental::optional<std::string> process_group_executor::run()
-#endif
+opt::optional<std::string> process_group_executor::run()
 {
 	try
 	{
-#ifdef _WIN32
-		std::optional<std::string> ret;
-#else
-		std::experimental::optional<std::string> ret;
-#endif
+		opt::optional<std::string> ret;
 		std::for_each(group.begin(), group.end(), [&ret](auto process) 
 		{
 			ret = (*process)();

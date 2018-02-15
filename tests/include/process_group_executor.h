@@ -14,10 +14,12 @@
 #pragma once
 
 #include "process_executor.h"
-#ifdef _WIN32
+#if __has_include(<optional>)
 #include <optional>
+namespace opt = std;
 #else
 #include <experimental/optional>
+namespace opt = std::experimental;
 #endif
 
 class process_group_executor
@@ -26,9 +28,5 @@ class process_group_executor
 
 public:
 	explicit process_group_executor(std::vector<process_executor*> _group);
-#ifdef _WIN32
-	std::optional<std::string> run();
-#else
-	std::experimental::optional<std::string> run();
-#endif
+	opt::optional<std::string> run();
 };
