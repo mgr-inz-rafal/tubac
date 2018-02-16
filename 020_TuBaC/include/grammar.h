@@ -188,8 +188,17 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		integer_variable_name = qi::alpha >> *(qi::alnum);
 
 		string_variable_name = integer_variable_name >> '$';
+		
+		string_literal = ('"' >> +(~qi::char_('"')) >> '"')
+				[
+					boost::bind(&reactor::got_string_literal, &r, _1)
+				];
 
-		assignment = -LET >> (integer_variable_name >> '=' >> expr)
+		string_assignment = -LET >> (string_variable_name >> '=' >> string_literal)
+				[
+					boost::bind(&reactor::got_string_variable_to_assign, &r, ::_1)
+				];
+		integer_assignment = -LET >> (integer_variable_name >> '=' >> expr)
 				[
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
@@ -284,7 +293,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			];
 
 		FOR = (qi::string("FOR")
-			>> assignment
+			>> integer_assignment
 				[
 					boost::bind(&reactor::got_for, &r)
 				]
@@ -454,7 +463,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			];
 
 		command =
-			(assignment)					|
+			(string_assignment)				|
+			(integer_assignment)			|
 			(integer_array_assignment)		|
 			(PRINT)							|
 			(SOUND)							|
@@ -493,8 +503,9 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> expr_array;
 	qi::rule<Iterator, std::string()> integer_variable_name;
 	qi::rule<Iterator, std::string()> string_variable_name;
-	qi::rule<Iterator, Skipper> assignment;
+	qi::rule<Iterator, Skipper> integer_assignment;
 	qi::rule<Iterator, Skipper> integer_array_assignment;
+	qi::rule<Iterator, Skipper> string_assignment;
 	qi::rule<Iterator, Skipper> command;
 	qi::rule<Iterator, Skipper> commands;
 	qi::rule<Iterator, Skipper> command_terminator;
@@ -505,6 +516,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> array_declaration;
 	qi::rule<Iterator, Skipper> integer_array_declaration;
 	qi::rule<Iterator, Skipper> string_array_declaration;
+	qi::rule<Iterator, Skipper> string_literal;
 
 	// TBXL commands
 	qi::rule<Iterator, Skipper> PRINT;
