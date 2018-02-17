@@ -189,7 +189,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		string_variable_name = integer_variable_name >> '$';
 		
-		string_literal = ('"' >> *(~qi::char_('"')) >> '"')
+		string_literal = ('"' >> qi::lexeme[*(~qi::char_('"'))] >> '"')
 				[
 					boost::bind(&reactor::got_string_literal, &r, _1)
 				];
