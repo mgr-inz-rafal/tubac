@@ -187,7 +187,10 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		// Variables
 		integer_variable_name = qi::alpha >> *(qi::alnum);
 
-		string_variable_name = integer_variable_name >> '$';
+		string_variable_name = (integer_variable_name >> '$')
+			[
+				boost::bind(&reactor::got_string_variable_name, &r, _1)
+			];
 		
 		string_literal = ('"' >> qi::lexeme[*(~qi::char_('"'))] >> '"')
 				[
@@ -237,7 +240,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				]);
 
 		printable =
-				expr
+				string_variable_name
+					[
+						boost::bind(&reactor::got_print_string_variable, &r)
+					]
+				|| expr
 					[
 						boost::bind(&reactor::got_print_expression, &r)
 					]

@@ -475,6 +475,16 @@ void reactor::got_print_string_literal() const
 	std::cout << "PRINT STRING LITERAL" << std::endl;
 }
 
+void reactor::got_string_variable_name(const std::string& s) const
+{
+	std::cout << "STRING VARIABLE: " << s << std::endl;
+}
+
+void reactor::got_print_string_variable() const
+{
+	std::cout << "PRINT STRING VARIABLE" << std::endl;
+}
+
 void reactor::got_integer_array_to_retrieve()
 {
 	std::cout << "RETRIEVE FROM ARRAY " << ctx.array_get().get_name() << std::endl;

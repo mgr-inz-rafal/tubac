@@ -67,7 +67,9 @@ public:
 	void got_string_array_size(int i);
 	void got_string_array_declaration_finished() const;
 	void got_string_variable_to_assign(const std::string& s) const;
+	void got_string_variable_name(const std::string& s) const;
 	void got_print_string_literal() const;
+	void got_print_string_variable() const;
 	void got_array_declaration();
 	void got_variable_to_retrieve(const std::string& s) const;
 	void got_poke() const;
