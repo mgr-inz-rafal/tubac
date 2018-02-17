@@ -236,10 +236,15 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_separator_comma, &r)
 				]);
 
-		printable = expr
-				[
-					boost::bind(&reactor::got_print_expression, &r)
-				]
+		printable =
+				expr
+					[
+						boost::bind(&reactor::got_print_expression, &r)
+					]
+				|| string_literal
+					[
+						boost::bind(&reactor::got_print_string_literal, &r)
+					]
 				|| printable_separator;
 
 		// TBXL commands
