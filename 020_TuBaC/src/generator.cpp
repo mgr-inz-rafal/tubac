@@ -93,7 +93,7 @@ void generator::write_run_segment() const
 	SI "dta a(" << token(token_provider::TOKENS::PROGRAM_START) << ')' << E_;
 }
 
-void generator::write_code_footer()
+void generator::write_code_footer() const
 {
 	// Infinite loop at the end so the processor
 	// won't fall into wilderness
@@ -102,10 +102,11 @@ void generator::write_code_footer()
 	// Prepare internal data and structures
 	write_integers();
 	write_variables();
+	write_string_literals();
 	write_stacks();
 }
 
-void generator::write_integers()
+void generator::write_integers() const
 {
 	SN "; Fixed integers" << E_;
 
@@ -125,7 +126,7 @@ void generator::write_integers()
 	}
 }
 
-void generator::write_variables()
+void generator::write_variables() const
 {
 	SN "; Variables" << E_;
 
@@ -133,6 +134,23 @@ void generator::write_variables()
 	{
 		SN token(token_provider::TOKENS::VARIABLE) << i << E_;
 		SI cfg.get_number_interpretation()->get_initializer() << E_;
+	}
+}
+
+void generator::write_string_literals() const
+{
+	SN "; String literals" << E_;
+
+	int i = 0;
+	for (auto& s : string_literals)
+	{
+		SN token(token_provider::TOKENS::STRING_LITERAL) << ++i << E_;
+		SI "dta d'";
+		for(char c: s)
+		{
+			SN c;
+		}
+		SN '\'' << E_;
 	}
 }
 
@@ -144,6 +162,11 @@ void generator::new_integer(const std::string& i)
 void generator::new_variable(const std::string& v)
 {
 	variables.insert(v);
+}
+
+void generator::new_string_literal(const std::vector<char>& s)
+{
+	string_literals.insert(s);
 }
 
 void generator::new_line(const int& i) const

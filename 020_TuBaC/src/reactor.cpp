@@ -458,6 +458,8 @@ void reactor::got_string_literal(const std::vector<char>& vec) const
 		std::cout << c;
 	}
 	std::cout  << ')' << std::endl;
+	
+	_g.new_string_literal(vec);
 }
 
 void reactor::got_string_variable_to_assign(const std::string& s) const
