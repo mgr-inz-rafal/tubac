@@ -50,7 +50,8 @@ public:
 		PROCEDURE,
 		INTEGER_ARRAY,
 		STRING_LITERAL,
-		STRING_LITERAL_LENGTH
+		STRING_LITERAL_LENGTH,
+		STRING_LITERAL_PTR
 	};
 
 private:
@@ -86,7 +87,8 @@ private:
 		{ TOKENS::PROCEDURE,				make_token("PROCEDURE_") },
 		{ TOKENS::INTEGER_ARRAY,			make_token("INTEGER_ARRAY_") },
 		{ TOKENS::STRING_LITERAL,			make_token("STRING_LITERAL_") },
-		{ TOKENS::STRING_LITERAL_LENGTH,	make_token("STRING_LITERAL_LENGTH_") }
+		{ TOKENS::STRING_LITERAL_LENGTH,	make_token("STRING_LITERAL_LENGTH_") },
+		{ TOKENS::STRING_LITERAL_PTR,		make_token("STRING_LITERAL_PTR_") }
 	};
 
 	std::string make_token(const std::string& name) const;

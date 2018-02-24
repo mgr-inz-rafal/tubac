@@ -472,9 +472,10 @@ void reactor::got_string_array_declaration_finished() const
 	std::cout << "STRING ARRAY DECLARATION FINISHED" << std::endl;
 }
 
-void reactor::got_print_string_literal() const
+void reactor::got_print_string_literal()
 {
 	std::cout << "PRINT STRING LITERAL" << std::endl;
+	last_printed_token_was_separator = false;
 }
 
 void reactor::got_string_variable_name(const std::string& s) const

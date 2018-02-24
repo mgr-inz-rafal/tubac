@@ -50,6 +50,7 @@ private:
 	const int EXPRESSION_STACK_CAPACITY = 64;
 	const int RETURN_ADDRESS_STACK_CAPACITY = 64;
 	const int FOR_LOOP_STACK_CAPACITY = 16;
+	const int MAXIMUM_STRING_LITERAL_LENGTH = 254;	// TODO: Allow 255 (now the legth includes single byte with length of the literal
 
 	const int ZERO_PAGE_START = 0x80;
 	const int PROGRAM_START = 0x2000;
@@ -129,12 +130,13 @@ private:
 	// Other support structures
 	int counter_generic_label = 0;
 	std::stack<LOOP_CONTEXT> loop_context;
+	int string_literal_id = 0;
 	///////////////////////////////////////////////////////////////////////////////////////////
 
 	char E_;
 	std::set<std::string> integers;
 	std::set<std::string> variables;
-	std::set<std::vector<char>> string_literals;
+	std::multimap<std::vector<char>, int> string_literals;	// TODO: Optimize for duplicated string literals
 	bool pokey_initialized;
 
 	synthesizer synth;

@@ -14,6 +14,7 @@
 #include <boost/format.hpp>
 
 #include <sstream>
+#include <iostream>
 
 #include "generator.h"
 #include "synthesizer.h"
@@ -141,16 +142,14 @@ void generator::write_string_literals() const
 {
 	SN "; String literals" << E_;
 
-	int i = 0;
 	for (auto& s : string_literals)
 	{
-		SN token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << i << E_;
-		SI "dta a(" << s.size() << ')' << E_;
-		SN token(token_provider::TOKENS::STRING_LITERAL) << i << E_;
-		SI "dta d'";
-		std::for_each(s.begin(), s.end(), [&](auto c){ SN c; });
+		SN token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << s.second << E_;
+		SI "dta b(" << s.first.size() << ')' << E_;
+		SN token(token_provider::TOKENS::STRING_LITERAL) << s.second << E_;
+		SI "dta c'";
+		std::for_each(s.first.begin(), s.first.end(), [&](auto c){ SN c; });
 		SN '\'' << E_;
-		++i;
 	}
 }
 
@@ -166,7 +165,17 @@ void generator::new_variable(const std::string& v)
 
 void generator::new_string_literal(const std::vector<char>& s)
 {
-	string_literals.insert(s);
+	if(s.size() > MAXIMUM_STRING_LITERAL_LENGTH)
+	{
+		// TODO: Prepare better reporting mechanism that
+		// includes more context, line number, etc.
+		std::cout << "Warning: string literal too long" << std::endl;
+	}
+	string_literals.insert({s, string_literal_id++});
+	std::stringstream ss;
+	ss << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << string_literals.find(s)->second;
+	init_pointer(token(token_provider::TOKENS::STRING_LITERAL_PTR), ss.str());
+	SI "jsr PUTSTRINGLITERAL" << E_;
 }
 
 void generator::new_line(const int& i) const
@@ -240,6 +249,7 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_VALUE_PTR), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LITERAL_PTR), true);
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {

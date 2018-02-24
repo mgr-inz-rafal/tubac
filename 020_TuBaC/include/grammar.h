@@ -192,7 +192,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				boost::bind(&reactor::got_string_variable_name, &r, _1)
 			];
 		
-		string_literal = ('"' >> qi::lexeme[*(~qi::char_('"'))] >> '"')
+		string_literal = ('"' >> qi::no_skip[*(~qi::char_('"'))] >> '"')
 				[
 					boost::bind(&reactor::got_string_literal, &r, _1)
 				];
