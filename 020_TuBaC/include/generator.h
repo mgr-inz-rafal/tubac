@@ -15,6 +15,7 @@
 #include <set>
 #include <map>
 #include <stack>
+#include <vector>
 
 #include "config.h"
 #include "synthesizer.h"
@@ -49,6 +50,7 @@ private:
 	const int EXPRESSION_STACK_CAPACITY = 64;
 	const int RETURN_ADDRESS_STACK_CAPACITY = 64;
 	const int FOR_LOOP_STACK_CAPACITY = 16;
+	const int MAXIMUM_STRING_LITERAL_LENGTH = 254;	// TODO: Allow 255 (now the legth includes single byte with length of the literal
 
 	const int ZERO_PAGE_START = 0x80;
 	const int PROGRAM_START = 0x2000;
@@ -128,23 +130,26 @@ private:
 	// Other support structures
 	int counter_generic_label = 0;
 	std::stack<LOOP_CONTEXT> loop_context;
+	int string_literal_id = 0;
 	///////////////////////////////////////////////////////////////////////////////////////////
 
 	char E_;
 	std::set<std::string> integers;
 	std::set<std::string> variables;
+	std::multimap<std::vector<char>, int> string_literals;	// TODO: Optimize for duplicated string literals
 	bool pokey_initialized;
 
 	synthesizer synth;
 
 	void write_code_header() const;
-	void write_code_footer();
+	void write_code_footer() const;
 	void register_generator_runtime() const;
 
 	void write_stacks_initialization() const;
 	void write_stacks() const;
-	void write_integers();
-	void write_variables();
+	void write_integers() const;
+	void write_variables() const;
+	void write_string_literals() const;
 	void write_atari_registers() const;
 	void write_atari_constants() const;
 	void write_internal_variables() const;
@@ -165,6 +170,7 @@ public:
 	~generator();
 
 	void new_integer(const std::string& i);
+	void new_string_literal(const std::vector<char>& s);
 	void new_variable(const std::string& v);
 	void new_line(const int& i) const;
 	void put_integer_on_stack(const std::string& i) const;

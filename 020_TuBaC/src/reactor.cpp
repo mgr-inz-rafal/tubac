@@ -458,6 +458,8 @@ void reactor::got_string_literal(const std::vector<char>& vec) const
 		std::cout << c;
 	}
 	std::cout  << ')' << std::endl;
+	
+	_g.new_string_literal(vec);
 }
 
 void reactor::got_string_variable_to_assign(const std::string& s) const
@@ -465,10 +467,25 @@ void reactor::got_string_variable_to_assign(const std::string& s) const
 	std::cout << "ASSIGN TO STRING VARIABLE " << s << std::endl;
 }
 
-void reactor::got_string_array_declaration_finished()
+void reactor::got_string_array_declaration_finished() const
 {
 	std::cout << "STRING ARRAY DECLARATION FINISHED" << std::endl;
-//	_g.init_integer_array(ctx.array_get());
+}
+
+void reactor::got_print_string_literal()
+{
+	std::cout << "PRINT STRING LITERAL" << std::endl;
+	last_printed_token_was_separator = false;
+}
+
+void reactor::got_string_variable_name(const std::string& s) const
+{
+	std::cout << "STRING VARIABLE: " << s << std::endl;
+}
+
+void reactor::got_print_string_variable() const
+{
+	std::cout << "PRINT STRING VARIABLE" << std::endl;
 }
 
 void reactor::got_integer_array_to_retrieve()

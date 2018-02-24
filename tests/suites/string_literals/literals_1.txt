@@ -1,0 +1,2 @@
+10 PRINT "Sarna ma ";2018-2002;" lat"
+20 PRINT "Zaraz bedzie rodzic blat"
