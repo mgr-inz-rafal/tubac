@@ -142,15 +142,15 @@ void generator::write_string_literals() const
 {
 	SN "; String literals" << E_;
 
-	for (auto& s : string_literals)
+	for (auto& [literal, index] : string_literals)
 	{
-		SN token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << s.second << E_;
-		SI "dta b(" << s.first.size() << ')' << E_;
-		if(!s.first.empty()) // Do not synthesize empty string literals
+		SN token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << index << E_;
+		SI "dta b(" << literal.size() << ')' << E_;
+		if(!literal.empty()) // Do not synthesize empty string literals
 		{
-			SN token(token_provider::TOKENS::STRING_LITERAL) << s.second << E_;
+			SN token(token_provider::TOKENS::STRING_LITERAL) << index << E_;
 			SI "dta c'";
-			std::for_each(s.first.begin(), s.first.end(), [&](auto c){ SN c; });
+			std::for_each(literal.begin(), literal.end(), [&](auto c){ SN c; });
 			SN '\'' << E_;
 		}
 	}
