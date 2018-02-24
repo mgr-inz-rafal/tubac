@@ -50,7 +50,7 @@ private:
 	const int EXPRESSION_STACK_CAPACITY = 64;
 	const int RETURN_ADDRESS_STACK_CAPACITY = 64;
 	const int FOR_LOOP_STACK_CAPACITY = 16;
-	const int MAXIMUM_STRING_LITERAL_LENGTH = 254;	// TODO: Allow 255 (now the legth includes single byte with length of the literal
+	const unsigned int MAXIMUM_STRING_LITERAL_LENGTH = 254;	// TODO: Allow 255 (now the legth includes single byte with length of the literal
 
 	const int ZERO_PAGE_START = 0x80;
 	const int PROGRAM_START = 0x2000;
