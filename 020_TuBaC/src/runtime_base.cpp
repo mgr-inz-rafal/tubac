@@ -193,6 +193,7 @@ PUTSTRINGLITERAL
 	synth.synth() << "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
 
 	synth.synth() << R"(
+	beq PUTSTRINGLITERAL_EXIT
 	tax
 	iny
 @
@@ -203,7 +204,7 @@ PUTSTRINGLITERAL
 	iny
 	dex
 	bne @-
-	rts
+PUTSTRINGLITERAL_EXIT	rts
 	)";
 }
 
