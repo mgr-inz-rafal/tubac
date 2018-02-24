@@ -146,7 +146,7 @@ void generator::write_string_literals() const
 	{
 		SN token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << s.second << E_;
 		SI "dta b(" << s.first.size() << ')' << E_;
-		if(s.first.size()) // Do not synthesize empty string literals
+		if(!s.first.empty()) // Do not synthesize empty string literals
 		{
 			SN token(token_provider::TOKENS::STRING_LITERAL) << s.second << E_;
 			SI "dta c'";
