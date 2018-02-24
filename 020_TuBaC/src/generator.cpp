@@ -148,10 +148,7 @@ void generator::write_string_literals() const
 		SI "dta a(" << s.size() << ')' << E_;
 		SN token(token_provider::TOKENS::STRING_LITERAL) << i << E_;
 		SI "dta d'";
-		for(char c: s)
-		{
-			SN c;
-		}
+		std::for_each(s.begin(), s.end(), [&](auto c){ SN c; });
 		SN '\'' << E_;
 		++i;
 	}
