@@ -49,7 +49,8 @@ public:
 		AFTER_DO_INDICATOR,
 		PROCEDURE,
 		INTEGER_ARRAY,
-		STRING_LITERAL
+		STRING_LITERAL,
+		STRING_LITERAL_LENGTH
 	};
 
 private:
@@ -84,7 +85,8 @@ private:
 		{ TOKENS::AFTER_DO_INDICATOR,		make_token("AFTER_DO_INDICATOR_") },
 		{ TOKENS::PROCEDURE,				make_token("PROCEDURE_") },
 		{ TOKENS::INTEGER_ARRAY,			make_token("INTEGER_ARRAY_") },
-		{ TOKENS::STRING_LITERAL,			make_token("STRING_LITERAL_") }
+		{ TOKENS::STRING_LITERAL,			make_token("STRING_LITERAL_") },
+		{ TOKENS::STRING_LITERAL_LENGTH,	make_token("STRING_LITERAL_LENGTH_") }
 	};
 
 	std::string make_token(const std::string& name) const;
