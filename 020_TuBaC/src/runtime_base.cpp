@@ -53,6 +53,7 @@ void runtime_base::synth_implementation() const
 	synth_PUTNEWLINE();
 	synth_PUTSPACE();
 	synth_PUTSTRING();
+	synth_PUTSTRINGLITERAL();
 	synth_PUTCOMMA();
 	synth_SOUND();
 	synth_POKEY_INIT();
@@ -79,6 +80,10 @@ void runtime_base::synth_PUTCHAR() const
 	synth.synth() << R"(
 PUTCHAR
 	sta PUTCHAR_TO_OUTPUT
+	txa
+	pha
+	tya
+	pha
 	lda #PUTCHR
 	sta ICCOM
 	lda #<PUTCHAR_TO_OUTPUT
@@ -97,6 +102,10 @@ PUTCHAR
 		add PTABW
 		sta AUXBR
 	#end
+	pla
+	tay
+	pla
+	tax
 	rts
 .var PUTCHAR_TO_OUTPUT .byte
 )";
@@ -168,6 +177,35 @@ PUTSTRING_LABEL_0
 	rts
 .var PUTSTRING_END .byte
 )";
+}
+
+/*
+Outputs string located at STRING_LITERAL_PTR.
+Last character is not inverted. Length of the string
+is located at STRING_LITERAL_PTR-1
+*/
+void runtime_base::synth_PUTSTRINGLITERAL() const
+{
+	synth.synth() << R"(
+PUTSTRINGLITERAL
+	ldy #0
+)";
+	synth.synth() << "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
+
+	synth.synth() << R"(
+	beq PUTSTRINGLITERAL_EXIT
+	tax
+	iny
+@
+)";
+	synth.synth() << "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
+	synth.synth() << R"(
+	jsr PUTCHAR
+	iny
+	dex
+	bne @-
+PUTSTRINGLITERAL_EXIT	rts
+	)";
 }
 
 // Inspired by the following code in Python provided by Mono

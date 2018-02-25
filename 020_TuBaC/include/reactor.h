@@ -16,6 +16,7 @@
 #include "context.h"
 
 #include <string>
+#include <vector>
 
 class reactor
 {
@@ -48,6 +49,7 @@ public:
 	void got_compare_greater() const;
 	void got_compare_less_equal() const;
 	void got_integer(int i) const;
+	void got_string_literal(const std::vector<char>& vec) const;
 	void got_print_expression();
 	void got_goto_integer(const int& i) const;
 	void got_gosub_integer(const int& i) const;
@@ -60,8 +62,15 @@ public:
 	void got_integer_array_name(const std::string& s);
 	void got_integer_array_size(int i);
 	void got_integer_array_size_2(int i);
+	void got_integer_array_declaration_finished();
+	void got_string_array_name(const std::string& s);
+	void got_string_array_size(int i);
+	void got_string_array_declaration_finished() const;
+	void got_string_variable_to_assign(const std::string& s) const;
+	void got_string_variable_name(const std::string& s) const;
+	void got_print_string_literal();
+	void got_print_string_variable() const;
 	void got_array_declaration();
-	void got_array_declaration_finished();
 	void got_variable_to_retrieve(const std::string& s) const;
 	void got_poke() const;
 	void got_dpoke() const;

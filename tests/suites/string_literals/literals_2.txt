@@ -1,0 +1,6 @@
+10 PRINT ""
+20 PRINT "A","B";"C","",
+30 PRINT "   "
+40 PRINT "  X  ",""
+45 PRINT "","X"
+50 PRINT "  XX";"XX  X"

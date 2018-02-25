@@ -6,7 +6,7 @@ set(REQUIRE_CPP_17_FLAGS "-std=c++17")
 add_definitions(${REQUIRE_CPP_17_FLAGS})
 include_directories("./include")
 find_package(Threads)
-find_package(Boost 1.64.0 COMPONENTS filesystem system REQUIRED)
+find_package(Boost 1.66.0 COMPONENTS filesystem system REQUIRED)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
     add_executable(tubac_tests

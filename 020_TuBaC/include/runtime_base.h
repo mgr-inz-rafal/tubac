@@ -50,7 +50,8 @@ protected:
 	virtual void synth_PUTCHAR() const;
 	virtual void synth_PUTNEWLINE() const;
 	virtual void synth_PUTSPACE() const;
-	virtual void synth_PUTSTRING() const;
+	virtual void synth_PUTSTRING() const;			// TODO: Consider unification with synth_PUTSTRINGLITERAL
+	virtual void synth_PUTSTRINGLITERAL() const;
 	virtual void synth_PUTCOMMA() const;
 
 	// POKEY routines
