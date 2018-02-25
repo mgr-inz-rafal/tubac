@@ -33,6 +33,7 @@
 #include "process_group_executor.h"
 
 #define CATCH_CONFIG_MAIN
+#define CATCH_INTERNAL_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS
 #include "../../external/catch/catch.hpp"
 
 #ifdef _WIN32
