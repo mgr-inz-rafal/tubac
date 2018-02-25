@@ -189,18 +189,18 @@ void generator::new_line(const int& i) const
 void generator::write_atari_registers() const
 {
 	SN "; ATARI registers" << E_;
-	for (const auto& r : ATARI_REGISTERS)
+	for (const auto& [name, addr]: ATARI_REGISTERS)
 	{
-		SN r.first << " equ $" << std::hex << r.second <<std::dec << E_;
+		SN name << " equ $" << std::hex << addr <<std::dec << E_;
 	}
 }
 
 void generator::write_atari_constants() const
 {
 	SN "; ATARI constants" << E_;
-	for (const auto& r : ATARI_CONSTANTS)
+	for (const auto& [name, value] : ATARI_CONSTANTS)
 	{
-		SN r.first << " equ $" << std::hex << r.second << std::dec << E_;
+		SN name << " equ $" << std::hex << value << std::dec << E_;
 	}
 }
 
