@@ -275,3 +275,19 @@ tests.exe
 # Other
 Output-Build.txt
 *.bak
+
+### CMake ###
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+build
+
+tests/tmp/SOURCE.TXT
+tests/tubac_tests
+020_TuBaC/tubac
