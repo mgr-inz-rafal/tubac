@@ -467,9 +467,10 @@ void reactor::got_string_variable_to_assign(const std::string& s) const
 	std::cout << "ASSIGN TO STRING VARIABLE " << s << std::endl;
 }
 
-void reactor::got_string_array_declaration_finished() const
+void reactor::got_string_array_declaration_finished()
 {
 	std::cout << "STRING ARRAY DECLARATION FINISHED" << std::endl;
+	_g.init_string_array(ctx.array_get());
 }
 
 void reactor::got_print_string_literal()
@@ -478,9 +479,10 @@ void reactor::got_print_string_literal()
 	last_printed_token_was_separator = false;
 }
 
-void reactor::got_string_variable_name(const std::string& s) const
+void reactor::got_string_variable_name(const std::string& s)
 {
 	std::cout << "STRING VARIABLE: " << s << std::endl;
+	ctx.array_get().set_name(s);
 }
 
 void reactor::got_print_string_variable() const
