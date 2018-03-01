@@ -163,7 +163,8 @@ private:
 	const std::string& token(const token_provider::TOKENS& token) const;
 	std::string get_next_generic_label();
 	std::string last_generic_label;
-	std::string get_array_token(const std::string& name) const;
+	std::string get_integer_array_token(const std::string& name) const;
+	std::string get_string_array_token(const std::string& name) const;
 
 public:
 	generator(std::ostream& _stream, const config& _cfg);
@@ -214,6 +215,7 @@ public:
 	void proc(const std::string& s);
 	void end() const;
 	void init_integer_array(const basic_array& arr) const;
+	void init_string_array(const basic_array& arr) const;
 	void put_zero_in_FR0() const;
 	void addition() const;
 	void subtraction() const;

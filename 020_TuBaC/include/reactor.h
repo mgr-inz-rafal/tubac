@@ -65,9 +65,9 @@ public:
 	void got_integer_array_declaration_finished();
 	void got_string_array_name(const std::string& s);
 	void got_string_array_size(int i);
-	void got_string_array_declaration_finished() const;
+	void got_string_array_declaration_finished();
 	void got_string_variable_to_assign(const std::string& s) const;
-	void got_string_variable_name(const std::string& s) const;
+	void got_string_variable_name(const std::string& s);
 	void got_print_string_literal();
 	void got_print_string_variable() const;
 	void got_array_declaration();

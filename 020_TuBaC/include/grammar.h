@@ -426,9 +426,6 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		string_array_declaration = 
 			(string_variable_name
-			[
-				boost::bind(&reactor::got_string_array_name, &r, ::_1)
-			]
 			>> '(' >> qi::int_
 			[
 				boost::bind(&reactor::got_string_array_size, &r, ::_1)
@@ -437,7 +434,6 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			[
 				boost::bind(&reactor::got_string_array_declaration_finished, &r)
 			];
-;
 
 		integer_array_declaration = 
 			(integer_variable_name

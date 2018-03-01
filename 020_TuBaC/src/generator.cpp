@@ -687,16 +687,30 @@ void generator::init_integer_array(const basic_array& arr) const
 	// TODO: Check whether such array has already been declared
 	// TODO: Rework this "get_indent()-crap. Consider enabling synth() to user-provided streams.
 	std::stringstream ss;
-	ss << get_array_token(arr.get_name()) << E_;
+	ss << get_integer_array_token(arr.get_name()) << E_;
 	SC "dta a(" << arr.get_size(0)+1 << "),a(" << arr.get_size(1)+1 << ')' << E_;
 	ss << ':' << ((arr.get_size(0)+1)*(arr.get_size(1)+1)) << cfg.get_indent() << cfg.get_number_interpretation()->get_initializer() << E_;
 
 	cfg.get_runtime()->register_own_runtime_funtion(ss.str());
 }
 
-std::string generator::get_array_token(const std::string& name) const
+void generator::init_string_array(const basic_array& arr) const
+{
+	std::stringstream ss;
+	ss << get_string_array_token(arr.get_name()) << E_;
+	SC "dta a(" << arr.get_size(0) << "),a(0)" << E_;	// Capacity, Current size
+	ss << ':' << arr.get_size(0) << " dta b(0)" << E_;
+	cfg.get_runtime()->register_own_runtime_funtion(ss.str());
+}
+
+std::string generator::get_integer_array_token(const std::string& name) const
 {
 	return token(token_provider::TOKENS::INTEGER_ARRAY) + name;
+}
+
+std::string generator::get_string_array_token(const std::string& name) const
+{
+	return token(token_provider::TOKENS::STRING_ARRAY) + name;
 }
 
 void generator::put_zero_in_FR0() const
