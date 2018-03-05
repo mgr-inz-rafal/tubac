@@ -450,7 +450,7 @@ void reactor::got_integer_array_declaration_finished()
 	_g.init_integer_array(ctx.array_get());
 }
 
-void reactor::got_string_literal(const std::vector<char>& vec) const
+void reactor::got_string_literal(const std::vector<char>& vec)
 {
 	std::cout << "STRING LITERAL (";
 	for(char c: vec)
@@ -459,12 +459,14 @@ void reactor::got_string_literal(const std::vector<char>& vec) const
 	}
 	std::cout  << ')' << std::endl;
 	
-	_g.new_string_literal(vec);
+	const int literal_id = _g.new_string_literal(vec);
+	ctx.set_last_string_literal_id(literal_id);
 }
 
-void reactor::got_string_variable_to_assign(const std::string& s) const
+void reactor::got_string_variable_to_assign(const std::string& s)
 {
 	std::cout << "ASSIGN TO STRING VARIABLE " << s << std::endl;
+	_g.copy_string_literal_to_variable(ctx.get_last_string_literal_id(), ctx.array_get().get_name());
 }
 
 void reactor::got_string_array_declaration_finished()

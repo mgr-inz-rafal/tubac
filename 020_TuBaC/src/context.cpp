@@ -19,3 +19,14 @@ basic_array& context::array_get(ARRAY_ASSIGNMENT_SIDE side)
 {
 	return array_being_declared.at(side);
 }
+
+void context::set_last_string_literal_id(int literal_id)
+{
+	last_string_literal_id_ = literal_id;
+}
+
+int context::get_last_string_literal_id() const
+{
+	// TODO: Potentially, this could be still uninitialized...
+	return last_string_literal_id_;
+}

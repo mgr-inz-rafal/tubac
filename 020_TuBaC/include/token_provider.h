@@ -52,7 +52,9 @@ public:
 		STRING_LITERAL,
 		STRING_LITERAL_LENGTH,
 		STRING_LITERAL_PTR,
-		STRING_ARRAY
+		STRING_ARRAY_CAPACITY,
+		STRING_ARRAY_CURRENT,
+		STRING_ARRAY_CONTENT,
 	};
 
 private:
@@ -90,9 +92,10 @@ private:
 		{ TOKENS::STRING_LITERAL,			make_token("STRING_LITERAL_") },
 		{ TOKENS::STRING_LITERAL_LENGTH,	make_token("STRING_LITERAL_LENGTH_") },
 		{ TOKENS::STRING_LITERAL_PTR,		make_token("STRING_LITERAL_PTR_") },
-		{ TOKENS::STRING_ARRAY,				make_token("STRING_ARRAY_") }
+		{ TOKENS::STRING_ARRAY_CAPACITY,	make_token("STRING_ARRAY_CAPACITY_") },
+		{ TOKENS::STRING_ARRAY_CURRENT,		make_token("STRING_ARRAY_CURRENT_") },
+		{ TOKENS::STRING_ARRAY_CONTENT,		make_token("STRING_ARRAY_CONTENT_") }
 	};
-
 	std::string make_token(const std::string& name) const;
 
 public:

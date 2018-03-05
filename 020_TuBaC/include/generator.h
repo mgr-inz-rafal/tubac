@@ -164,14 +164,14 @@ private:
 	std::string get_next_generic_label();
 	std::string last_generic_label;
 	std::string get_integer_array_token(const std::string& name) const;
-	std::string get_string_array_token(const std::string& name) const;
+	std::string get_string_array_token(const std::string& name, token_provider::TOKENS kind) const;
 
 public:
 	generator(std::ostream& _stream, const config& _cfg);
 	~generator();
 
 	void new_integer(const std::string& i);
-	void new_string_literal(const std::vector<char>& s);
+	int new_string_literal(const std::vector<char>& s);
 	void new_variable(const std::string& v);
 	void new_line(const int& i) const;
 	void put_integer_on_stack(const std::string& i) const;
@@ -232,5 +232,6 @@ public:
 	void binary_xor() const;
 	void binary_and() const;
 	void binary_or() const;
+	void copy_string_literal_to_variable(int literal_id, const std::string& varname) const;
 };
 
