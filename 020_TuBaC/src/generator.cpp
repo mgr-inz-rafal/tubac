@@ -724,9 +724,12 @@ void generator::put_zero_in_FR0() const
 
 void generator::copy_string_literal_to_variable(int literal_id, const std::string& varname) const
 {
-	// TODO: Update STRING_ARRAY_CURRENT
 	SN "; Copying string literal with id '" << literal_id << "' to variable '" << varname << "$'" << E_;
+	SI "ldx #0" << E_;
+	SI "stx " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << varname << "+1" << E_;
 	SI "ldx " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << E_;
+	// TODO: Take care of trimming. When you assign "DUPA" to A$(3) you should come up with "DUP"
+	SI "stx " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << varname << E_;
 	SI "ldy #0" << E_;
 	SN "@	lda " << token(token_provider::TOKENS::STRING_LITERAL) << literal_id << ",y" << E_;
 	SI "sta " << token(token_provider::TOKENS::STRING_ARRAY_CONTENT) << varname << ",y" << E_;
@@ -734,7 +737,6 @@ void generator::copy_string_literal_to_variable(int literal_id, const std::strin
 	iny
 	dex
 	bne @-
-	rts
 )";
 }
 
