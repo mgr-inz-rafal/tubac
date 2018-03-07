@@ -39,6 +39,7 @@ generator::generator(std::ostream& _stream, const config& _cfg):
 
 	write_atari_registers();
 	write_atari_constants();
+
 	write_code_header();
 	write_internal_variables();
 	
@@ -48,6 +49,11 @@ generator::generator(std::ostream& _stream, const config& _cfg):
 generator::~generator()
 {
 	write_code_footer();
+
+	// TODO: Temporary temporaries for handling string assignemtn. Later to be moved to specialized subroutine.
+	SN "TMP_000 dta a(0)" << E_;
+	SN "TMP_001 dta a(0)" << E_;
+
 	write_runtime();
 	write_run_segment();
 }
@@ -722,21 +728,32 @@ void generator::put_zero_in_FR0() const
 	SI "jsr PUT_ZERO_IN_FR0" << E_;
 }
 
+static int dupa = 1;
+
 void generator::copy_string_literal_to_variable(int literal_id, const std::string& varname) const
 {
+	// TODO: Handle empty string literals
+
 	SN "; Copying string literal with id '" << literal_id << "' to variable '" << varname << "$'" << E_;
+	SN "SRA" << dupa++ << E_;
 	SI "ldx #0" << E_;
-	SI "stx " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << varname << "+1" << E_;
+	SI "stx TMP_000+1" << E_;
 	SI "ldx " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << E_;
-	// TODO: Take care of trimming. When you assign "DUPA" to A$(3) you should come up with "DUP"
-	SI "stx " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << varname << E_;
+	SI "stx TMP_000" << E_;
+	SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CAPACITY) << varname << " TMP_001" << E_;
+	SI "#if .word TMP_000 > TMP_001" << E_;
+	SI "mwa TMP_001 TMP_000" << E_;
+	SI "#end" << E_;
+	SI "mwa TMP_000 " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << varname << E_;
 	SI "ldy #0" << E_;
-	SN "@	lda " << token(token_provider::TOKENS::STRING_LITERAL) << literal_id << ",y" << E_;
+	SN "SXXA	lda " << token(token_provider::TOKENS::STRING_LITERAL) << literal_id << ",y" << E_;
 	SI "sta " << token(token_provider::TOKENS::STRING_ARRAY_CONTENT) << varname << ",y" << E_;
 	SI R"(
 	iny
-	dex
-	bne @-
+	dew TMP_000
+	#if .word TMP_000 <> #0
+		jmp SXXA
+	#end
 )";
 }
 
