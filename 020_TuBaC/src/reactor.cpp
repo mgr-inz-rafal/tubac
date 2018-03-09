@@ -21,6 +21,7 @@ void reactor::got_line_number(const int& i)
 {
 	std::cout << std::endl << "*** LINE " << i << " ***" << std::endl;
 	ctx.array_assignment_side_reset();
+	ctx.string_array_assignment_side_reset();
 	_g.new_line(i);
 }
 
@@ -463,12 +464,6 @@ void reactor::got_string_literal(const std::vector<char>& vec)
 	ctx.set_last_string_literal_id(literal_id);
 }
 
-void reactor::got_string_variable_to_assign(const std::string& s)
-{
-	std::cout << "ASSIGN TO STRING VARIABLE " << s << std::endl;
-	_g.copy_string_literal_to_variable(ctx.get_last_string_literal_id(), ctx.array_get().get_name());
-}
-
 void reactor::got_string_array_declaration_finished()
 {
 	std::cout << "STRING ARRAY DECLARATION FINISHED" << std::endl;
@@ -484,7 +479,7 @@ void reactor::got_print_string_literal()
 void reactor::got_string_variable_name(const std::string& s)
 {
 	std::cout << "STRING VARIABLE: " << s << std::endl;
-	ctx.array_get().set_name(s);
+	ctx.string_array_get().set_name(s);
 }
 
 void reactor::got_print_string_variable() const
@@ -539,10 +534,23 @@ void reactor::got_integer_array_second_dimension()
 	ctx.array_get().set_two_dimensional(true);
 }
 
+void reactor::got_string_array_first_dimension()
+{
+	std::cout << "SETUP FIRST DIMENSION OF ARRAY" << std::endl;
+	ctx.string_array_get().set_two_dimensional(false);
+}
+
+void reactor::got_string_array_second_dimension()
+{
+	std::cout << "SETUP SECOND DIMENSION OF ARRAY" << std::endl;
+	ctx.string_array_get().set_two_dimensional(true);
+}
+
 void reactor::got_command_separator()
 {
 	std::cout << "COMMAND SEPARATOR" << std::endl;
 	ctx.array_assignment_side_reset();
+	ctx.string_array_assignment_side_reset();
 }
 
 void reactor::got_execute_array_assignment()

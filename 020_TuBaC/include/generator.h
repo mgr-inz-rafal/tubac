@@ -232,6 +232,5 @@ public:
 	void binary_xor() const;
 	void binary_and() const;
 	void binary_or() const;
-	void copy_string_literal_to_variable(int literal_id, const std::string& varname) const;
 };
 

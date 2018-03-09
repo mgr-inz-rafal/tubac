@@ -197,10 +197,17 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_string_literal, &r, _1)
 				];
 
-		string_assignment = -LET >> (string_variable_name >> '=' >> string_literal)
+		string_variable =
+			(string_variable_name >> -('(' >> expr
 				[
-					boost::bind(&reactor::got_string_variable_to_assign, &r, ::_1)
-				];
+					boost::bind(&reactor::got_string_array_first_dimension, &r)
+				]
+				>> -(',' >> expr)
+				[
+					boost::bind(&reactor::got_string_array_second_dimension, &r)
+				]
+				>> ')'));
+
 		integer_assignment = -LET >> (integer_variable_name >> '=' >> expr)
 				[
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
@@ -471,7 +478,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			];
 
 		command =
-			(string_assignment)				|
+			(string_variable)				|
 			(integer_assignment)			|
 			(integer_array_assignment)		|
 			(PRINT)							|
@@ -525,6 +532,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> integer_array_declaration;
 	qi::rule<Iterator, Skipper> string_array_declaration;
 	qi::rule<Iterator, Skipper> string_literal;
+	qi::rule<Iterator, Skipper> string_variable;
 
 	// TBXL commands
 	qi::rule<Iterator, Skipper> PRINT;
