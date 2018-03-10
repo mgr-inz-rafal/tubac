@@ -35,6 +35,7 @@ public:
 	void string_array_assignment_side_reset();
 	void array_assignment_side_switch_to_right();
 	void string_array_assignment_side_switch_to_right();
+	ARRAY_ASSIGNMENT_SIDE get_string_assignment_array_side() const;
 
 	void set_last_string_literal_id(int literal_id);
 	int get_last_string_literal_id() const;

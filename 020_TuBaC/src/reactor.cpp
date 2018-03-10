@@ -206,6 +206,11 @@ void reactor::got_variable_to_retrieve(const std::string& s) const
 	_g.push_from_variable(s);
 }
 
+void reactor::got_string_variable_to_assign() const
+{
+	std::cout << "ASSIGN TO STRING VARIABLE" << std::endl;
+}
+
 void reactor::got_sound() const
 {
 	std::cout << "SOUND" << std::endl;
@@ -538,12 +543,30 @@ void reactor::got_string_array_first_dimension()
 {
 	std::cout << "SETUP FIRST DIMENSION OF ARRAY" << std::endl;
 	ctx.string_array_get().set_two_dimensional(false);
+	switch (ctx.get_string_assignment_array_side())
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		_g.pop_to("___TUBAC___STRING_LEFT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		_g.pop_to("___TUBAC___STRING_RIGHT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		break;
+	}
 }
 
 void reactor::got_string_array_second_dimension()
 {
 	std::cout << "SETUP SECOND DIMENSION OF ARRAY" << std::endl;
 	ctx.string_array_get().set_two_dimensional(true);
+	switch (ctx.get_string_assignment_array_side())
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		_g.pop_to("___TUBAC___STRING_LEFT_SECOND_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		_g.pop_to("___TUBAC___STRING_RIGHT_SECOND_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		break;
+	}
 }
 
 void reactor::got_command_separator()
@@ -557,6 +580,12 @@ void reactor::got_execute_array_assignment()
 {
 	std::cout << "SWITCH TO RIGHT SIDE FOR ARRAY ASSIGNMENT" << std::endl;
 	ctx.array_assignment_side_switch_to_right();
+}
+
+void reactor::got_execute_string_array_assignment()
+{
+	std::cout << "SWITCH TO RIGHT SIDE FOR STRING ARRAY ASSIGNMENT" << std::endl;
+	ctx.string_array_assignment_side_switch_to_right();
 }
 
 void reactor::got_random() const
