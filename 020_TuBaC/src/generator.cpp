@@ -728,6 +728,21 @@ void generator::put_zero_in_FR0() const
 	SI "jsr PUT_ZERO_IN_FR0" << E_;
 }
 
+void generator::init_string_variable_offsets(const std::string& name, context::ARRAY_ASSIGNMENT_SIDE side) const
+{
+	switch(side)
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+		SI "mwa " << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CAPACITY) << ' ' << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+		SI "mwa " << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CAPACITY) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+		break;
+	}
+}
+
 #undef SI
 #undef SN
 #undef SC

@@ -198,7 +198,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				];
 
 		string_variable =
-			(string_variable_name >> -('(' >> expr
+			(string_variable_name
+				[
+					boost::bind(&reactor::got_string_variable_before_dimensions, &r)
+				]
+				>> -('(' >> expr
 				[
 					boost::bind(&reactor::got_string_array_first_dimension, &r)
 				]
@@ -213,15 +217,13 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
 
-		string_assignment = -LET >> (string_variable >> 
-				qi::string("=")
+		string_assignment = (-LET >> (string_variable
+				>> 	qi::string("=")
 				[
 					boost::bind(&reactor::got_execute_string_array_assignment, &r)
 				]
 				>> string_variable)
-				[
-					boost::bind(&reactor::got_string_variable_to_assign, &r)
-				];
+				);
 
 		integer_array_assignment = (-LET >> expr_array >> qi::string("=")
 				[

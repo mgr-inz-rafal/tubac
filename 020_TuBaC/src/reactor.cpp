@@ -206,11 +206,6 @@ void reactor::got_variable_to_retrieve(const std::string& s) const
 	_g.push_from_variable(s);
 }
 
-void reactor::got_string_variable_to_assign() const
-{
-	std::cout << "ASSIGN TO STRING VARIABLE" << std::endl;
-}
-
 void reactor::got_sound() const
 {
 	std::cout << "SOUND" << std::endl;
@@ -447,7 +442,7 @@ void reactor::got_integer_array_size_2(int i)
 void reactor::got_string_array_size(int i)
 {
 	std::cout << "STRING ARRAY SIZE: " << i << std::endl;
-	ctx.array_get().set_size(0, i);
+	ctx.string_array_get().set_size(0, i);
 }
 
 void reactor::got_integer_array_declaration_finished()
@@ -472,7 +467,7 @@ void reactor::got_string_literal(const std::vector<char>& vec)
 void reactor::got_string_array_declaration_finished()
 {
 	std::cout << "STRING ARRAY DECLARATION FINISHED" << std::endl;
-	_g.init_string_array(ctx.array_get());
+	_g.init_string_array(ctx.string_array_get());
 }
 
 void reactor::got_print_string_literal()
@@ -601,4 +596,9 @@ void reactor::got_not() const
 	_g.pop_to("FR0");
 	_g.FR0_boolean_invert();
 	_g.push_from("FR0");
+}
+
+void reactor::got_string_variable_before_dimensions()
+{
+	_g.init_string_variable_offsets(ctx.string_array_get().get_name(), ctx.get_string_assignment_array_side());
 }

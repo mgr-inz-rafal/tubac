@@ -22,6 +22,7 @@
 #include "token_provider.h"
 #include "stack.h"
 #include "basic_array.h"
+#include "context.h"
 
 class generator
 {
@@ -216,6 +217,7 @@ public:
 	void end() const;
 	void init_integer_array(const basic_array& arr) const;
 	void init_string_array(const basic_array& arr) const;
+	void init_string_variable_offsets(const std::string& name, context::ARRAY_ASSIGNMENT_SIDE side) const;
 	void put_zero_in_FR0() const;
 	void addition() const;
 	void subtraction() const;
