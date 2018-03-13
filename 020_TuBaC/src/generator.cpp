@@ -179,7 +179,6 @@ int generator::new_string_literal(const std::vector<char>& s)
 	string_literals.insert({s, string_literal_id});
 	std::stringstream ss;
 	ss << token(token_provider::TOKENS::STRING_LITERAL) << string_literals.find(s)->second;
-	init_pointer(token(token_provider::TOKENS::STRING_LITERAL_PTR), ss.str());
 	//SI "jsr PUTSTRINGLITERAL" << E_;
 	return string_literal_id++;
 }
@@ -255,9 +254,10 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_VALUE_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LITERAL_PTR), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_BASE), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_BASE), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX), false);
 }
@@ -735,10 +735,12 @@ void generator::init_string_variable_offsets(const std::string& name, context::A
 	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
 		SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 		SI "mwa " << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CAPACITY) << ' ' << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+		SI "mwa #" << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CONTENT) << ' ' << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
 		break;
 	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
 		SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
 		SI "mwa " << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CAPACITY) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+		SI "mwa #" << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CONTENT) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
 		break;
 	}
 }
@@ -748,6 +750,7 @@ void generator::init_string_literal_offsets(const context& ctx)
 	int lid = ctx.get_last_string_literal_id();
 	SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
 	SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+	SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
 }
 
 #undef SI

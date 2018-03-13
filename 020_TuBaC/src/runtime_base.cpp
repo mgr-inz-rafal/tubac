@@ -186,6 +186,9 @@ is located at STRING_LITERAL_PTR-1
 */
 void runtime_base::synth_PUTSTRINGLITERAL() const
 {
+	// TODO: This is being reworked...
+
+	/*
 	synth.synth() << R"(
 PUTSTRINGLITERAL
 	ldy #0
@@ -206,6 +209,7 @@ PUTSTRINGLITERAL
 	bne @-
 PUTSTRINGLITERAL_EXIT	rts
 	)";
+	*/
 }
 
 // Inspired by the following code in Python provided by Mono
