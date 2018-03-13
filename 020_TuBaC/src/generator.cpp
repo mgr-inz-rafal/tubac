@@ -147,7 +147,7 @@ void generator::write_string_literals() const
 	for (auto& [literal, index] : string_literals)
 	{
 		SN token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << index << E_;
-		SI "dta b(" << literal.size() << ')' << E_;
+		SI "dta a(" << literal.size() << ')' << E_;
 		if(!literal.empty()) // Do not synthesize empty string literals
 		{
 			SN token(token_provider::TOKENS::STRING_LITERAL) << index << E_;
@@ -178,9 +178,9 @@ int generator::new_string_literal(const std::vector<char>& s)
 	}
 	string_literals.insert({s, string_literal_id});
 	std::stringstream ss;
-	ss << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << string_literals.find(s)->second;
+	ss << token(token_provider::TOKENS::STRING_LITERAL) << string_literals.find(s)->second;
 	init_pointer(token(token_provider::TOKENS::STRING_LITERAL_PTR), ss.str());
-	SI "jsr PUTSTRINGLITERAL" << E_;
+	//SI "jsr PUTSTRINGLITERAL" << E_;
 	return string_literal_id++;
 }
 
@@ -741,6 +741,13 @@ void generator::init_string_variable_offsets(const std::string& name, context::A
 		SI "mwa " << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CAPACITY) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
 		break;
 	}
+}
+
+void generator::init_string_literal_offsets(const context& ctx)
+{
+	int lid = ctx.get_last_string_literal_id();
+	SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+	SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
 }
 
 #undef SI

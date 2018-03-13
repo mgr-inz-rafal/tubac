@@ -600,5 +600,13 @@ void reactor::got_not() const
 
 void reactor::got_string_variable_before_dimensions()
 {
+	std::cout << "STRING VARIABLE NAME BEFORE DIMENSIONS" << std::endl;
 	_g.init_string_variable_offsets(ctx.string_array_get().get_name(), ctx.get_string_assignment_array_side());
 }
+
+void reactor::got_string_literal_for_assignment()
+{
+	std::cout << "STRING LITERAL FOR ASSIGNMENT" << std::endl;
+	_g.init_string_literal_offsets(ctx);
+}
+

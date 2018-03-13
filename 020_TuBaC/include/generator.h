@@ -234,5 +234,6 @@ public:
 	void binary_xor() const;
 	void binary_and() const;
 	void binary_or() const;
+	void init_string_literal_offsets(const context& ctx);
 };
 

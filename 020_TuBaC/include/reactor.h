@@ -70,6 +70,7 @@ public:
 	void got_string_array_first_dimension();
 	void got_string_array_second_dimension();
 	void got_string_variable_before_dimensions();
+	void got_string_literal_for_assignment();
 	void got_print_string_literal();
 	void got_print_string_variable() const;
 	void got_array_declaration();

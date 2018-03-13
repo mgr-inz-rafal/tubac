@@ -222,7 +222,10 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				[
 					boost::bind(&reactor::got_execute_string_array_assignment, &r)
 				]
-				>> string_variable)
+				>> (string_variable || string_literal
+				[
+					boost::bind(&reactor::got_string_literal_for_assignment, &r)
+				]))
 				);
 
 		integer_array_assignment = (-LET >> expr_array >> qi::string("=")
