@@ -257,9 +257,11 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_BASE), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_BASE), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_PTR), true);
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {
@@ -751,6 +753,11 @@ void generator::init_string_literal_offsets(const context& ctx)
 	SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
 	SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
 	SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
+}
+
+void generator::do_string_assignment() const
+{
+	SI "jsr DO_STRING_ASSIGNMENT" << E_;
 }
 
 #undef SI

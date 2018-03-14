@@ -608,5 +608,11 @@ void reactor::got_string_literal_for_assignment()
 {
 	std::cout << "STRING LITERAL FOR ASSIGNMENT" << std::endl;
 	_g.init_string_literal_offsets(ctx);
+	_g.do_string_assignment();
 }
 
+void reactor::got_string_variable_for_assignment()
+{
+	std::cout << "STRING VARIABLE FOR ASSIGNMENT" << std::endl;
+	_g.do_string_assignment();
+}

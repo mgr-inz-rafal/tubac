@@ -35,6 +35,9 @@ protected:
 	// *** conforms to the assumptions about     ***
 	// *** rendering its data in correct places  ***
 
+	// String manipulation
+	virtual void synth_DO_STRING_ASSIGNMENT() const;
+
 	// Helpers
 	virtual void synth_INIT_PUSH_POP_POINTER() const;
 	virtual void synth_IsXY00() const;

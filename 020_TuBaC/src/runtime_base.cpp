@@ -14,6 +14,18 @@
 #include "runtime_base.h"
 #include "config.h"
 
+// TODO: Move those macros to some common include, since they are copy&pasted around
+
+// Synth Indentation
+#define SI synth.synth() <<	
+
+// Synth Normal
+#define SN synth.synth(false) <<
+
+// Synth with Config
+#define SC ss << cfg.get_indent() <<
+
+
 runtime_base::runtime_base(char endline, synthesizer& _synth, const config& _config):
 	E_(endline), synth(_synth), cfg(_config)
 {
@@ -42,6 +54,7 @@ void runtime_base::synth_implementation() const
 	synth_Is_FR0_true();
 	synth_INIT_ARRAY_OFFSET();
 	synth_CALCULATE_ARRAY_ROW_SIZE_IN_BYTES();
+	synth_DO_STRING_ASSIGNMENT();
 	synth_helpers();
 
 	synth_BADD();
@@ -77,7 +90,7 @@ Outputs char present in A to screen via CIO
 */
 void runtime_base::synth_PUTCHAR() const
 {
-	synth.synth() << R"(
+	SI R"(
 PUTCHAR
 	sta PUTCHAR_TO_OUTPUT
 	txa
@@ -116,7 +129,7 @@ Outputs new line
 */
 void runtime_base::synth_PUTNEWLINE() const
 {
-	synth.synth() << R"(
+	SI R"(
 PUTNEWLINE
 	lda #EOL
 	jsr PUTCHAR
@@ -126,7 +139,7 @@ PUTNEWLINE
 
 void runtime_base::synth_PUTSPACE() const
 {
-	synth.synth() << R"(
+	SI R"(
 PUTSPACE
 	lda #' '
 	jsr PUTCHAR
@@ -142,7 +155,7 @@ No new line is printed at the end.
 */
 void runtime_base::synth_PUTSTRING() const
 {
-	synth.synth() << R"(
+	SI R"(
 PUTSTRING_MARK_END
 	and #%10000000
 	cmp #%10000000
@@ -189,20 +202,20 @@ void runtime_base::synth_PUTSTRINGLITERAL() const
 	// TODO: This is being reworked...
 
 	/*
-	synth.synth() << R"(
+	SI R"(
 PUTSTRINGLITERAL
 	ldy #0
 )";
-	synth.synth() << "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
+	SI "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
 
-	synth.synth() << R"(
+	SI R"(
 	beq PUTSTRINGLITERAL_EXIT
 	tax
 	iny
 @
 )";
-	synth.synth() << "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
-	synth.synth() << R"(
+	SI "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
+	SI R"(
 	jsr PUTCHAR
 	iny
 	dex
@@ -234,7 +247,7 @@ PUTSTRINGLITERAL_EXIT	rts
 //basic_print("","abc","","1234567890","!@#$")
 void runtime_base::synth_PUTCOMMA() const
 {
-	synth.synth() << R"(
+	SI R"(
 PUTCOMMA
 	mva AUXBR AUXBRT
 PUTCOMMA_LABEL_0
@@ -256,7 +269,7 @@ Returns 1 in accumulator if so.
 */
 void runtime_base::synth_IsXY00() const
 {
-	synth.synth() << R"(
+	SI R"(
 IsXY00
 	lda #1
 	cpx #0
@@ -277,21 +290,21 @@ the POKEY registers.
 */
 void runtime_base::synth_SOUND() const
 {
-	synth.synth(false) << "SOUND" << E_;
-	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << "jsr POP_TO" << E_;
-	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SN "SOUND" << E_;
+	SI "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI "jsr POP_TO" << E_;
+	SI "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr POP_TO
 	lda FR1
 :4	asl
 	eor FR0
 	tax
 )";
-	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << "jsr POP_TO" << E_;
-	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SI "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI "jsr POP_TO" << E_;
+	SI "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr POP_TO
 	lda FR1
 	asl
@@ -306,7 +319,7 @@ void runtime_base::synth_SOUND() const
 
 void runtime_base::synth_POKEY_INIT() const
 {
-	synth.synth() << R"(
+	SI R"(
 POKEY_INIT
 	ldx #8
 	lda #0
@@ -325,78 +338,78 @@ POKEY_INIT_CLEAR
 
 void runtime_base::synth_POP_TO() const
 {
-	synth.synth(false) << "POP_TO" << E_;
+	SN "POP_TO" << E_;
 
-	synth.synth() << "ldy #0" << E_;
-	synth.synth() << "sbw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
-	synth.synth() << "jsr INIT_PUSH_POP_POINTER" << E_;
-	synth.synth() << "ldy #0" << E_;
+	SI "ldy #0" << E_;
+	SI "sbw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
+	SI "jsr INIT_PUSH_POP_POINTER" << E_;
+	SI "ldy #0" << E_;
 	for (auto j = 0; j < cfg.get_number_interpretation()->get_size(); ++j)
 	{
-		synth.synth() << "lda (" << token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR) << "), y" << E_;
-		synth.synth() << "sta (" << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << "), y" << E_;
+		SI "lda (" << token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR) << "), y" << E_;
+		SI "sta (" << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << "), y" << E_;
 		if(!j)
 		{
-			synth.synth() << "iny" << E_;
+			SI "iny" << E_;
 		}
 	}
 
-	synth.synth() << "rts" << E_;
+	SI "rts" << E_;
 }
 
 void runtime_base::synth_PEEK_TO() const
 {
-	synth.synth(false) << "PEEK_TO" << E_;
-	synth.synth() << "jsr POP_TO" << E_;
-	synth.synth() << "ldy #0" << E_;
-	synth.synth() << "adw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
+	SN "PEEK_TO" << E_;
+	SI "jsr POP_TO" << E_;
+	SI "ldy #0" << E_;
+	SI "adw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
 
-	synth.synth() << "rts" << E_;
+	SI "rts" << E_;
 }
 
 void runtime_base::synth_FAKE_POP() const
 {
-	synth.synth(false) << "FAKE_POP" << E_;
-	synth.synth() << "ldy #0" << E_;
-	synth.synth() << "sbw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
-	synth.synth() << "rts" << E_;
+	SN "FAKE_POP" << E_;
+	SI "ldy #0" << E_;
+	SI "sbw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
+	SI "rts" << E_;
 }
 
 void runtime_base::synth_INIT_PUSH_POP_POINTER() const
 {
-	synth.synth(false) << "INIT_PUSH_POP_POINTER" << E_;
-	synth.synth() << "ldy #0" << E_;
-	synth.synth() << "mwa (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y " << token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR) << E_;
-	synth.synth() << "rts" << E_;
+	SN "INIT_PUSH_POP_POINTER" << E_;
+	SI "ldy #0" << E_;
+	SI "mwa (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y " << token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR) << E_;
+	SI "rts" << E_;
 }
 
 void runtime_base::synth_PUSH_FROM() const
 {
-	synth.synth(false) << "PUSH_FROM" << E_;
-	synth.synth() << "jsr INIT_PUSH_POP_POINTER" << E_;
-	synth.synth() << "ldy #0" << E_;
+	SN "PUSH_FROM" << E_;
+	SI "jsr INIT_PUSH_POP_POINTER" << E_;
+	SI "ldy #0" << E_;
 	for (auto j = 0; j < cfg.get_number_interpretation()->get_size(); ++j)
 	{
-		synth.synth() << "lda (" << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << "), y" << E_;
-		synth.synth() << "sta (" << token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR) << "), y" << E_;
+		SI "lda (" << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << "), y" << E_;
+		SI "sta (" << token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR) << "), y" << E_;
 		if(!j)
 		{
-			synth.synth() << "iny" << E_;
+			SI "iny" << E_;
 		}
 	}
 
-	synth.synth() << "ldy #0" << E_;
-	synth.synth() << "adw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
-	synth.synth() << "rts" << E_;
+	SI "ldy #0" << E_;
+	SI "adw (" << token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC) << "),y #" << cfg.get_number_interpretation()->get_size() << E_;
+	SI "rts" << E_;
 }
 
 void runtime_base::synth_POKE() const
 {
-	synth.synth(false) << "POKE" << E_;
-	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << "jsr POP_TO" << E_;
-	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SN "POKE" << E_;
+	SI "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI "jsr POP_TO" << E_;
+	SI "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr POP_TO
 	ldy #0
 	lda FR0,y
@@ -407,11 +420,11 @@ void runtime_base::synth_POKE() const
 
 void runtime_base::synth_DPOKE() const
 {
-	synth.synth(false) << "DPOKE" << E_;
-	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << "jsr POP_TO" << E_;
-	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SN "DPOKE" << E_;
+	SI "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI "jsr POP_TO" << E_;
+	SI "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr POP_TO
 	ldy #0
 	lda FR0,y
@@ -425,9 +438,9 @@ void runtime_base::synth_DPOKE() const
 
 void runtime_base::synth_PEEK() const
 {
-	synth.synth(false) << "PEEK" << E_;
-	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SN "PEEK" << E_;
+	SI "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr POP_TO
 	ldy #0
 	lda (FR0),y
@@ -435,8 +448,8 @@ void runtime_base::synth_PEEK() const
 	lda #0
 	sta FR1+1
 )";
-	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SI "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr PUSH_FROM
 	rts
 )";
@@ -444,9 +457,9 @@ void runtime_base::synth_PEEK() const
 
 void runtime_base::synth_DPEEK() const
 {
-	synth.synth(false) << "DPEEK" << E_;
-	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SN "DPEEK" << E_;
+	SI "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr POP_TO
 	ldy #0
 	lda (FR0),y
@@ -455,8 +468,8 @@ void runtime_base::synth_DPEEK() const
 	lda (FR0),y
 	sta FR1+1
 )";
-	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SI "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr PUSH_FROM
 	rts
 )";
@@ -464,9 +477,9 @@ void runtime_base::synth_DPEEK() const
 
 void runtime_base::synth_STICK() const
 {
-	synth.synth(false) << "STICK" << E_;
-	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SN "STICK" << E_;
+	SI "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr POP_TO
 	ldy FR0
 	lda STICK0,y
@@ -474,8 +487,8 @@ void runtime_base::synth_STICK() const
 	lda #0
 	sta FR1+1
 )";
-	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SI "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr PUSH_FROM
 	rts
 )";
@@ -483,9 +496,9 @@ void runtime_base::synth_STICK() const
 
 void runtime_base::synth_STRIG() const
 {
-	synth.synth(false) << "STRIG" << E_;
-	synth.synth() << "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SN "STRIG" << E_;
+	SI "mwa #FR0 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr POP_TO
 	ldy FR0
 	lda STRIG0,y
@@ -493,8 +506,8 @@ void runtime_base::synth_STRIG() const
 	lda #0
 	sta FR1+1
 )";
-	synth.synth() << "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
-	synth.synth() << R"(
+	SI "mwa #FR1 " << token(token_provider::TOKENS::PUSH_POP_VALUE_PTR) << E_;
+	SI R"(
 	jsr PUSH_FROM
 	rts
 )";
@@ -509,7 +522,7 @@ void runtime_base::synth_own_functions() const
 {
 	for (const auto& foo : own_functions)
 	{
-		synth.synth(false) << foo;
+		SN foo;
 	}
 }
 
@@ -517,7 +530,7 @@ void runtime_base::synth_CALCULATE_ARRAY_ROW_SIZE_IN_BYTES() const
 {
 	// ARRAY_ASSIGNMENT_TMP_SIZE stores the second index of an array.
 	// We need to multiply it by single number size
-	synth.synth() << R"(
+	SI R"(
 CALCULATE_ARRAY_ROW_SIZE_IN_BYTES
 	mwa #0 ARRAY_CALCULATION_TMP
 CALCULATE_ARRAY_ROW_SIZE_IN_BYTES_L0
@@ -526,8 +539,8 @@ CALCULATE_ARRAY_ROW_SIZE_IN_BYTES_L0
 		rts
 	#end
 )";
-	synth.synth() << "adw ARRAY_CALCULATION_TMP #" << cfg.get_number_interpretation()->get_size() << " ARRAY_CALCULATION_TMP" << E_;
-	synth.synth() << R"(
+	SI "adw ARRAY_CALCULATION_TMP #" << cfg.get_number_interpretation()->get_size() << " ARRAY_CALCULATION_TMP" << E_;
+	SI R"(
 	dew ARRAY_ASSIGNMENT_TMP_SIZE
 	jmp CALCULATE_ARRAY_ROW_SIZE_IN_BYTES_L0
 	rts
@@ -537,7 +550,7 @@ ARRAY_CALCULATION_TMP dta a(0)
 
 void runtime_base::synth_INIT_ARRAY_OFFSET() const
 {
-	synth.synth() << R"(
+	SI R"(
 INIT_ARRAY_OFFSET
 	jsr CALCULATE_ARRAY_ROW_SIZE_IN_BYTES
 INIT_ARRAY_OFFSET_L0
@@ -555,7 +568,39 @@ INIT_ARRAY_OFFSET_L0
 
 void runtime_base::synth_helpers() const
 {
-	synth.synth(false) << ".zpvar ARRAY_ASSIGNMENT_TMP_ADDRESS .word" << E_;
-	synth.synth(false) << "ARRAY_ASSIGNMENT_TMP_SIZE dta a(0)" << E_;
-	synth.synth(false) << "ARRAY_ASSIGNMENT_TMP_VALUE " << cfg.get_number_interpretation()->get_initializer() << E_;
+	SN ".zpvar ARRAY_ASSIGNMENT_TMP_ADDRESS .word" << E_;
+	SN "ARRAY_ASSIGNMENT_TMP_SIZE dta a(0)" << E_;
+	SN "ARRAY_ASSIGNMENT_TMP_VALUE " << cfg.get_number_interpretation()->get_initializer() << E_;
 }
+
+void runtime_base::synth_DO_STRING_ASSIGNMENT() const
+{
+	SN "DO_STRING_ASSIGNMENT" << E_;
+	SI "mwa " << token(token_provider::TOKENS::STRING_LEFT_BASE) << ' ' << token(token_provider::TOKENS::STRING_LEFT_PTR) << E_;
+	SI "adw " << token(token_provider::TOKENS::STRING_LEFT_PTR) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+	SI "mwa " << token(token_provider::TOKENS::STRING_RIGHT_BASE) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_PTR) << E_;
+	SI "adw " << token(token_provider::TOKENS::STRING_RIGHT_PTR) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+	SI "mwa " << token(token_provider::TOKENS::STRING_RIGHT_BASE) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_PTR) << E_;
+	SI "adw " << token(token_provider::TOKENS::STRING_RIGHT_PTR) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+	// Copy operation pointers are now initialized. Reuse second index value
+	// for storing the maximum count of copy steps
+	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+	SI "sbw " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+	// Do the actual copy
+	SI "ldy #0" << E_;
+	SN "DO_STRING_ASSIGNMENT_LOOP" << E_;
+	SI "lda (" << token(token_provider::TOKENS::STRING_RIGHT_PTR) << "),y" << E_;
+	SI "sta (" << token(token_provider::TOKENS::STRING_LEFT_PTR) << "),y" << E_;
+	SI "dew " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+	SI "dew " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+	SI "#if .word " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << " = #0 .or .word " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << " = #0" << E_;
+	SI "rts" << E_;
+	SI "#end" << E_;
+	SI "inw " << token(token_provider::TOKENS::STRING_LEFT_PTR) << E_;
+	SI "inw " << token(token_provider::TOKENS::STRING_RIGHT_PTR) << E_;
+	SI "jmp DO_STRING_ASSIGNMENT_LOOP" << E_;
+}
+
+#undef SI
+#undef SN
+#undef SC
