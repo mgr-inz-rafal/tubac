@@ -254,7 +254,7 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_VALUE_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_BASE), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_BASE), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_PTR), true);
@@ -262,6 +262,7 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_PTR), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER), true);
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {
