@@ -266,17 +266,17 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				]);
 
 		printable =
-				string_variable_name
+				string_variable
 					[
 						boost::bind(&reactor::got_print_string_variable, &r)
-					]
-				|| expr
-					[
-						boost::bind(&reactor::got_print_expression, &r)
 					]
 				|| string_literal
 					[
 						boost::bind(&reactor::got_print_string_literal, &r)
+					]
+				|| expr
+					[
+						boost::bind(&reactor::got_print_expression, &r)
 					]
 				|| printable_separator;
 

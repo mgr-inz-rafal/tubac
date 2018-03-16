@@ -66,7 +66,7 @@ void runtime_base::synth_implementation() const
 	synth_PUTNEWLINE();
 	synth_PUTSPACE();
 	synth_PUTSTRING();
-	synth_PUTSTRINGLITERAL();
+	synth_PRINT_STRING();
 	synth_PUTCOMMA();
 	synth_SOUND();
 	synth_POKEY_INIT();
@@ -197,9 +197,13 @@ Outputs string located at STRING_LITERAL_PTR.
 Last character is not inverted. Length of the string
 is located at STRING_LITERAL_PTR-1
 */
-void runtime_base::synth_PUTSTRINGLITERAL() const
+void runtime_base::synth_PRINT_STRING() const
 {
 	// TODO: This is being reworked...
+	SI R"(
+PRINT_STRING
+	rts
+)";
 
 	/*
 	SI R"(

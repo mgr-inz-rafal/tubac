@@ -748,17 +748,32 @@ void generator::init_string_variable_offsets(const std::string& name, context::A
 	}
 }
 
-void generator::init_string_literal_offsets(const context& ctx)
+void generator::init_string_literal_offsets(const context& ctx, context::ARRAY_ASSIGNMENT_SIDE side)
 {
 	int lid = ctx.get_last_string_literal_id();
-	SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
-	SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
-	SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
+	switch(side)
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+		SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+		SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
+		break;
+	}
 }
 
 void generator::do_string_assignment() const
 {
 	SI "jsr DO_STRING_ASSIGNMENT" << E_;
+}
+
+void generator::print_string() const
+{
+	SI "jsr PRINT_STRING" << E_;
 }
 
 #undef SI

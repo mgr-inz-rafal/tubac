@@ -73,7 +73,7 @@ public:
 	void got_string_literal_for_assignment();
 	void got_string_variable_for_assignment();
 	void got_print_string_literal();
-	void got_print_string_variable() const;
+	void got_print_string_variable();
 	void got_array_declaration();
 	void got_variable_to_retrieve(const std::string& s) const;
 	void got_poke() const;

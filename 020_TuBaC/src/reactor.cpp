@@ -474,17 +474,21 @@ void reactor::got_print_string_literal()
 {
 	std::cout << "PRINT STRING LITERAL" << std::endl;
 	last_printed_token_was_separator = false;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
+	_g.print_string();
+}
+
+void reactor::got_print_string_variable()
+{
+	std::cout << "PRINT STRING VARIABLE" << std::endl;
+	last_printed_token_was_separator = false;
+	_g.print_string();
 }
 
 void reactor::got_string_variable_name(const std::string& s)
 {
 	std::cout << "STRING VARIABLE: " << s << std::endl;
 	ctx.string_array_get().set_name(s);
-}
-
-void reactor::got_print_string_variable() const
-{
-	std::cout << "PRINT STRING VARIABLE" << std::endl;
 }
 
 void reactor::got_integer_array_to_retrieve()
