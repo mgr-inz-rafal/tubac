@@ -199,6 +199,9 @@ void runtime_base::synth_PRINT_STRING() const
 {
 	// TODO: This is being reworked...
 	SN "PRINT_STRING" << E_;
+	SI "#if .word " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << " = #0 .and .word " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << " = #0" << E_;
+	SI "jmp PRINT_STRING_EXIT" << E_;
+	SI "#end" << E_;
 	SI "adw " << token(token_provider::TOKENS::STRING_LEFT_BASE) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 	SI "ldy #0" << E_;

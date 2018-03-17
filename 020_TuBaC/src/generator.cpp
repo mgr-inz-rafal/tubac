@@ -751,17 +751,41 @@ void generator::init_string_variable_offsets(const std::string& name, context::A
 void generator::init_string_literal_offsets(const context& ctx, context::ARRAY_ASSIGNMENT_SIDE side)
 {
 	int lid = ctx.get_last_string_literal_id();
+	bool is_literal_empty;
+	for (auto& [literal, index] : string_literals)
+	{
+		if(index == lid)
+		{
+			is_literal_empty = literal.empty();
+		}
+	}
 	switch(side)
 	{
 	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
-		SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
-		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
-		SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
+		if(is_literal_empty)
+		{
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+		}
+		else
+		{
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+			SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+			SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
+		}
 		break;
 	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
-		SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
-		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
-		SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
+		if(is_literal_empty)
+		{
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+		}
+		else
+		{
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+			SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+			SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
+		}
 		break;
 	}
 }
