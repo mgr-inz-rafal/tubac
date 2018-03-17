@@ -236,7 +236,7 @@ public:
 	void binary_or() const;
 	void init_string_literal_offsets(const context& ctx, context::ARRAY_ASSIGNMENT_SIDE side = context::ARRAY_ASSIGNMENT_SIDE::RIGHT);
 	void do_string_assignment() const;
-	void print_string() const;
+	void print_string(const std::string& name) const;
 	void decrease_word(const std::string& ptr);
 };
 

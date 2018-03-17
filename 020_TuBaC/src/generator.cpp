@@ -263,6 +263,7 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_PRINTED_LENGTH), false);
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {
@@ -795,8 +796,12 @@ void generator::do_string_assignment() const
 	SI "jsr DO_STRING_ASSIGNMENT" << E_;
 }
 
-void generator::print_string() const
+void generator::print_string(const std::string& name) const
 {
+	if(!name.empty())
+	{
+		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << name << ' ' << token(token_provider::TOKENS::STRING_PRINTED_LENGTH) << E_;
+	}
 	SI "jsr PRINT_STRING" << E_;
 }
 
