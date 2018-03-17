@@ -776,6 +776,11 @@ void generator::print_string() const
 	SI "jsr PRINT_STRING" << E_;
 }
 
+void generator::decrease_word(const std::string& ptr)
+{
+	SI "dew " << ptr << E_;
+}
+
 #undef SI
 #undef SN
 #undef SC

@@ -546,6 +546,7 @@ void reactor::got_string_array_first_dimension()
 	{
 	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
 		_g.pop_to("___TUBAC___STRING_LEFT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		_g.decrease_word("___TUBAC___STRING_LEFT_FIRST_INDEX_");
 		break;
 	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
 		_g.pop_to("___TUBAC___STRING_RIGHT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider

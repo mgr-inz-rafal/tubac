@@ -193,40 +193,26 @@ PUTSTRING_LABEL_0
 }
 
 /*
-Outputs string located at STRING_LITERAL_PTR.
-Last character is not inverted. Length of the string
-is located at STRING_LITERAL_PTR-1
+ * TODO: Outdated comment removed
 */
 void runtime_base::synth_PRINT_STRING() const
 {
 	// TODO: This is being reworked...
-	SI R"(
-PRINT_STRING
-	rts
-)";
-
-	/*
-	SI R"(
-PUTSTRINGLITERAL
-	ldy #0
-)";
-	SI "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
-
-	SI R"(
-	beq PUTSTRINGLITERAL_EXIT
-	tax
-	iny
-@
-)";
-	SI "lda (" << token(token_provider::TOKENS::STRING_LITERAL_PTR) << "),y" << E_;
-	SI R"(
-	jsr PUTCHAR
-	iny
-	dex
-	bne @-
-PUTSTRINGLITERAL_EXIT	rts
-	)";
-	*/
+	SN "PRINT_STRING" << E_;
+	SI "adw " << token(token_provider::TOKENS::STRING_LEFT_BASE) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+	SI "ldy #0" << E_;
+	SN "PRINT_STRING_LOOP" << E_;
+	SI "lda (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
+	SI "jsr PUTCHAR" << E_;
+	SI "dew " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+	SI "#if .word " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << " = #0" << E_;
+	SI "jmp PRINT_STRING_EXIT" << E_;
+	SI "#end" << E_;
+	SI "inw " << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
+	SI "jmp PRINT_STRING_LOOP" << E_;
+	SN "PRINT_STRING_EXIT" << E_;
+	SI "rts" << E_;
 }
 
 // Inspired by the following code in Python provided by Mono
