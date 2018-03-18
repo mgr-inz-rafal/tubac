@@ -391,6 +391,7 @@ void generator::init_print() const {
 	SI R"(
 	lda PTABW
 	sta AUXBR
+	dec AUXBR
 	lda #0
 	sta COX
 )";

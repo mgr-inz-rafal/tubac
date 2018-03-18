@@ -240,11 +240,36 @@ void runtime_base::synth_PRINT_STRING() const
 //	print()
 //	
 //basic_print("","abc","","1234567890","!@#$")
+
+// On 18.03.2018 I corrected a slight bug here, that enabled the following
+// test cases to pass:
+//		suites\print\comma2.txt
+//		suites\use_cases\LINUX_antoni_suffixes.txt 
+//from __future__ import print_function
+//
+//ptabw = 10
+//
+//def basic_print(*items):
+//	auxbr = ptabw-1
+//	cox = 0
+//	for text in items:
+//		for ch in text:
+//			print(ch, sep="", end="")
+//			cox += 1
+//			if cox >= auxbr:
+//				auxbr += ptabw
+//		for i in range(cox, auxbr+1):
+//			print(" ", sep="", end="")
+//			cox += 1
+//			if cox >= auxbr:
+//				auxbr += ptabw
+//	print()
 void runtime_base::synth_PUTCOMMA() const
 {
 	SI R"(
 PUTCOMMA
 	mva AUXBR AUXBRT
+	inc AUXBRT
 PUTCOMMA_LABEL_0
 	#if .byte COX < AUXBRT
 		jsr PUTSPACE
