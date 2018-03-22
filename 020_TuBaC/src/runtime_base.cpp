@@ -618,19 +618,34 @@ void runtime_base::synth_DO_STRING_ASSIGNMENT() const
 	SI "#if .word " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << " = #0 .or .word " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << " = #0" << E_;
 	SI "inw " << token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER) << E_;
 	SI "adw " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << ' ' << token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER) << E_;
+
+	// Adjust the target string length... -->
+	SN "DUPA" << E_;
+
 	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_BASE) << " #2" << E_;
+	SI "ldy #0" << E_;
+	SI "lda (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
+	SI "sta STRING_ASSIGNMENT_TMP" << E_;
+	SI "iny" << E_;
+	SI "lda (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
+	SI "sta STRING_ASSIGNMENT_TMP+1" << E_;
+	SI "#if .word STRING_ASSIGNMENT_TMP < " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 	SI "ldy #0" << E_;
 	SI "lda " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 	SI "sta (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
 	SI "iny" << E_;
 	SI "lda " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << "+1" << E_;
 	SI "sta (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
+	SI "#end" << E_;
+	// --> ...before exiting from subroutine.
+
 	SI "rts" << E_;
 	SI "#end" << E_;
 	SI "inw " << token(token_provider::TOKENS::STRING_LEFT_PTR) << E_;
 	SI "inw " << token(token_provider::TOKENS::STRING_RIGHT_PTR) << E_;
 	SI "inw " << token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER) << E_;
 	SI "jmp DO_STRING_ASSIGNMENT_LOOP" << E_;
+	SN "STRING_ASSIGNMENT_TMP dta a(0)" << E_;
 }
 
 #undef SI
