@@ -79,7 +79,7 @@ In addition to the commands listed below compiler fully supports:
 |POKE|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |POP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |POSITION|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|PRINT|![#1589F0](https://placehold.it/15/00ff00/000000?text=+)|Integers and strings supported, but only for default I/O channel|
+|PRINT|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Integers and strings supported, but only for default I/O channel|
 |PTRIG|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |PUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |RAD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
