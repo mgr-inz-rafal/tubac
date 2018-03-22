@@ -20,6 +20,7 @@ This project aims to provide a tool that helps transfer the ATARI Turbo Basic li
 In addition to the commands listed below compiler fully supports:
 * Arithmetic expressions with parenthesis
 * Integer arrays (single and double dimension)
+* Strings (assignment with all kinds of indexing, no comparison yet...)
 
 ### Atari Basic
 |Command|Status|Comment|
@@ -35,13 +36,13 @@ In addition to the commands listed below compiler fully supports:
 |CLOSE|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |CLR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |COLOR|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|COM|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Only for integer arrays. Strings yet to come...
+|COM|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |CONT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |COS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |CSAVE|![#000000](https://placehold.it/15/000000/000000?text=+)|Compiled program will not allow saving to cassettes without OS.|
 |DATA|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |DEG|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|DIM|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Only for integer arrays. Strings yet to come...
+|DIM|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |DOS|![#000000](https://placehold.it/15/000000/000000?text=+)|Compiled program will not exit to DOS.|
 |DRAWTO|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |END|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
@@ -78,7 +79,7 @@ In addition to the commands listed below compiler fully supports:
 |POKE|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |POP|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |POSITION|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|PRINT|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Prints integer numbers and string literals only - no string variables support yet.|
+|PRINT|![#1589F0](https://placehold.it/15/00ff00/000000?text=+)|Integers and strings supported, but only for default I/O channel|
 |PTRIG|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |PUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |RAD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
