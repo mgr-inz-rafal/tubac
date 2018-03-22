@@ -534,7 +534,7 @@ void reactor::got_integer_array_first_dimension()
 
 void reactor::got_integer_array_second_dimension()
 {
-	std::cout << "SETUP SECOND DIMENSION OF ARRAY" << std::endl;
+	std::cout << "SETUP SECOND DIMENSION OF INTEGER ARRAY" << std::endl;
 	ctx.array_get().set_two_dimensional(true);
 }
 
@@ -547,21 +547,24 @@ void reactor::got_string_array_first_dimension()
 	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
 		_g.pop_to("___TUBAC___STRING_LEFT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
 		_g.decrease_word("___TUBAC___STRING_LEFT_FIRST_INDEX_");
+		_g.put_byte_in_variable("LEFT_HAS_SECOND", 0);
 		break;
 	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
 		_g.pop_to("___TUBAC___STRING_RIGHT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		_g.decrease_word("___TUBAC___STRING_RIGHT_FIRST_INDEX_");
 		break;
 	}
 }
 
 void reactor::got_string_array_second_dimension()
 {
-	std::cout << "SETUP SECOND DIMENSION OF ARRAY" << std::endl;
+	std::cout << "SETUP SECOND DIMENSION OF STRING ARRAY" << std::endl;
 	ctx.string_array_get().set_two_dimensional(true);
 	switch (ctx.get_string_assignment_array_side())
 	{
 	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
 		_g.pop_to("___TUBAC___STRING_LEFT_SECOND_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		_g.put_byte_in_variable("LEFT_HAS_SECOND", 1);
 		break;
 	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
 		_g.pop_to("___TUBAC___STRING_RIGHT_SECOND_INDEX_");		// TODO: Reactor clearly needs access to token_provider

@@ -237,6 +237,7 @@ public:
 	void init_string_literal_offsets(const context& ctx, context::ARRAY_ASSIGNMENT_SIDE side = context::ARRAY_ASSIGNMENT_SIDE::RIGHT);
 	void do_string_assignment() const;
 	void print_string(const std::string& name) const;
-	void decrease_word(const std::string& ptr);
+	void decrease_word(const std::string& ptr) const;
+	void put_byte_in_variable(const std::string& name, int value) const;
 };
 

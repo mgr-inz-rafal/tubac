@@ -806,10 +806,16 @@ void generator::print_string(const std::string& name) const
 	SI "jsr PRINT_STRING" << E_;
 }
 
-void generator::decrease_word(const std::string& ptr)
+void generator::decrease_word(const std::string& ptr) const
 {
 	SI "dew " << ptr << E_;
 }
+
+void generator::put_byte_in_variable(const std::string& name, int value) const
+{
+	SI "mva #" << value << ' ' << name << E_;
+}
+
 
 #undef SI
 #undef SN

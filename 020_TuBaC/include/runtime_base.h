@@ -37,6 +37,7 @@ protected:
 
 	// String manipulation
 	virtual void synth_DO_STRING_ASSIGNMENT() const;
+	virtual void synth_DO_STRING_ASSIGNMENT_UPDATE_LENGTH() const;
 
 	// Helpers
 	virtual void synth_INIT_PUSH_POP_POINTER() const;

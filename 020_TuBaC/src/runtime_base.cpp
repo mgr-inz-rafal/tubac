@@ -55,6 +55,7 @@ void runtime_base::synth_implementation() const
 	synth_INIT_ARRAY_OFFSET();
 	synth_CALCULATE_ARRAY_ROW_SIZE_IN_BYTES();
 	synth_DO_STRING_ASSIGNMENT();
+	synth_DO_STRING_ASSIGNMENT_UPDATE_LENGTH();
 	synth_helpers();
 
 	synth_BADD();
@@ -593,6 +594,18 @@ void runtime_base::synth_helpers() const
 	SN "ARRAY_ASSIGNMENT_TMP_VALUE " << cfg.get_number_interpretation()->get_initializer() << E_;
 }
 
+void runtime_base::synth_DO_STRING_ASSIGNMENT_UPDATE_LENGTH() const
+{
+	SN "DO_STRING_ASSIGNMENT_UPDATE_LENGTH" << E_;
+	SI "ldy #0" << E_;
+	SI "lda " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+	SI "sta (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
+	SI "iny" << E_;
+	SI "lda " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << "+1" << E_;
+	SI "sta (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
+	SI "rts" << E_;
+}
+
 void runtime_base::synth_DO_STRING_ASSIGNMENT() const
 {
 	SN "DO_STRING_ASSIGNMENT" << E_;
@@ -620,8 +633,6 @@ void runtime_base::synth_DO_STRING_ASSIGNMENT() const
 	SI "adw " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << ' ' << token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER) << E_;
 
 	// Adjust the target string length... -->
-	SN "DUPA" << E_;
-
 	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_BASE) << " #2" << E_;
 	SI "ldy #0" << E_;
 	SI "lda (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
@@ -630,12 +641,10 @@ void runtime_base::synth_DO_STRING_ASSIGNMENT() const
 	SI "lda (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
 	SI "sta STRING_ASSIGNMENT_TMP+1" << E_;
 	SI "#if .word STRING_ASSIGNMENT_TMP < " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
-	SI "ldy #0" << E_;
-	SI "lda " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
-	SI "sta (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
-	SI "iny" << E_;
-	SI "lda " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << "+1" << E_;
-	SI "sta (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
+	SI "jsr DO_STRING_ASSIGNMENT_UPDATE_LENGTH" << E_;
+	SI "#end" << E_;
+	SI "#if .byte LEFT_HAS_SECOND = #0" << E_;
+	SI "jsr DO_STRING_ASSIGNMENT_UPDATE_LENGTH" << E_;
 	SI "#end" << E_;
 	// --> ...before exiting from subroutine.
 
@@ -645,7 +654,8 @@ void runtime_base::synth_DO_STRING_ASSIGNMENT() const
 	SI "inw " << token(token_provider::TOKENS::STRING_RIGHT_PTR) << E_;
 	SI "inw " << token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER) << E_;
 	SI "jmp DO_STRING_ASSIGNMENT_LOOP" << E_;
-	SN "STRING_ASSIGNMENT_TMP dta a(0)" << E_;
+	SN "STRING_ASSIGNMENT_TMP dta a(0)" << E_;	// TODO: See if more string assignment related variables could be tmp instead of compiler spawned
+	SN "LEFT_HAS_SECOND dta b(0)" << E_;		// TODO: ditto
 }
 
 #undef SI
