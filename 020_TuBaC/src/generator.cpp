@@ -39,6 +39,7 @@ generator::generator(std::ostream& _stream, const config& _cfg):
 
 	write_atari_registers();
 	write_atari_constants();
+
 	write_code_header();
 	write_internal_variables();
 	
@@ -48,6 +49,7 @@ generator::generator(std::ostream& _stream, const config& _cfg):
 generator::~generator()
 {
 	write_code_footer();
+
 	write_runtime();
 	write_run_segment();
 }
@@ -145,7 +147,7 @@ void generator::write_string_literals() const
 	for (auto& [literal, index] : string_literals)
 	{
 		SN token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << index << E_;
-		SI "dta b(" << literal.size() << ')' << E_;
+		SI "dta a(" << literal.size() << ')' << E_;
 		if(!literal.empty()) // Do not synthesize empty string literals
 		{
 			SN token(token_provider::TOKENS::STRING_LITERAL) << index << E_;
@@ -166,7 +168,7 @@ void generator::new_variable(const std::string& v)
 	variables.insert(v);
 }
 
-void generator::new_string_literal(const std::vector<char>& s)
+int generator::new_string_literal(const std::vector<char>& s)
 {
 	if(s.size() > MAXIMUM_STRING_LITERAL_LENGTH)
 	{
@@ -174,11 +176,11 @@ void generator::new_string_literal(const std::vector<char>& s)
 		// includes more context, line number, etc.
 		std::cout << "Warning: string literal too long" << std::endl;
 	}
-	string_literals.insert({s, string_literal_id++});
+	string_literals.insert({s, string_literal_id});
 	std::stringstream ss;
-	ss << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << string_literals.find(s)->second;
-	init_pointer(token(token_provider::TOKENS::STRING_LITERAL_PTR), ss.str());
-	SI "jsr PUTSTRINGLITERAL" << E_;
+	ss << token(token_provider::TOKENS::STRING_LITERAL) << string_literals.find(s)->second;
+	//SI "jsr PUTSTRINGLITERAL" << E_;
+	return string_literal_id++;
 }
 
 void generator::new_line(const int& i) const
@@ -252,7 +254,16 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_VALUE_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LITERAL_PTR), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_BASE), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_PTR), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_BASE), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_PTR), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_PRINTED_LENGTH), false);
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {
@@ -380,6 +391,7 @@ void generator::init_print() const {
 	SI R"(
 	lda PTABW
 	sta AUXBR
+	dec AUXBR
 	lda #0
 	sta COX
 )";
@@ -697,8 +709,11 @@ void generator::init_integer_array(const basic_array& arr) const
 void generator::init_string_array(const basic_array& arr) const
 {
 	std::stringstream ss;
-	ss << get_string_array_token(arr.get_name()) << E_;
-	SC "dta a(" << arr.get_size(0) << "),a(0)" << E_;	// Capacity, Current size
+	ss << get_string_array_token(arr.get_name(), token_provider::TOKENS::STRING_ARRAY_CAPACITY) << E_;
+	SC "dta a(" << arr.get_size(0) << ')' << E_;
+	ss << get_string_array_token(arr.get_name(), token_provider::TOKENS::STRING_ARRAY_CURRENT) << E_;
+	SC "dta a(0)" << E_;
+	ss << get_string_array_token(arr.get_name(), token_provider::TOKENS::STRING_ARRAY_CONTENT) << E_;
 	ss << ':' << arr.get_size(0) << " dta b(0)" << E_;
 	cfg.get_runtime()->register_own_runtime_funtion(ss.str());
 }
@@ -708,15 +723,99 @@ std::string generator::get_integer_array_token(const std::string& name) const
 	return token(token_provider::TOKENS::INTEGER_ARRAY) + name;
 }
 
-std::string generator::get_string_array_token(const std::string& name) const
+std::string generator::get_string_array_token(const std::string& name, token_provider::TOKENS kind) const
 {
-	return token(token_provider::TOKENS::STRING_ARRAY) + name;
+	return token(kind) + name;
 }
 
 void generator::put_zero_in_FR0() const
 {
 	SI "jsr PUT_ZERO_IN_FR0" << E_;
 }
+
+void generator::init_string_variable_offsets(const std::string& name, context::ARRAY_ASSIGNMENT_SIDE side) const
+{
+	switch(side)
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+		SI "mwa " << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CAPACITY) << ' ' << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+		SI "mwa #" << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CONTENT) << ' ' << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+		SI "mwa " << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CAPACITY) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+		SI "mwa #" << get_string_array_token(name, token_provider::TOKENS::STRING_ARRAY_CONTENT) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
+		break;
+	}
+}
+
+void generator::init_string_literal_offsets(const context& ctx, context::ARRAY_ASSIGNMENT_SIDE side)
+{
+	int lid = ctx.get_last_string_literal_id();
+	bool is_literal_empty;
+	for (auto& [literal, index] : string_literals)
+	{
+		if(index == lid)
+		{
+			is_literal_empty = literal.empty();
+		}
+	}
+	switch(side)
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		if(is_literal_empty)
+		{
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+		}
+		else
+		{
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+			SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+			SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
+		}
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		if(is_literal_empty)
+		{
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+		}
+		else
+		{
+			SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+			SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+			SI "mwa #" << token(token_provider::TOKENS::STRING_LITERAL) << lid << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
+		}
+		break;
+	}
+}
+
+void generator::do_string_assignment() const
+{
+	SI "jsr DO_STRING_ASSIGNMENT" << E_;
+}
+
+void generator::print_string(const std::string& name) const
+{
+	if(!name.empty())
+	{
+		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << name << ' ' << token(token_provider::TOKENS::STRING_PRINTED_LENGTH) << E_;
+	}
+	SI "jsr PRINT_STRING" << E_;
+}
+
+void generator::decrease_word(const std::string& ptr) const
+{
+	SI "dew " << ptr << E_;
+}
+
+void generator::put_byte_in_variable(const std::string& name, int value) const
+{
+	SI "mva #" << value << ' ' << name << E_;
+}
+
 
 #undef SI
 #undef SN

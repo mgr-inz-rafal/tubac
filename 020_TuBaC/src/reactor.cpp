@@ -21,6 +21,7 @@ void reactor::got_line_number(const int& i)
 {
 	std::cout << std::endl << "*** LINE " << i << " ***" << std::endl;
 	ctx.array_assignment_side_reset();
+	ctx.string_array_assignment_side_reset();
 	_g.new_line(i);
 }
 
@@ -441,7 +442,7 @@ void reactor::got_integer_array_size_2(int i)
 void reactor::got_string_array_size(int i)
 {
 	std::cout << "STRING ARRAY SIZE: " << i << std::endl;
-	ctx.array_get().set_size(0, i);
+	ctx.string_array_get().set_size(0, i);
 }
 
 void reactor::got_integer_array_declaration_finished()
@@ -450,7 +451,7 @@ void reactor::got_integer_array_declaration_finished()
 	_g.init_integer_array(ctx.array_get());
 }
 
-void reactor::got_string_literal(const std::vector<char>& vec) const
+void reactor::got_string_literal(const std::vector<char>& vec)
 {
 	std::cout << "STRING LITERAL (";
 	for(char c: vec)
@@ -459,35 +460,35 @@ void reactor::got_string_literal(const std::vector<char>& vec) const
 	}
 	std::cout  << ')' << std::endl;
 	
-	_g.new_string_literal(vec);
-}
-
-void reactor::got_string_variable_to_assign(const std::string& s) const
-{
-	std::cout << "ASSIGN TO STRING VARIABLE " << s << std::endl;
+	const int literal_id = _g.new_string_literal(vec);
+	ctx.set_last_string_literal_id(literal_id);
 }
 
 void reactor::got_string_array_declaration_finished()
 {
 	std::cout << "STRING ARRAY DECLARATION FINISHED" << std::endl;
-	_g.init_string_array(ctx.array_get());
+	_g.init_string_array(ctx.string_array_get());
 }
 
 void reactor::got_print_string_literal()
 {
 	std::cout << "PRINT STRING LITERAL" << std::endl;
 	last_printed_token_was_separator = false;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
+	_g.print_string(ctx.string_array_get().get_name());
+}
+
+void reactor::got_print_string_variable()
+{
+	std::cout << "PRINT STRING VARIABLE" << std::endl;
+	last_printed_token_was_separator = false;
+	_g.print_string(ctx.string_array_get().get_name());
 }
 
 void reactor::got_string_variable_name(const std::string& s)
 {
 	std::cout << "STRING VARIABLE: " << s << std::endl;
-	ctx.array_get().set_name(s);
-}
-
-void reactor::got_print_string_variable() const
-{
-	std::cout << "PRINT STRING VARIABLE" << std::endl;
+	ctx.string_array_get().set_name(s);
 }
 
 void reactor::got_integer_array_to_retrieve()
@@ -533,20 +534,61 @@ void reactor::got_integer_array_first_dimension()
 
 void reactor::got_integer_array_second_dimension()
 {
-	std::cout << "SETUP SECOND DIMENSION OF ARRAY" << std::endl;
+	std::cout << "SETUP SECOND DIMENSION OF INTEGER ARRAY" << std::endl;
 	ctx.array_get().set_two_dimensional(true);
+}
+
+void reactor::got_string_array_first_dimension()
+{
+	std::cout << "SETUP FIRST DIMENSION OF ARRAY" << std::endl;
+	ctx.string_array_get().set_two_dimensional(false);
+	switch (ctx.get_string_assignment_array_side())
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		_g.pop_to("___TUBAC___STRING_LEFT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		_g.decrease_word("___TUBAC___STRING_LEFT_FIRST_INDEX_");
+		_g.put_byte_in_variable("LEFT_HAS_SECOND", 0);
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		_g.pop_to("___TUBAC___STRING_RIGHT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		_g.decrease_word("___TUBAC___STRING_RIGHT_FIRST_INDEX_");
+		break;
+	}
+}
+
+void reactor::got_string_array_second_dimension()
+{
+	std::cout << "SETUP SECOND DIMENSION OF STRING ARRAY" << std::endl;
+	ctx.string_array_get().set_two_dimensional(true);
+	switch (ctx.get_string_assignment_array_side())
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		_g.pop_to("___TUBAC___STRING_LEFT_SECOND_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		_g.put_byte_in_variable("LEFT_HAS_SECOND", 1);
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		_g.pop_to("___TUBAC___STRING_RIGHT_SECOND_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		break;
+	}
 }
 
 void reactor::got_command_separator()
 {
 	std::cout << "COMMAND SEPARATOR" << std::endl;
 	ctx.array_assignment_side_reset();
+	ctx.string_array_assignment_side_reset();
 }
 
 void reactor::got_execute_array_assignment()
 {
 	std::cout << "SWITCH TO RIGHT SIDE FOR ARRAY ASSIGNMENT" << std::endl;
 	ctx.array_assignment_side_switch_to_right();
+}
+
+void reactor::got_execute_string_array_assignment()
+{
+	std::cout << "SWITCH TO RIGHT SIDE FOR STRING ARRAY ASSIGNMENT" << std::endl;
+	ctx.string_array_assignment_side_switch_to_right();
 }
 
 void reactor::got_random() const
@@ -562,4 +604,23 @@ void reactor::got_not() const
 	_g.pop_to("FR0");
 	_g.FR0_boolean_invert();
 	_g.push_from("FR0");
+}
+
+void reactor::got_string_variable_before_dimensions()
+{
+	std::cout << "STRING VARIABLE NAME BEFORE DIMENSIONS" << std::endl;
+	_g.init_string_variable_offsets(ctx.string_array_get().get_name(), ctx.get_string_assignment_array_side());
+}
+
+void reactor::got_string_literal_for_assignment()
+{
+	std::cout << "STRING LITERAL FOR ASSIGNMENT" << std::endl;
+	_g.init_string_literal_offsets(ctx);
+	_g.do_string_assignment();
+}
+
+void reactor::got_string_variable_for_assignment()
+{
+	std::cout << "STRING VARIABLE FOR ASSIGNMENT" << std::endl;
+	_g.do_string_assignment();
 }

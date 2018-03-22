@@ -22,6 +22,7 @@
 #include "token_provider.h"
 #include "stack.h"
 #include "basic_array.h"
+#include "context.h"
 
 class generator
 {
@@ -164,14 +165,14 @@ private:
 	std::string get_next_generic_label();
 	std::string last_generic_label;
 	std::string get_integer_array_token(const std::string& name) const;
-	std::string get_string_array_token(const std::string& name) const;
+	std::string get_string_array_token(const std::string& name, token_provider::TOKENS kind) const;
 
 public:
 	generator(std::ostream& _stream, const config& _cfg);
 	~generator();
 
 	void new_integer(const std::string& i);
-	void new_string_literal(const std::vector<char>& s);
+	int new_string_literal(const std::vector<char>& s);
 	void new_variable(const std::string& v);
 	void new_line(const int& i) const;
 	void put_integer_on_stack(const std::string& i) const;
@@ -216,6 +217,7 @@ public:
 	void end() const;
 	void init_integer_array(const basic_array& arr) const;
 	void init_string_array(const basic_array& arr) const;
+	void init_string_variable_offsets(const std::string& name, context::ARRAY_ASSIGNMENT_SIDE side) const;
 	void put_zero_in_FR0() const;
 	void addition() const;
 	void subtraction() const;
@@ -232,5 +234,10 @@ public:
 	void binary_xor() const;
 	void binary_and() const;
 	void binary_or() const;
+	void init_string_literal_offsets(const context& ctx, context::ARRAY_ASSIGNMENT_SIDE side = context::ARRAY_ASSIGNMENT_SIDE::RIGHT);
+	void do_string_assignment() const;
+	void print_string(const std::string& name) const;
+	void decrease_word(const std::string& ptr) const;
+	void put_byte_in_variable(const std::string& name, int value) const;
 };
 

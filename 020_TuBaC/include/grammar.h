@@ -197,14 +197,40 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_string_literal, &r, _1)
 				];
 
-		string_assignment = -LET >> (string_variable_name >> '=' >> string_literal)
+		string_variable =
+			(string_variable_name
 				[
-					boost::bind(&reactor::got_string_variable_to_assign, &r, ::_1)
-				];
+					boost::bind(&reactor::got_string_variable_before_dimensions, &r)
+				]
+				>> -('(' >> expr
+				[
+					boost::bind(&reactor::got_string_array_first_dimension, &r)
+				]
+				>> -(',' >> expr)
+				[
+					boost::bind(&reactor::got_string_array_second_dimension, &r)
+				]
+				>> ')'));
+
 		integer_assignment = -LET >> (integer_variable_name >> '=' >> expr)
 				[
 					boost::bind(&reactor::got_variable_to_assign, &r, ::_1)
 				];
+
+		string_assignment = (-LET >> (string_variable
+				>> 	qi::string("=")
+				[
+					boost::bind(&reactor::got_execute_string_array_assignment, &r)
+				]
+				>> (string_variable
+				[
+					boost::bind(&reactor::got_string_variable_for_assignment, &r)
+				]	
+					|| string_literal
+				[
+					boost::bind(&reactor::got_string_literal_for_assignment, &r)
+				]))
+				);
 
 		integer_array_assignment = (-LET >> expr_array >> qi::string("=")
 				[
@@ -240,17 +266,17 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				]);
 
 		printable =
-				string_variable_name
+				string_variable
 					[
 						boost::bind(&reactor::got_print_string_variable, &r)
-					]
-				|| expr
-					[
-						boost::bind(&reactor::got_print_expression, &r)
 					]
 				|| string_literal
 					[
 						boost::bind(&reactor::got_print_string_literal, &r)
+					]
+				|| expr
+					[
+						boost::bind(&reactor::got_print_expression, &r)
 					]
 				|| printable_separator;
 
@@ -525,6 +551,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> integer_array_declaration;
 	qi::rule<Iterator, Skipper> string_array_declaration;
 	qi::rule<Iterator, Skipper> string_literal;
+	qi::rule<Iterator, Skipper> string_variable;
 
 	// TBXL commands
 	qi::rule<Iterator, Skipper> PRINT;

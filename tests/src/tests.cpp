@@ -173,7 +173,7 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 				"-config",
 			   	"tools/atari800/.atari800.cfg"
 			},
-			2s);
+			10s);
 
 		process_executor pr_franny_create_image(
 			franny_path,
@@ -209,7 +209,7 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 				"-config", 
 				"tools/atari800/.atari800.cfg"
 			},
-			2s);
+			10s);
 		pr_atari_listing
 			<< "L\n"
 			<< "D2:AUTORUN.SYS\n"

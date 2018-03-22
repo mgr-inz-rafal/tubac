@@ -35,6 +35,10 @@ protected:
 	// *** conforms to the assumptions about     ***
 	// *** rendering its data in correct places  ***
 
+	// String manipulation
+	virtual void synth_DO_STRING_ASSIGNMENT() const;
+	virtual void synth_DO_STRING_ASSIGNMENT_UPDATE_LENGTH() const;
+
 	// Helpers
 	virtual void synth_INIT_PUSH_POP_POINTER() const;
 	virtual void synth_IsXY00() const;
@@ -51,7 +55,7 @@ protected:
 	virtual void synth_PUTNEWLINE() const;
 	virtual void synth_PUTSPACE() const;
 	virtual void synth_PUTSTRING() const;			// TODO: Consider unification with synth_PUTSTRINGLITERAL
-	virtual void synth_PUTSTRINGLITERAL() const;
+	virtual void synth_PRINT_STRING() const;
 	virtual void synth_PUTCOMMA() const;
 
 	// POKEY routines
