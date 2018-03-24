@@ -61,9 +61,49 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			[
 				boost::bind(&reactor::got_integer, &r, _1)
 			];
+
+		string_comparison_operator =
+				qi::string("<>")
+				[
+					boost::bind(&reactor::got_string_comparison_not_equal, &r)
+				]
+			| 
+				qi::string("<=")
+				[
+					boost::bind(&reactor::got_string_comparison_less_or_equal, &r)
+				]
+			| 
+				qi::string(">=") 
+				[
+					boost::bind(&reactor::got_string_comparison_greater_or_equal, &r)
+				]
+			|
+				qi::string(">") 
+				[
+					boost::bind(&reactor::got_string_comparison_greater, &r)
+				]
+			| 
+				qi::string("<") 
+				[
+					boost::bind(&reactor::got_string_comparison_less, &r)
+				]
+			|
+				qi::string("=")
+				[
+					boost::bind(&reactor::got_string_comparison_equal, &r)
+				]
+		;
+
+		string_comparison = 
+			((string_variable | string_literal) >> string_comparison_operator >> (string_variable | string_literal))
+			[
+				boost::bind(&reactor::got_string_comparison, &r)
+			];
 		
 		// Arithmetic expressions
 		expr_factor =
+			string_comparison
+			|
 			NOT
 			|
 			RND
@@ -266,7 +306,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				]);
 
 		printable =
-				string_variable
+				string_comparison
+				|| string_variable
 					[
 						boost::bind(&reactor::got_print_string_variable, &r)
 					]
@@ -535,6 +576,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> expr_factor;
 	qi::rule<Iterator, Skipper> expr_terminals;
 	qi::rule<Iterator, Skipper> expr_array;
+	qi::rule<Iterator, Skipper> string_comparison;
 	qi::rule<Iterator, std::string()> integer_variable_name;
 	qi::rule<Iterator, std::string()> string_variable_name;
 	qi::rule<Iterator, Skipper> integer_assignment;
@@ -552,6 +594,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> string_array_declaration;
 	qi::rule<Iterator, Skipper> string_literal;
 	qi::rule<Iterator, Skipper> string_variable;
+	qi::rule<Iterator, Skipper> string_comparison_operator;
 
 	// TBXL commands
 	qi::rule<Iterator, Skipper> PRINT;

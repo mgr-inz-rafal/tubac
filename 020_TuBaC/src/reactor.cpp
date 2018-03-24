@@ -624,3 +624,51 @@ void reactor::got_string_variable_for_assignment()
 	std::cout << "STRING VARIABLE FOR ASSIGNMENT" << std::endl;
 	_g.do_string_assignment();
 }
+
+void reactor::got_string_comparison() const
+{
+	std::cout << "STRING COMPARISON" << std::endl;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::RIGHT);
+}
+
+void reactor::got_string_comparison_not_equal()
+{
+	std::cout << "STRING COMPARISON NOT EQUAL" << std::endl;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
+	ctx.string_array_assignment_side_switch_to_right();
+}
+
+void reactor::got_string_comparison_less_or_equal()
+{
+	std::cout << "STRING COMPARISON LESS OR EQUAL" << std::endl;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
+	ctx.string_array_assignment_side_switch_to_right();
+}
+
+void reactor::got_string_comparison_greater_or_equal()
+{
+	std::cout << "STRING COMPARISON GREATER OR EQUAL" << std::endl;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
+	ctx.string_array_assignment_side_switch_to_right();
+}
+
+void reactor::got_string_comparison_greater()
+{
+	std::cout << "STRING COMPARISON GREATER" << std::endl;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
+	ctx.string_array_assignment_side_switch_to_right();
+}
+
+void reactor::got_string_comparison_less()
+{
+	std::cout << "STRING COMPARISON LESS" << std::endl;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
+	ctx.string_array_assignment_side_switch_to_right();
+}
+
+void reactor::got_string_comparison_equal()
+{
+	std::cout << "STRING COMPARISON EQUAL" << std::endl;
+	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
+	ctx.string_array_assignment_side_switch_to_right();
+}
