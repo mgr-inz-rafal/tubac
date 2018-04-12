@@ -264,6 +264,8 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_PRINTED_LENGTH), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_LEFT_PTR), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR), true);
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {
@@ -816,6 +818,10 @@ void generator::put_byte_in_variable(const std::string& name, int value) const
 	SI "mva #" << value << ' ' << name << E_;
 }
 
+void generator::do_string_comparison() const
+{
+	SI "jsr DO_STRING_COMPARISON" << E_;
+}
 
 #undef SI
 #undef SN

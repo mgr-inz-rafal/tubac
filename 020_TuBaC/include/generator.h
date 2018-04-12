@@ -239,5 +239,6 @@ public:
 	void print_string(const std::string& name) const;
 	void decrease_word(const std::string& ptr) const;
 	void put_byte_in_variable(const std::string& name, int value) const;
+	void do_string_comparison() const;
 };
 

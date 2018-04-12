@@ -629,6 +629,7 @@ void reactor::got_string_comparison() const
 {
 	std::cout << "STRING COMPARISON" << std::endl;
 	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::RIGHT);
+	_g.do_string_comparison();
 }
 
 void reactor::got_string_comparison_not_equal()

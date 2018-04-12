@@ -56,6 +56,7 @@ void runtime_base::synth_implementation() const
 	synth_CALCULATE_ARRAY_ROW_SIZE_IN_BYTES();
 	synth_DO_STRING_ASSIGNMENT();
 	synth_DO_STRING_ASSIGNMENT_UPDATE_LENGTH();
+	synth_DO_STRING_COMPARISON();
 	synth_helpers();
 
 	synth_BADD();
@@ -605,6 +606,17 @@ void runtime_base::synth_DO_STRING_ASSIGNMENT_UPDATE_LENGTH() const
 	SI "sta (" << token(token_provider::TOKENS::STRING_LEFT_BASE) << "),y" << E_;
 	SI "rts" << E_;
 }
+
+void runtime_base::synth_DO_STRING_COMPARISON() const
+{
+	SN "DO_STRING_COMPARISON" << E_;
+	SI "mwa " << token(token_provider::TOKENS::STRING_LEFT_BASE) << ' ' << token(token_provider::TOKENS::STRING_CMP_LEFT_PTR) << E_;
+	SI "mwa " << token(token_provider::TOKENS::STRING_RIGHT_BASE) << ' ' << token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR) << E_;
+	SI "rts" << E_;
+	SN "STRING_COMPARISON_TMP_1 dta b(0)" << E_;
+	SN "STRING_COMPARISON_TMP_2 dta b(0)" << E_;
+}
+
 
 void runtime_base::synth_DO_STRING_ASSIGNMENT() const
 {
