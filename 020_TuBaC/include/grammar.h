@@ -95,7 +95,15 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		;
 
 		string_comparison = 
-			((string_variable | string_literal) >> string_comparison_operator >> (string_variable | string_literal))
+			((string_variable | string_literal
+				[
+					boost::bind(&reactor::got_string_literal_for_comparison, &r)
+				]
+			) >> string_comparison_operator >> (string_variable | string_literal
+				[
+					boost::bind(&reactor::got_string_literal_for_comparison, &r)
+				]
+				))
 			[
 				boost::bind(&reactor::got_string_comparison, &r)
 			];

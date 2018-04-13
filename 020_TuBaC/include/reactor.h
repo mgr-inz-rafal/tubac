@@ -119,4 +119,5 @@ public:
 	void got_string_comparison_greater();
 	void got_string_comparison_less();
 	void got_string_comparison_equal();
+	void got_string_literal_for_comparison() const;
 };
