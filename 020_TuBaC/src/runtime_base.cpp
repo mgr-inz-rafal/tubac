@@ -617,6 +617,8 @@ void runtime_base::synth_DO_STRING_COMPARISON() const
 	SI "rts" << E_;
 	SN "STRING_COMPARISON_TMP_1 dta b(0)" << E_;
 	SN "STRING_COMPARISON_TMP_2 dta b(0)" << E_;
+	SN "STRING_COMPARISON_LEFT_LENGTH dta a(0)" << E_;
+	SN "STRING_COMPARISON_RIGHT_LENGTH dta a(0)" << E_;
 }
 
 

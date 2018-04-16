@@ -28,6 +28,8 @@ class reactor
 	bool recent_for_had_step;
 	bool last_printed_token_was_separator;
 
+	void reset_context();
+
 public:
 	explicit reactor(generator& g);
 
@@ -112,7 +114,7 @@ public:
 	void got_execute_string_array_assignment();
 	void got_random() const;
 	void got_not() const;
-	void got_string_comparison() const;
+	void got_string_comparison();
 	void got_string_comparison_not_equal();
 	void got_string_comparison_less_or_equal();
 	void got_string_comparison_greater_or_equal();

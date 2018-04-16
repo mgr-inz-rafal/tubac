@@ -20,8 +20,7 @@ reactor::reactor(generator& g) : _g(g) {}
 void reactor::got_line_number(const int& i)
 {
 	std::cout << std::endl << "*** LINE " << i << " ***" << std::endl;
-	ctx.array_assignment_side_reset();
-	ctx.string_array_assignment_side_reset();
+	reset_context();
 	_g.new_line(i);
 }
 
@@ -575,8 +574,7 @@ void reactor::got_string_array_second_dimension()
 void reactor::got_command_separator()
 {
 	std::cout << "COMMAND SEPARATOR" << std::endl;
-	ctx.array_assignment_side_reset();
-	ctx.string_array_assignment_side_reset();
+	reset_context();
 }
 
 void reactor::got_execute_array_assignment()
@@ -625,9 +623,11 @@ void reactor::got_string_variable_for_assignment()
 	_g.do_string_assignment();
 }
 
-void reactor::got_string_comparison() const
+void reactor::got_string_comparison()
 {
 	std::cout << "STRING COMPARISON" << std::endl;
+	std::cout << '\t' << ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::RIGHT).get_name() << std::endl;
+	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
 	_g.do_string_comparison();
 }
 
@@ -658,6 +658,9 @@ void reactor::got_string_comparison_greater()
 void reactor::got_string_comparison_less()
 {
 	std::cout << "STRING COMPARISON LESS" << std::endl;
+	std::cout << '\t' << ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name() << std::endl;
+	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
+	ctx.set_last_string_literal_id(-1);
 	ctx.string_array_assignment_side_switch_to_right();
 }
 
@@ -671,4 +674,11 @@ void reactor::got_string_literal_for_comparison() const
 {
 	std::cout << "STRING LITERAL FOR COMPARISON" << std::endl;
 	_g.init_string_literal_offsets(ctx, ctx.get_string_assignment_array_side());
+}
+
+void reactor::reset_context()
+{
+	ctx.array_assignment_side_reset();
+	ctx.string_array_assignment_side_reset();
+	ctx.set_last_string_literal_id(-1);
 }
