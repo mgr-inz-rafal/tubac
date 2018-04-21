@@ -614,10 +614,6 @@ void runtime_base::synth_DO_STRING_COMPARISON() const
 	SI "adw " << token(token_provider::TOKENS::STRING_CMP_LEFT_PTR) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 	SI "mwa " << token(token_provider::TOKENS::STRING_RIGHT_BASE) << ' ' << token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR) << E_;
 	SI "adw " << token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
-	SI "mwa " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << E_;
-	SI "sbw " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
-	SI "mwa " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << E_;
-	SI "sbw " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
 	SI "rts" << E_;
 	SN "STRING_COMPARISON_TMP_1 dta b(0)" << E_;
 	SN "STRING_COMPARISON_TMP_2 dta b(0)" << E_;
