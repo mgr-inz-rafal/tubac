@@ -266,6 +266,8 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_PRINTED_LENGTH), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_LEFT_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH), true);
+	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH), true);
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {
