@@ -315,6 +315,9 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		printable =
 				string_comparison
+					[
+						boost::bind(&reactor::got_print_expression, &r)
+					]
 				|| string_variable
 					[
 						boost::bind(&reactor::got_print_string_variable, &r)

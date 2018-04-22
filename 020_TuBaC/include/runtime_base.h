@@ -39,6 +39,7 @@ protected:
 	virtual void synth_DO_STRING_ASSIGNMENT() const;
 	virtual void synth_DO_STRING_ASSIGNMENT_UPDATE_LENGTH() const;
 	virtual void synth_DO_STRING_COMPARISON() const;
+	virtual void synth_DO_STRING_COMPARISON_INTERNAL() const;
 
 	// Helpers
 	virtual void synth_INIT_PUSH_POP_POINTER() const;
