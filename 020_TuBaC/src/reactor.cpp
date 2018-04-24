@@ -630,6 +630,10 @@ void reactor::got_string_comparison()
 	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
 	_g.tmp_01(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::RIGHT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id());
 	_g.do_string_comparison();
+	if(ctx.get_invert_logical_value())
+	{
+		_g.FR0_boolean_invert();		
+	}
 	_g.push_from("FR0");
 }
 
@@ -648,7 +652,12 @@ void reactor::got_string_comparison_less_or_equal()
 void reactor::got_string_comparison_greater_or_equal()
 {
 	std::cout << "STRING COMPARISON GREATER OR EQUAL" << std::endl;
+	std::cout << '\t' << ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name() << std::endl;
+	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
+	_g.tmp_00(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id());
+	ctx.set_last_string_literal_id(-1);
 	ctx.string_array_assignment_side_switch_to_right();
+	ctx.set_invert_logical_value(true);
 }
 
 void reactor::got_string_comparison_greater()
@@ -665,6 +674,7 @@ void reactor::got_string_comparison_less()
 	_g.tmp_00(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id());
 	ctx.set_last_string_literal_id(-1);
 	ctx.string_array_assignment_side_switch_to_right();
+	ctx.set_invert_logical_value(false);
 }
 
 void reactor::got_string_comparison_equal()

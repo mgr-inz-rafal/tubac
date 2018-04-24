@@ -15,6 +15,7 @@ public:
 	};
 
 private:
+	bool invert_logical_value;
 	ARRAY_ASSIGNMENT_SIDE array_assignment_side;
 	ARRAY_ASSIGNMENT_SIDE string_array_assignment_side;
 	// TODO: Combine into std::array<T, 2> and remove duplicated methods that differs only by "string_" prefix
@@ -39,4 +40,7 @@ public:
 
 	void set_last_string_literal_id(int literal_id);
 	int get_last_string_literal_id() const;
+
+	bool get_invert_logical_value() const;
+	void set_invert_logical_value(const bool invert_logical_value);
 };

@@ -10,6 +10,16 @@ void context::array_assignment_side_switch_to_right()
 	array_assignment_side = ARRAY_ASSIGNMENT_SIDE::RIGHT;
 }
 
+bool context::get_invert_logical_value() const
+{
+	return invert_logical_value;
+}
+
+void context::set_invert_logical_value(const bool invert_logical_value)
+{
+	this->invert_logical_value = invert_logical_value;
+}
+
 basic_array& context::array_get()
 {
 	return array_being_declared.at(array_assignment_side);
