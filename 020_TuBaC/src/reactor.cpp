@@ -629,6 +629,7 @@ void reactor::got_string_comparison()
 	std::cout << '\t' << ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::RIGHT).get_name() << std::endl;
 	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
 	_g.tmp_01(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::RIGHT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id());
+	_g.init_string_comparison_type(ctx.get_compare_type());
 	_g.do_string_comparison();
 	if(ctx.get_invert_logical_value())
 	{
@@ -646,7 +647,13 @@ void reactor::got_string_comparison_not_equal()
 void reactor::got_string_comparison_less_or_equal()
 {
 	std::cout << "STRING COMPARISON LESS OR EQUAL" << std::endl;
+	std::cout << '\t' << ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name() << std::endl;
+	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
+	_g.tmp_00(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id());
+	ctx.set_last_string_literal_id(-1);
 	ctx.string_array_assignment_side_switch_to_right();
+	ctx.set_invert_logical_value(true);
+	ctx.set_compare_type(context::COMPARE_TYPE::GREATER);
 }
 
 void reactor::got_string_comparison_greater_or_equal()
@@ -658,12 +665,19 @@ void reactor::got_string_comparison_greater_or_equal()
 	ctx.set_last_string_literal_id(-1);
 	ctx.string_array_assignment_side_switch_to_right();
 	ctx.set_invert_logical_value(true);
+	ctx.set_compare_type(context::COMPARE_TYPE::LESS);
 }
 
 void reactor::got_string_comparison_greater()
 {
 	std::cout << "STRING COMPARISON GREATER" << std::endl;
+	std::cout << '\t' << ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name() << std::endl;
+	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
+	_g.tmp_00(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id());
+	ctx.set_last_string_literal_id(-1);
 	ctx.string_array_assignment_side_switch_to_right();
+	ctx.set_invert_logical_value(false);
+	ctx.set_compare_type(context::COMPARE_TYPE::GREATER);
 }
 
 void reactor::got_string_comparison_less()
@@ -675,12 +689,19 @@ void reactor::got_string_comparison_less()
 	ctx.set_last_string_literal_id(-1);
 	ctx.string_array_assignment_side_switch_to_right();
 	ctx.set_invert_logical_value(false);
+	ctx.set_compare_type(context::COMPARE_TYPE::LESS);
 }
 
 void reactor::got_string_comparison_equal()
 {
 	std::cout << "STRING COMPARISON EQUAL" << std::endl;
+	std::cout << '\t' << ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name() << std::endl;
+	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
+	_g.tmp_00(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::LEFT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id());
+	ctx.set_last_string_literal_id(-1);
 	ctx.string_array_assignment_side_switch_to_right();
+	ctx.set_invert_logical_value(false);
+	ctx.set_compare_type(context::COMPARE_TYPE::EQUAL);
 }
 
 void reactor::got_string_literal_for_comparison() const

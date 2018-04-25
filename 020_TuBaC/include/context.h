@@ -14,6 +14,14 @@ public:
 		RIGHT
 	};
 
+	// Only three types, since GREATER_EQUAL is handled by LESS and so on...
+	enum class COMPARE_TYPE
+	{
+		LESS,
+		GREATER,
+		EQUAL
+	};
+
 private:
 	bool invert_logical_value;
 	ARRAY_ASSIGNMENT_SIDE array_assignment_side;
@@ -26,8 +34,11 @@ private:
 		{ context::ARRAY_ASSIGNMENT_SIDE::LEFT, {} },
 		{ context::ARRAY_ASSIGNMENT_SIDE::RIGHT, {} }};
 	int last_string_literal_id_;
+	COMPARE_TYPE compare_type;
 
 public:
+	COMPARE_TYPE get_compare_type() const;
+	void set_compare_type(const COMPARE_TYPE compare_type);
 	basic_array& array_get();
 	basic_array& string_array_get();
 	basic_array& array_get(ARRAY_ASSIGNMENT_SIDE side);

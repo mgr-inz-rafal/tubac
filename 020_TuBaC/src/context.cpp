@@ -20,6 +20,16 @@ void context::set_invert_logical_value(const bool invert_logical_value)
 	this->invert_logical_value = invert_logical_value;
 }
 
+context::COMPARE_TYPE context::get_compare_type() const
+{
+	return compare_type;
+}
+
+void context::set_compare_type(const COMPARE_TYPE compare_type)
+{
+	this->compare_type = compare_type;
+}
+
 basic_array& context::array_get()
 {
 	return array_being_declared.at(array_assignment_side);

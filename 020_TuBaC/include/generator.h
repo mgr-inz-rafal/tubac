@@ -242,5 +242,6 @@ public:
 	void do_string_comparison() const;
 	void tmp_00(const std::string& cs, bool two_dim, int literal_id);
 	void tmp_01(const std::string& cs, const bool is_two_dimensional, int is_literal);
+	void init_string_comparison_type(context::COMPARE_TYPE compare) const;
 };
 

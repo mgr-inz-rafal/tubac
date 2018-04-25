@@ -621,6 +621,7 @@ void runtime_base::synth_DO_STRING_COMPARISON() const
 	SN "STRING_COMPARISON_TMP_2 dta b(0)" << E_;
 	SN "STRING_COMPARISON_LEFT_LENGTH dta a(0)" << E_;
 	SN "STRING_COMPARISON_RIGHT_LENGTH dta a(0)" << E_;
+	SN "STRING_COMPARISON_TYPE dta b(0)" << E_;
 }
 
 // TODO: Verify compatibility with empty strings
@@ -632,7 +633,43 @@ void runtime_base::synth_DO_STRING_COMPARISON_INTERNAL() const
 	SI "lda (" << token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR) << "),y" << E_;
 	SI "sta STRING_COMPARISON_TMP_1" << E_;
 	SI "lda (" << token(token_provider::TOKENS::STRING_CMP_LEFT_PTR) << "),y" << E_;
-	SI R"(#if .byte @ < STRING_COMPARISON_TMP_1
+	SI R"(PHA
+	lda STRING_COMPARISON_TYPE
+	cmp #0 ; EQUAL
+	bne @+
+	; Quick reject if lengths doesn't match
+	#if .word STRING_COMPARISON_LEFT_LENGTH <> STRING_COMPARISON_RIGHT_LENGTH
+	pla
+	mwa RUNTIME_INTEGER_FALSE FR0
+	rts
+	#end
+	pla
+	#if .byte @ = STRING_COMPARISON_TMP_1
+	mwa RUNTIME_INTEGER_TRUE FR0
+	rts
+	#end
+	#if .byte @ <> STRING_COMPARISON_TMP_1
+	mwa RUNTIME_INTEGER_FALSE FR0
+	rts
+	#end
+	jmp DO_STRING_COMPARISON_INTERNAL_1
+
+@	cmp #1 ; GREATER
+	bne @+
+	pla
+	#if .byte @ > STRING_COMPARISON_TMP_1
+	mwa RUNTIME_INTEGER_TRUE FR0
+	rts
+	#end
+	#if .byte @ < STRING_COMPARISON_TMP_1
+	mwa RUNTIME_INTEGER_FALSE FR0
+	rts
+	#end
+	jmp DO_STRING_COMPARISON_INTERNAL_1
+
+	; LESS
+@	pla
+	#if .byte @ < STRING_COMPARISON_TMP_1
 	mwa RUNTIME_INTEGER_TRUE FR0
 	rts
 	#end
@@ -640,6 +677,8 @@ void runtime_base::synth_DO_STRING_COMPARISON_INTERNAL() const
 	mwa RUNTIME_INTEGER_FALSE FR0
 	rts
 	#end
+
+DO_STRING_COMPARISON_INTERNAL_1
 	dew STRING_COMPARISON_LEFT_LENGTH
 	dew STRING_COMPARISON_RIGHT_LENGTH
 	#if .word STRING_COMPARISON_RIGHT_LENGTH = #0 

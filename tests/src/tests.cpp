@@ -66,7 +66,7 @@ const std::string test_tmp_asm = "tmp/source.asm";
 const std::string test_tmp_bin = "tmp/source.xex";
 const std::string test_tmp_image = "tmp/test.atr";
 
-std::chrono::seconds atari_run_timeout(3);
+std::chrono::seconds atari_run_timeout(7);
 
 namespace bp = boost::process;
 namespace bf = boost::filesystem;
@@ -173,7 +173,7 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 				"-config",
 			   	"tools/atari800/.atari800.cfg"
 			},
-			10s);
+			atari_run_timeout);
 
 		process_executor pr_franny_create_image(
 			franny_path,
@@ -209,7 +209,7 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 				"-config", 
 				"tools/atari800/.atari800.cfg"
 			},
-			10s);
+			atari_run_timeout);
 		pr_atari_listing
 			<< "L\n"
 			<< "D2:AUTORUN.SYS\n"

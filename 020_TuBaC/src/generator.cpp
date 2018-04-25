@@ -865,6 +865,24 @@ void generator::tmp_01(const std::string& cs, const bool is_two_dimensional, int
 	}
 }
 
+void generator::init_string_comparison_type(context::COMPARE_TYPE compare) const
+{
+	switch(compare)
+	{
+	case context::COMPARE_TYPE::EQUAL:
+		SI "mva #0 STRING_COMPARISON_TYPE" << E_;
+		break;
+	case context::COMPARE_TYPE::GREATER:
+		SI "mva #1 STRING_COMPARISON_TYPE" << E_;;
+		break;
+	case context::COMPARE_TYPE::LESS:
+		SI "mva #2 STRING_COMPARISON_TYPE" << E_;;
+		break;
+	default: 
+		std::cout << "Internal compiler error: Unknown compare type: " << static_cast<int>(compare) << std::endl;
+	}
+}
+
 #undef SI
 #undef SN
 #undef SC
