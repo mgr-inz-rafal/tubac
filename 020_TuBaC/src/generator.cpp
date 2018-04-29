@@ -851,17 +851,17 @@ void generator::tmp_01(const std::string& cs, const bool is_two_dimensional, int
 	// TODO: Tokenize variable names below
 	if(-1 != literal_id)
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << " ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH" << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << ' ' << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << E_;
 	}
 	else if(!is_two_dimensional)
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << cs << " ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH" << E_;
-		SI "sbw " << "___TUBAC___STRING_COMPARISON_RIGHT_LENGTH ___TUBAC___STRING_RIGHT_FIRST_INDEX_" << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << cs << ' ' << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << E_;
+		SI "sbw " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << " ___TUBAC___STRING_RIGHT_FIRST_INDEX_" << E_;
 	}
 	else
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << " ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH" << E_;
-		SI "sbw " << "___TUBAC___STRING_COMPARISON_RIGHT_LENGTH ___TUBAC___STRING_RIGHT_FIRST_INDEX_" << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << E_;
+		SI "sbw " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << " ___TUBAC___STRING_RIGHT_FIRST_INDEX_" << E_;
 	}
 }
 
