@@ -66,7 +66,7 @@ const std::string test_tmp_asm = "tmp/source.asm";
 const std::string test_tmp_bin = "tmp/source.xex";
 const std::string test_tmp_image = "tmp/test.atr";
 
-std::chrono::seconds atari_run_timeout(7);
+std::chrono::seconds atari_run_timeout(5);
 
 namespace bp = boost::process;
 namespace bf = boost::filesystem;

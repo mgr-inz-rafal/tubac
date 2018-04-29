@@ -29,6 +29,7 @@ class reactor
 	bool last_printed_token_was_separator;
 
 	void reset_context();
+	void init_string_comparison();
 
 public:
 	explicit reactor(generator& g);
