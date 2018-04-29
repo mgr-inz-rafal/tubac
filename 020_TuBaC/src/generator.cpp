@@ -826,27 +826,31 @@ void generator::do_string_comparison() const
 }
 
 // TODO: Refactor and merge with tmp_01
-void generator::tmp_00(const std::string& cs, bool is_two_dimensional, int literal_id)
+void generator::tmp_00(const std::string& cs, bool is_two_dimensional, int literal_id, const context& ctx)
 {
 	// TODO: Tokenize variable names below
+
+	auto string_length = ctx.get_string_assignment_array_side() == context::ARRAY_ASSIGNMENT_SIDE::LEFT
+		? token_provider::TOKENS::STRING_CMP_LEFT_LENGTH : token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH;
+
 	if(-1 != literal_id)
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << ' ' << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << ' ' << token(string_length) << E_;
 	}
 	else if(!is_two_dimensional)
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << cs << ' ' << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << E_;
-		SI "sbw " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << cs << ' ' << token(string_length) << E_;
+		SI "sbw " << token(string_length) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 	}
 	else
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << E_;
-		SI "sbw " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(string_length) << E_;
+		SI "sbw " << token(string_length) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 	}
 }
 
 // TODO: Refactor and merge with tmp_00
-void generator::tmp_01(const std::string& cs, const bool is_two_dimensional, int literal_id)
+void generator::tmp_01(const std::string& cs, const bool is_two_dimensional, int literal_id, const context& ctx)
 {
 	// TODO: Tokenize variable names below
 	if(-1 != literal_id)
