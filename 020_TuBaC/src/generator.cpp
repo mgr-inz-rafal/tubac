@@ -828,30 +828,45 @@ void generator::do_string_comparison() const
 // TODO: Refactor and merge with tmp_01
 void generator::tmp_00(const std::string& cs, bool is_two_dimensional, int literal_id, const context& ctx)
 {
-	// TODO: Tokenize variable names below
-
-	auto string_length = ctx.get_string_assignment_array_side() == context::ARRAY_ASSIGNMENT_SIDE::LEFT
-		? token_provider::TOKENS::STRING_CMP_LEFT_LENGTH : token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH;
+	std::string length;
+	std::string first_index;
+	std::string second_index;
+	switch(ctx.get_string_assignment_array_side())
+	{
+	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
+		length			= token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH);
+		first_index		= token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX);
+		second_index	= token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX);
+		break;
+	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
+		length			= token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH);
+		first_index		= token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX);
+		second_index	= token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX);
+		break;
+	}
 
 	if(-1 != literal_id)
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << ' ' << token(string_length) << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << ' ' << length << E_;
 	}
 	else if(!is_two_dimensional)
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << cs << ' ' << token(string_length) << E_;
-		SI "sbw " << token(string_length) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << cs << ' ' << length << E_;
+		SI "sbw " << length << ' ' << first_index << E_;
 	}
 	else
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(string_length) << E_;
-		SI "sbw " << token(string_length) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+		SI "mwa " << second_index << ' ' << length << E_;
+		SI "sbw " << length << ' ' << first_index << E_;
 	}
 }
 
 // TODO: Refactor and merge with tmp_00
 void generator::tmp_01(const std::string& cs, const bool is_two_dimensional, int literal_id, const context& ctx)
 {
+	auto x = ctx.get_string_assignment_array_side();
+
+
 	// TODO: Tokenize variable names below
 	if(-1 != literal_id)
 	{
