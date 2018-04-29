@@ -633,26 +633,22 @@ void runtime_base::synth_DO_STRING_COMPARISON_INTERNAL() const
 	SI "lda (" << token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR) << "),y" << E_;
 	SI "sta STRING_COMPARISON_TMP_1" << E_;
 	SI "lda (" << token(token_provider::TOKENS::STRING_CMP_LEFT_PTR) << "),y" << E_;
-	SI R"(PHA
+	SI R"(pha
 	lda STRING_COMPARISON_TYPE
 	cmp #0 ; EQUAL
 	bne @+
-	; Quick reject if lengths doesn't match
+	; Quick reject if lengths don't match
 	#if .word STRING_COMPARISON_LEFT_LENGTH <> STRING_COMPARISON_RIGHT_LENGTH
 	pla
 	mwa RUNTIME_INTEGER_FALSE FR0
 	rts
 	#end
 	pla
-	#if .byte @ = STRING_COMPARISON_TMP_1
-	mwa RUNTIME_INTEGER_TRUE FR0
-	rts
-	#end
 	#if .byte @ <> STRING_COMPARISON_TMP_1
 	mwa RUNTIME_INTEGER_FALSE FR0
 	rts
 	#end
-	jmp DO_STRING_COMPARISON_INTERNAL_1
+	jmp DO_STRING_COMPARISON_INTERNAL_2
 
 @	cmp #1 ; GREATER
 	bne @+
@@ -689,6 +685,17 @@ DO_STRING_COMPARISON_INTERNAL_1
 	mwa RUNTIME_INTEGER_TRUE FR0
 	rts
 	#end
+	jmp DO_STRING_COMPARISON_INTERNAL_X
+
+DO_STRING_COMPARISON_INTERNAL_2
+	dew STRING_COMPARISON_LEFT_LENGTH
+	dew STRING_COMPARISON_RIGHT_LENGTH
+	#if .word STRING_COMPARISON_RIGHT_LENGTH = #0 ; Lengths are equal, so we can compare only one
+	mwa RUNTIME_INTEGER_TRUE FR0
+	rts
+	#end
+
+DO_STRING_COMPARISON_INTERNAL_X
 )";
 
 	SI "inw " << token(token_provider::TOKENS::STRING_CMP_LEFT_PTR) << E_;
