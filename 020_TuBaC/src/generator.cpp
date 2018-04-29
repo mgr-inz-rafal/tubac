@@ -825,7 +825,7 @@ void generator::do_string_comparison() const
 	SI "jsr DO_STRING_COMPARISON" << E_;
 }
 
-void generator::tmp_00(bool is_two_dimensional, int literal_id, context& ctx)
+void generator::string_comparison_handler(context& ctx)
 {
 	std::string length;
 	std::string first_index;
@@ -844,15 +844,13 @@ void generator::tmp_00(bool is_two_dimensional, int literal_id, context& ctx)
 		break;
 	}
 
-	auto name = ctx.string_array_get().get_name();
-
-	if(-1 != literal_id)
+	if(-1 != ctx.get_last_string_literal_id())
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << literal_id << ' ' << length << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << ctx.get_last_string_literal_id() << ' ' << length << E_;
 	}
-	else if(!is_two_dimensional)
+	else if(!ctx.get_last_string_literal_id())
 	{
-		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << name << ' ' << length << E_;
+		SI "mwa " << token(token_provider::TOKENS::STRING_ARRAY_CURRENT) << ctx.string_array_get().get_name() << ' ' << length << E_;
 		SI "sbw " << length << ' ' << first_index << E_;
 	}
 	else

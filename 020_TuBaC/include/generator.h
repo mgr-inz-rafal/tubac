@@ -240,7 +240,7 @@ public:
 	void decrease_word(const std::string& ptr) const;
 	void put_byte_in_variable(const std::string& name, int value) const;
 	void do_string_comparison() const;
-	void tmp_00(bool two_dim, int literal_id, context& ctx);
+	void string_comparison_handler(context& ctx);
 	void init_string_comparison_type(context::COMPARE_TYPE compare) const;
 };
 
