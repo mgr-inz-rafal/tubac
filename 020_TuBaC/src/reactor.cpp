@@ -628,7 +628,7 @@ void reactor::got_string_comparison()
 	std::cout << "STRING COMPARISON" << std::endl;
 	std::cout << '\t' << ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::RIGHT).get_name() << std::endl;
 	std::cout << '\t' << ctx.get_last_string_literal_id() << std::endl;
-	_g.tmp_01(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::RIGHT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id(), ctx);
+	_g.tmp_00(ctx.string_array_get(context::ARRAY_ASSIGNMENT_SIDE::RIGHT).get_name(), ctx.string_array_get().is_two_dimensional(), ctx.get_last_string_literal_id(), ctx);
 	_g.init_string_comparison_type(ctx.get_compare_type());
 	_g.do_string_comparison();
 	if(ctx.get_invert_logical_value())
