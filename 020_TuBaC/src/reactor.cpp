@@ -659,6 +659,8 @@ void reactor::got_string_comparison_less_or_equal()
 {
 	std::cout << "STRING COMPARISON LESS OR EQUAL" << std::endl;
 	init_string_comparison();
+
+	// TODO: Create array of pairs <true, context::COMPARE_TYPE::GREATER> in order to unify handlers
 	ctx.set_invert_logical_value(true);
 	ctx.set_compare_type(context::COMPARE_TYPE::GREATER);
 }
