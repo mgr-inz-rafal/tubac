@@ -618,7 +618,6 @@ void runtime_base::synth_DO_STRING_COMPARISON() const
 	SI "jsr DO_STRING_COMPARISON_INTERNAL" << E_;
 	SI "rts" << E_;
 	SN "STRING_COMPARISON_TMP_1 dta b(0)" << E_;
-	SN "STRING_COMPARISON_TMP_2 dta b(0)" << E_;
 	SN "STRING_COMPARISON_TYPE dta b(0)" << E_;
 }
 
@@ -637,8 +636,11 @@ void runtime_base::synth_DO_STRING_COMPARISON_INTERNAL() const
 	cmp #0 ; EQUAL
 	bne @+
 	; Quick reject if lengths don't match
-	#if .word ___TUBAC___STRING_COMPARISON_LEFT_LENGTH <> ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH
-	pla
+)";
+	
+	SI "#if .word " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << " <> " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << E_;
+
+	SI R"(pla
 	mwa RUNTIME_INTEGER_FALSE FR0
 	rts
 	#end
@@ -674,22 +676,30 @@ void runtime_base::synth_DO_STRING_COMPARISON_INTERNAL() const
 	#end
 
 DO_STRING_COMPARISON_INTERNAL_1
-	dew ___TUBAC___STRING_COMPARISON_LEFT_LENGTH
-	dew ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH
-	#if .word ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH = #0 
+)";
+
+	SI "dew " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << E_;
+	SI "dew " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << E_;
+	SI "#if .word " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << "= #0" << E_;
+
+	SI R"(
 	mwa RUNTIME_INTEGER_FALSE FR0
 	rts
 	#end
-	#if .word ___TUBAC___STRING_COMPARISON_LEFT_LENGTH = #0 
+)";
+	SI "#if .word " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << " = #0" << E_;
+	SI R"(
 	mwa RUNTIME_INTEGER_TRUE FR0
 	rts
 	#end
 	jmp DO_STRING_COMPARISON_INTERNAL_X
 
 DO_STRING_COMPARISON_INTERNAL_2
-	dew ___TUBAC___STRING_COMPARISON_LEFT_LENGTH
-	dew ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH
-	#if .word ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH = #0 ; Lengths are equal, so we can compare only one
+)";
+	SI "dew " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << E_;
+	SI "dew " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << E_;
+	SI "#if .word " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << " = #0 ; Lengths are equal, so we can compare only one" << E_;
+	SI R"(
 	mwa RUNTIME_INTEGER_TRUE FR0
 	rts
 	#end
