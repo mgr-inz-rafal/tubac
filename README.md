@@ -20,7 +20,7 @@ This project aims to provide a tool that helps transfer the ATARI Turbo Basic li
 In addition to the commands listed below compiler fully supports:
 * Arithmetic expressions with parenthesis
 * Integer arrays (single and double dimension)
-* Strings (assignment with all kinds of indexing, no comparison yet...)
+* Strings (assignment and comparison with different kind of indexing)
 
 ### Atari Basic
 |Command|Status|Comment|
