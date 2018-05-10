@@ -822,7 +822,11 @@ void generator::put_byte_in_variable(const std::string& name, int value) const
 
 void generator::do_string_comparison() const
 {
+	SI "#if .word ___TUBAC___STRING_COMPARISON_LEFT_LENGTH = #0 .or .word ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH = #0" << E_;
+	SI "jsr DO_STRING_COMPARISON_WITH_EMPTY_LITERAL" << E_;
+	SI "#else" << E_;
 	SI "jsr DO_STRING_COMPARISON" << E_;
+	SI "#end" << E_;
 }
 
 void generator::string_comparison_handler(context& ctx)

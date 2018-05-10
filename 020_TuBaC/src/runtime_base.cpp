@@ -619,6 +619,75 @@ void runtime_base::synth_DO_STRING_COMPARISON() const
 	SI "rts" << E_;
 	SN "STRING_COMPARISON_TMP_1 dta b(0)" << E_;
 	SN "STRING_COMPARISON_TYPE dta b(0)" << E_;
+
+	SN "DO_STRING_COMPARISON_WITH_EMPTY_LITERAL" << E_;
+	SI "#if .word ___TUBAC___STRING_COMPARISON_LEFT_LENGTH = #0 .and .word ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH = #0" << E_;
+	SI "jmp DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_BOTH_EMPTY" << E_;
+	SI "#end" << E_;
+	SI "#if .word ___TUBAC___STRING_COMPARISON_LEFT_LENGTH = #0" << E_;
+	SI "jmp DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_LEFT_EMPTY" << E_;
+	SI "#end" << E_;
+	SI "jmp DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_RIGHT_EMPTY" << E_;
+
+	SN "DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_BOTH_EMPTY" << E_;
+	SI "lda STRING_COMPARISON_TYPE" << E_;
+	SI "cmp #0 ; EQUAL" << E_;
+	SI "bne @+" << E_;
+	SI "mwa RUNTIME_INTEGER_TRUE FR0" << E_;
+	SI "rts" << E_;
+
+	SN "@ cmp #1 ; GREATER" << E_;
+	SI "bne @+" << E_;
+	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
+	SI "rts" << E_;
+
+	SN "@ ; LESS" << E_;
+	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
+	SI "rts" << E_;
+
+
+
+
+
+
+
+	SN "DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_LEFT_EMPTY" << E_;
+	SI "lda STRING_COMPARISON_TYPE" << E_;
+	SI "cmp #0 ; EQUAL" << E_;
+	SI "bne @+" << E_;
+	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
+	SI "rts" << E_;
+
+	SN "@ cmp #1 ; GREATER" << E_;
+	SI "bne @+" << E_;
+	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
+	SI "rts" << E_;
+
+	SN "@ ; LESS" << E_;
+	SI "mwa RUNTIME_INTEGER_TRUE FR0" << E_;
+	SI "rts" << E_;
+
+
+
+
+
+
+
+	SN "DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_RIGHT_EMPTY" << E_;
+	SI "lda STRING_COMPARISON_TYPE" << E_;
+	SI "cmp #0 ; EQUAL" << E_;
+	SI "bne @+" << E_;
+	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
+	SI "rts" << E_;
+
+	SN "@ cmp #1 ; GREATER" << E_;
+	SI "bne @+" << E_;
+	SI "mwa RUNTIME_INTEGER_TRUE FR0" << E_;
+	SI "rts" << E_;
+
+	SN "@ ; LESS" << E_;
+	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
+	SI "rts" << E_;
 }
 
 // TODO: Verify compatibility with empty strings
