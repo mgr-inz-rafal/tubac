@@ -58,6 +58,8 @@ void runtime_base::synth_implementation() const
 	synth_DO_STRING_ASSIGNMENT_UPDATE_LENGTH();
 	synth_DO_STRING_COMPARISON();
 	synth_DO_STRING_COMPARISON_INTERNAL();
+	synth_DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_BOTH_EMPTY();
+	synth_DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_LEFT_EMPTY();
 	synth_helpers();
 
 	synth_BADD();
@@ -629,43 +631,12 @@ void runtime_base::synth_DO_STRING_COMPARISON() const
 	SI "#end" << E_;
 	SI "jmp DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_RIGHT_EMPTY" << E_;
 
-	SN "DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_BOTH_EMPTY" << E_;
-	SI "lda STRING_COMPARISON_TYPE" << E_;
-	SI "cmp #0 ; EQUAL" << E_;
-	SI "bne @+" << E_;
-	SI "mwa RUNTIME_INTEGER_TRUE FR0" << E_;
-	SI "rts" << E_;
-
-	SN "@ cmp #1 ; GREATER" << E_;
-	SI "bne @+" << E_;
-	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
-	SI "rts" << E_;
-
-	SN "@ ; LESS" << E_;
-	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
-	SI "rts" << E_;
 
 
 
 
 
 
-
-	SN "DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_LEFT_EMPTY" << E_;
-	SI "lda STRING_COMPARISON_TYPE" << E_;
-	SI "cmp #0 ; EQUAL" << E_;
-	SI "bne @+" << E_;
-	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
-	SI "rts" << E_;
-
-	SN "@ cmp #1 ; GREATER" << E_;
-	SI "bne @+" << E_;
-	SI "mwa RUNTIME_INTEGER_FALSE FR0" << E_;
-	SI "rts" << E_;
-
-	SN "@ ; LESS" << E_;
-	SI "mwa RUNTIME_INTEGER_TRUE FR0" << E_;
-	SI "rts" << E_;
 
 
 
@@ -780,6 +751,44 @@ DO_STRING_COMPARISON_INTERNAL_X
 	SI "inw " << token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR) << E_;
 	SI "jmp DO_STRING_COMPARISON_INTERNAL_0" << E_;
 	SI "rts" << E_;
+}
+
+void runtime_base::synth_DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_BOTH_EMPTY() const
+{
+	SN R"(
+DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_BOTH_EMPTY
+	lda STRING_COMPARISON_TYPE
+	cmp #0 ; EQUAL
+	bne @+
+	mwa RUNTIME_INTEGER_TRUE FR0
+	rts
+@	cmp #1 ; GREATER
+	bne @+
+	mwa RUNTIME_INTEGER_FALSE FR0
+	rts
+@	; LESS
+	mwa RUNTIME_INTEGER_FALSE FR0
+	rts
+)";
+}
+
+void runtime_base::synth_DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_LEFT_EMPTY() const
+{
+	SN R"(
+DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_LEFT_EMPTY
+	lda STRING_COMPARISON_TYPE
+	cmp #0 ; EQUAL
+	bne @+
+	mwa RUNTIME_INTEGER_FALSE FR0
+	rts
+@	cmp #1 ; GREATER
+	bne @+
+	mwa RUNTIME_INTEGER_FALSE FR0
+	rts
+@	; LESS
+	mwa RUNTIME_INTEGER_TRUE FR0
+	rts
+)";
 }
 
 void runtime_base::synth_DO_STRING_ASSIGNMENT() const

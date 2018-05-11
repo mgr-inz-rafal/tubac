@@ -1,7 +1,0 @@
-10 DIM A$(20),B$(20)
-20 A$="ADA":B$="BBB"
-30 PRINT A$<B$
-45 PRINT A$(2)<B$
-70 PRINT A$(2,3)<B$
-75 B$="ZZZ"
-80 PRINT A$(2)<B$(2)
