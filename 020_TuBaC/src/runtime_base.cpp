@@ -624,16 +624,15 @@ void runtime_base::synth_DO_STRING_COMPARISON() const
 	SN "STRING_COMPARISON_TYPE dta b(0)" << E_;
 
 	SN "DO_STRING_COMPARISON_WITH_EMPTY_LITERAL" << E_;
-	SI "#if .word ___TUBAC___STRING_COMPARISON_LEFT_LENGTH = #0 .and .word ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH = #0" << E_;
+	SI "#if .word " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << " = #0 .and .word " << token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH) << " = #0" << E_;
 	SI "jmp DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_BOTH_EMPTY" << E_;
 	SI "#end" << E_;
-	SI "#if .word ___TUBAC___STRING_COMPARISON_LEFT_LENGTH = #0" << E_;
+	SI "#if .word " << token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH) << " = #0" << E_;
 	SI "jmp DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_LEFT_EMPTY" << E_;
 	SI "#end" << E_;
 	SI "jmp DO_STRING_COMPARISON_WITH_EMPTY_LITERAL_RIGHT_EMPTY" << E_;
 }
 
-// TODO: Verify compatibility with empty strings
 void runtime_base::synth_DO_STRING_COMPARISON_INTERNAL() const
 {
 	// TODO: Tokenize variable names
