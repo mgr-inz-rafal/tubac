@@ -109,8 +109,10 @@ public:
 	void got_end() const;
 	void got_separator_semicolon();
 	void got_separator_comma();
-	void got_after_print() const;
 	void got_print();
+	void got_after_print() const;
+	void got_input();
+	void got_after_input() const;
 	void got_execute_array_assignment();
 	void got_execute_string_array_assignment();
 	void got_random() const;

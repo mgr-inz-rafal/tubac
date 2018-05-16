@@ -313,6 +313,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_separator_comma, &r)
 				]);
 
+		inputable_separator = qi::string(",");
+		
 		printable =
 				string_comparison
 					[
@@ -332,6 +334,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					]
 				|| printable_separator;
 
+		inputable = string_variable_name | integer_variable_name || inputable_separator;
+
 		// TBXL commands
 		PRINT = (qi::string("PRINT")
 				[
@@ -340,6 +344,15 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					>> *printable)
 				[
 					boost::bind(&reactor::got_after_print, &r)
+				];
+
+		INPUT = (qi::string("INPUT")
+				[
+					boost::bind(&reactor::got_input, &r)
+				]
+					>> *inputable)
+				[
+					boost::bind(&reactor::got_after_input, &r)
 				];
 
 		SOUND = (qi::string("SOUND") >> boost::spirit::repeat(3)[expr >> ','] >> expr)
@@ -553,6 +566,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(integer_assignment)			|
 			(integer_array_assignment)		|
 			(PRINT)							|
+			(INPUT)							|
 			(SOUND)							|
 			(POKE)							|
 			(DPOKE)							|
@@ -599,16 +613,19 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> line;
 	qi::rule<Iterator, Skipper> program;
 	qi::rule<Iterator, Skipper> printable;
+	qi::rule<Iterator, Skipper> inputable;
 	qi::rule<Iterator, Skipper> printable_separator;
+	qi::rule<Iterator, Skipper> inputable_separator;
 	qi::rule<Iterator, Skipper> array_declaration;
 	qi::rule<Iterator, Skipper> integer_array_declaration;
 	qi::rule<Iterator, Skipper> string_array_declaration;
 	qi::rule<Iterator, Skipper> string_literal;
 	qi::rule<Iterator, Skipper> string_variable;
 	qi::rule<Iterator, Skipper> string_comparison_operator;
-
+	
 	// TBXL commands
 	qi::rule<Iterator, Skipper> PRINT;
+	qi::rule<Iterator, Skipper> INPUT;
 	qi::rule<Iterator, Skipper> SOUND;
 	qi::rule<Iterator, Skipper> GOTO;
 	qi::rule<Iterator, Skipper> POKE;

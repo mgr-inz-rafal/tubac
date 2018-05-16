@@ -392,6 +392,13 @@ void reactor::got_separator_comma()
 	last_printed_token_was_separator = true;
 }
 
+void reactor::got_print()
+{
+	std::cout << "PRINT" << std::endl;
+	_g.init_print();
+	last_printed_token_was_separator = false;
+}
+
 void reactor::got_after_print() const
 {
 	std::cout << "PRINT NEW LINE: " << !last_printed_token_was_separator << std::endl;
@@ -401,11 +408,14 @@ void reactor::got_after_print() const
 	}
 }
 
-void reactor::got_print()
+void reactor::got_input()
 {
-	std::cout << "PRINT" << std::endl;
-	_g.init_print();
-	last_printed_token_was_separator = false;
+	std::cout << "INPUT" << std::endl;
+}
+
+void reactor::got_after_input() const
+{
+	std::cout << "AFTER INPUT" << std::endl;
 }
 
 void reactor::got_integer_array_name(const std::string& s)
