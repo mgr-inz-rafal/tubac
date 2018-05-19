@@ -392,6 +392,12 @@ void reactor::got_separator_comma()
 	last_printed_token_was_separator = true;
 }
 
+void reactor::got_inputable_separator()
+{
+	std::cout << "INPUTABLE SEPARATOR" << std::endl;
+	_g.inputline();
+}
+
 void reactor::got_print()
 {
 	std::cout << "PRINT" << std::endl;
@@ -411,6 +417,7 @@ void reactor::got_after_print() const
 void reactor::got_input()
 {
 	std::cout << "INPUT" << std::endl;
+	_g.inputline();
 }
 
 void reactor::got_after_input() const

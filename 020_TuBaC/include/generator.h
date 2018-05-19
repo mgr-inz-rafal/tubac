@@ -76,6 +76,7 @@ private:
 	};
 	const std::map<std::string, int> ATARI_CONSTANTS = {
 		{ "PUTCHR",		0x000B },
+		{ "GETLINE",	0x0005 },
 		{ "EOL",		0x009B }
 	};
 
@@ -242,5 +243,6 @@ public:
 	void do_string_comparison() const;
 	void string_comparison_handler(context& ctx);
 	void init_string_comparison_type(context::COMPARE_TYPE compare) const;
+	void inputline() const;
 };
 

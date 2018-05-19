@@ -882,6 +882,12 @@ void generator::init_string_comparison_type(context::COMPARE_TYPE compare) const
 	}
 }
 
+void generator::inputline() const
+{
+	SI "jsr INPUTLINE" << E_;
+}
+
+
 #undef SI
 #undef SN
 #undef SC

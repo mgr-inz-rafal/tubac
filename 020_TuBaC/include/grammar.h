@@ -312,8 +312,6 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				[
 					boost::bind(&reactor::got_separator_comma, &r)
 				]);
-
-		inputable_separator = qi::string(",");
 		
 		printable =
 				string_comparison
@@ -334,7 +332,13 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					]
 				|| printable_separator;
 
+		// TODO: Consider allowing lines like "10 INPUT A$," (still correct, despite the trailing comma)
 		inputable = string_variable_name | integer_variable_name || inputable_separator;
+
+		inputable_separator = qi::string(",")
+				[
+					boost::bind(&reactor::got_inputable_separator, &r)
+				];
 
 		// TBXL commands
 		PRINT = (qi::string("PRINT")

@@ -63,6 +63,9 @@ protected:
 	virtual void synth_PRINT_STRING() const;
 	virtual void synth_PUTCOMMA() const;
 
+	// Input
+	virtual void synth_INPUTLINE() const;
+
 	// POKEY routines
 	virtual void synth_POKEY_INIT() const;
 	virtual void synth_SOUND() const;

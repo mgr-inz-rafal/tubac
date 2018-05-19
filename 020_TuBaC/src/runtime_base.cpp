@@ -70,6 +70,7 @@ void runtime_base::synth_implementation() const
 	synth_FASC();
 	synth_PUTCHAR();
 	synth_PUTNEWLINE();
+	synth_INPUTLINE();
 	synth_PUTSPACE();
 	synth_PUTSTRING();
 	synth_PRINT_STRING();
@@ -832,6 +833,30 @@ void runtime_base::synth_DO_STRING_ASSIGNMENT() const
 	SN "STRING_ASSIGNMENT_TMP dta a(0)" << E_;	// TODO: See if more string assignment related variables could be tmp instead of compiler spawned
 	SN "LEFT_HAS_SECOND dta b(0)" << E_;		// TODO: ditto
 }
+
+void runtime_base::synth_INPUTLINE() const
+{
+	SN R"(
+INPUTLINE
+	lda #GETLINE
+	sta ICCOM
+	lda #<input_buffer
+	sta ICBAL
+	lda #>input_buffer
+	sta ICBAL+1
+	lda #<input_buffer_length
+	sta ICBLL
+	lda #>input_buffer_length
+	sta ICBLL+1
+	ldx #0
+	jsr CIOV
+	rts
+input_buffer_length	equ (40*3)
+input_buffer
+:input_buffer_length	dta b(0)
+)";
+}
+
 
 #undef SI
 #undef SN
