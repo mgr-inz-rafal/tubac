@@ -318,22 +318,27 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					[
 						boost::bind(&reactor::got_print_expression, &r)
 					]
-				|| string_variable
+				| string_variable
 					[
 						boost::bind(&reactor::got_print_string_variable, &r)
 					]
-				|| string_literal
+				| string_literal
 					[
 						boost::bind(&reactor::got_print_string_literal, &r)
 					]
-				|| expr
+				| expr
 					[
 						boost::bind(&reactor::got_print_expression, &r)
 					]
-				|| printable_separator;
+				| printable_separator;
 
 		// TODO: Consider allowing lines like "10 INPUT A$," (still correct, despite the trailing comma)
-		inputable = string_variable_name | integer_variable_name || inputable_separator;
+		inputable = 
+			string_variable_name | integer_variable_name
+				[
+					boost::bind(&reactor::got_integer_variable_to_input, &r, ::_1)
+				]
+			| inputable_separator;
 
 		inputable_separator = qi::string(",")
 				[

@@ -417,12 +417,18 @@ void reactor::got_after_print() const
 void reactor::got_input()
 {
 	std::cout << "INPUT" << std::endl;
-	_g.inputline();
 }
 
 void reactor::got_after_input() const
 {
 	std::cout << "AFTER INPUT" << std::endl;
+	_g.inputline();
+}
+
+void reactor::got_integer_variable_to_input(const std::string& s)
+{
+	std::cout << "INTEGER VARIABLE TO INPUT: " << s << std::endl;
+//	ctx.array_get().set_name(s);
 }
 
 void reactor::got_integer_array_name(const std::string& s)
