@@ -877,7 +877,7 @@ void runtime_base::synth_EMPLACE_INPUT_BUFFER_INTO_STRING() const
 
 	SI "mwa string_variable_content " << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
 	SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
-	SI "mwa ___TUBAC___STRING_ARRAY_CAPACITY_A " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
+	SI "mwa string_variable_capacity " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
 
 	SI "jsr DO_STRING_ASSIGNMENT" << E_;
 	SI "rts" << E_;
