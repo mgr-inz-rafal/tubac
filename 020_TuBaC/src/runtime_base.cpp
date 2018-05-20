@@ -869,20 +869,19 @@ input_buffer
 // Set up pointers and invoke the string copy routine
 void runtime_base::synth_EMPLACE_INPUT_BUFFER_INTO_STRING() const
 {
-	SN R"(
-SRAM
-EMPLACE_INPUT_BUFFER_INTO_STRING
-	mwa #input_buffer ___TUBAC___STRING_RIGHT_BASE_
-	mwa #0 ___TUBAC___STRING_RIGHT_FIRST_INDEX_
-	mwa ICBLL ___TUBAC___STRING_RIGHT_SECOND_INDEX_
-	dew ___TUBAC___STRING_RIGHT_SECOND_INDEX_
+	SN "EMPLACE_INPUT_BUFFER_INTO_STRING" << E_;
+	SI "mwa #input_buffer " << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
+	SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
+	SI "mwa ICBLL " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+	SI "dew ___TUBAC___STRING_RIGHT_SECOND_INDEX_" << E_;
 
-	mwa #___TUBAC___STRING_ARRAY_CONTENT_A ___TUBAC___STRING_LEFT_BASE_
-	mwa #0 ___TUBAC___STRING_LEFT_FIRST_INDEX_
-	mwa ___TUBAC___STRING_ARRAY_CAPACITY_A ___TUBAC___STRING_LEFT_SECOND_INDEX_
+	SI "mwa #___TUBAC___STRING_ARRAY_CONTENT_A " << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
+	SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
+	SI "mwa ___TUBAC___STRING_ARRAY_CAPACITY_A " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
 
-	jsr DO_STRING_ASSIGNMENT
-)";}
+	SI "jsr DO_STRING_ASSIGNMENT" << E_;
+	SI "rts" << E_;
+}
 
 #undef SI
 #undef SN
