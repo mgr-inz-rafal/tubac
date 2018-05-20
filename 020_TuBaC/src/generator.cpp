@@ -892,6 +892,7 @@ void generator::emplace_input_buffer(bool into_string, const std::string& var_na
 {
 	if(into_string)
 	{
+		SI "mwa #" << get_string_array_token(var_name, token_provider::TOKENS::STRING_ARRAY_CONTENT) << " string_variable_content" << E_;
 		SI "jsr EMPLACE_INPUT_BUFFER_INTO_STRING" << E_;
 	}
 	else

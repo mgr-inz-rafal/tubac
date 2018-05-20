@@ -875,12 +875,14 @@ void runtime_base::synth_EMPLACE_INPUT_BUFFER_INTO_STRING() const
 	SI "mwa ICBLL " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
 	SI "dew ___TUBAC___STRING_RIGHT_SECOND_INDEX_" << E_;
 
-	SI "mwa #___TUBAC___STRING_ARRAY_CONTENT_A " << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
+	SI "mwa string_variable_content " << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
 	SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;
 	SI "mwa ___TUBAC___STRING_ARRAY_CAPACITY_A " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << E_;
 
 	SI "jsr DO_STRING_ASSIGNMENT" << E_;
 	SI "rts" << E_;
+	SN "string_variable_content dta a(0)" << E_;
+	SN "string_variable_capacity dta a(0)" << E_;
 }
 
 #undef SI
