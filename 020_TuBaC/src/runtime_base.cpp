@@ -637,7 +637,6 @@ void runtime_base::synth_DO_STRING_COMPARISON() const
 
 void runtime_base::synth_DO_STRING_COMPARISON_INTERNAL() const
 {
-	// TODO: Tokenize variable names
 	SN "DO_STRING_COMPARISON_INTERNAL" << E_;
 	SI "ldy #0" << E_;
 	SN "DO_STRING_COMPARISON_INTERNAL_0" << E_;
