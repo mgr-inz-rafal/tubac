@@ -34,6 +34,7 @@ private:
 		{ context::ARRAY_ASSIGNMENT_SIDE::LEFT, {} },
 		{ context::ARRAY_ASSIGNMENT_SIDE::RIGHT, {} }};
 	int last_string_literal_id_;
+	bool last_variable_is_string_;
 	COMPARE_TYPE compare_type;
 
 public:
@@ -48,7 +49,8 @@ public:
 	void array_assignment_side_switch_to_right();
 	void string_array_assignment_side_switch_to_right();
 	ARRAY_ASSIGNMENT_SIDE get_string_assignment_array_side() const;
-
+	bool get_last_variable_is_string() const;
+	void set_last_variable_is_string(bool b);
 	void set_last_string_literal_id(int literal_id);
 	int get_last_string_literal_id() const;
 

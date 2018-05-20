@@ -820,6 +820,7 @@ void generator::put_byte_in_variable(const std::string& name, int value) const
 	SI "mva #" << value << ' ' << name << E_;
 }
 
+// TODO: Tokenize!
 void generator::do_string_comparison() const
 {
 	SI "#if .word ___TUBAC___STRING_COMPARISON_LEFT_LENGTH = #0 .or .word ___TUBAC___STRING_COMPARISON_RIGHT_LENGTH = #0" << E_;
@@ -887,6 +888,17 @@ void generator::inputline() const
 	SI "jsr INPUTLINE" << E_;
 }
 
+void generator::emplace_input_buffer(bool into_string, const std::string& var_name) const
+{
+	if(into_string)
+	{
+		SI "jsr EMPLACE_INPUT_BUFFER_INTO_STRING" << E_;
+	}
+	else
+	{
+		SI "jsr EMPLACE_INPUT_BUFFER_INTO_INTEGER" << E_;
+	}
+}
 
 #undef SI
 #undef SN

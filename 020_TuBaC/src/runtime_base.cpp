@@ -71,6 +71,7 @@ void runtime_base::synth_implementation() const
 	synth_PUTCHAR();
 	synth_PUTNEWLINE();
 	synth_INPUTLINE();
+	synth_EMPLACE_INPUT_BUFFER_INTO_STRING();
 	synth_PUTSPACE();
 	synth_PUTSTRING();
 	synth_PRINT_STRING();
@@ -834,6 +835,9 @@ void runtime_base::synth_DO_STRING_ASSIGNMENT() const
 	SN "LEFT_HAS_SECOND dta b(0)" << E_;		// TODO: ditto
 }
 
+// TODO: In case of input into string consider
+// setting "input_buffer_length" to actual
+// string length.
 void runtime_base::synth_INPUTLINE() const
 {
 	SN R"(
@@ -857,6 +861,28 @@ input_buffer
 )";
 }
 
+// Bytes read by CIO are stored at "input_buffer".
+// Data is terminated by $9b
+//
+// Length of the buffer (including $9b byte) is stored in ICBLL.
+//
+// Set up pointers and invoke the string copy routine
+void runtime_base::synth_EMPLACE_INPUT_BUFFER_INTO_STRING() const
+{
+	SN R"(
+SRAM
+EMPLACE_INPUT_BUFFER_INTO_STRING
+	mwa #input_buffer ___TUBAC___STRING_RIGHT_BASE_
+	mwa #0 ___TUBAC___STRING_RIGHT_FIRST_INDEX_
+	mwa ICBLL ___TUBAC___STRING_RIGHT_SECOND_INDEX_
+	dew ___TUBAC___STRING_RIGHT_SECOND_INDEX_
+
+	mwa #___TUBAC___STRING_ARRAY_CONTENT_A ___TUBAC___STRING_LEFT_BASE_
+	mwa #0 ___TUBAC___STRING_LEFT_FIRST_INDEX_
+	mwa ___TUBAC___STRING_ARRAY_CAPACITY_A ___TUBAC___STRING_LEFT_SECOND_INDEX_
+
+	jsr DO_STRING_ASSIGNMENT
+)";}
 
 #undef SI
 #undef SN

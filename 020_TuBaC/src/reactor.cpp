@@ -419,16 +419,22 @@ void reactor::got_input()
 	std::cout << "INPUT" << std::endl;
 }
 
-void reactor::got_after_input() const
+void reactor::got_after_input()
 {
 	std::cout << "AFTER INPUT" << std::endl;
 	_g.inputline();
+
+	bool emplace_into_string = ctx.get_last_variable_is_string();
+	const std::string& variable_name = emplace_into_string ? ctx.string_array_get().get_name() : ctx.array_get().get_name();
+
+	_g.emplace_input_buffer(emplace_into_string, variable_name);
 }
 
 void reactor::got_integer_variable_to_input(const std::string& s)
 {
 	std::cout << "INTEGER VARIABLE TO INPUT: " << s << std::endl;
-//	ctx.array_get().set_name(s);
+	ctx.set_last_variable_is_string(false);
+	ctx.array_get().set_name(s);
 }
 
 void reactor::got_integer_array_name(const std::string& s)
@@ -511,6 +517,7 @@ void reactor::got_string_variable_name(const std::string& s)
 {
 	std::cout << "STRING VARIABLE: " << s << std::endl;
 	ctx.string_array_get().set_name(s);
+	ctx.set_last_variable_is_string(true);
 }
 
 void reactor::got_integer_array_to_retrieve()

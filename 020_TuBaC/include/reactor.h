@@ -114,7 +114,7 @@ public:
 	void got_input();
 	void got_inputable_separator();
 	void got_integer_variable_to_input(const std::string& s);
-	void got_after_input() const;
+	void got_after_input();
 	void got_execute_array_assignment();
 	void got_execute_string_array_assignment();
 	void got_random() const;

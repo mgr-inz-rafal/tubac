@@ -75,3 +75,13 @@ context::ARRAY_ASSIGNMENT_SIDE context::get_string_assignment_array_side() const
 {
 	return string_array_assignment_side;
 }
+
+bool context::get_last_variable_is_string() const
+{
+	return last_variable_is_string_;	
+}
+
+void context::set_last_variable_is_string(bool b)
+{
+	last_variable_is_string_ = b;
+}

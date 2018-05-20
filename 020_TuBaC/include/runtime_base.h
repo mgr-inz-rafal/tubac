@@ -65,6 +65,7 @@ protected:
 
 	// Input
 	virtual void synth_INPUTLINE() const;
+	virtual void synth_EMPLACE_INPUT_BUFFER_INTO_STRING() const;
 
 	// POKEY routines
 	virtual void synth_POKEY_INIT() const;

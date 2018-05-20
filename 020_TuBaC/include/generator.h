@@ -244,5 +244,6 @@ public:
 	void string_comparison_handler(context& ctx);
 	void init_string_comparison_type(context::COMPARE_TYPE compare) const;
 	void inputline() const;
+	void emplace_input_buffer(bool into_string, const std::string& var_name) const;
 };
 
