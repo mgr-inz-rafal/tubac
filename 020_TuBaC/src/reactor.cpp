@@ -503,7 +503,7 @@ void reactor::got_print_string_literal()
 	std::cout << "PRINT STRING LITERAL" << std::endl;
 	last_printed_token_was_separator = false;
 	_g.init_string_literal_offsets(ctx, context::ARRAY_ASSIGNMENT_SIDE::LEFT);
-	_g.print_string(ctx.string_array_get().get_name());
+	_g.print_string("");
 }
 
 void reactor::got_print_string_variable()

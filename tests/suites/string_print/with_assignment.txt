@@ -1,0 +1,4 @@
+10 DIM A$(20),B$(10)
+11 A$="ABCDEF":B$=A$(2,4)
+20 PRINT "A$ = ";A$
+30 PRINT "B$ = ";B$
