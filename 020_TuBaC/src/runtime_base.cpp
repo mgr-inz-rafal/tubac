@@ -46,6 +46,7 @@ void runtime_base::synth_implementation() const
 	synth_BINARY_XOR();
 	synth_BINARY_AND();
 	synth_BINARY_OR();
+	synth_EMPLACE_INPUT_BUFFER_INTO_INTEGER();
 	synth_IsXY00();
 	synth_TRUE_FALSE();
 	synth_FR0_boolean_invert();

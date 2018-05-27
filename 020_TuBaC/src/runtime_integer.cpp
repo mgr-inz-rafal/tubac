@@ -13,6 +13,15 @@
 
 #include "runtime_integer.h"
 
+// Synth Indentation
+#define SI synth.synth() <<	
+
+// Synth Normal
+#define SN synth.synth(false) <<
+
+// Synth with Config
+#define SC ss << cfg.get_indent() <<
+
 runtime_integer::runtime_integer(char endline, synthesizer& _synth, const config& _config)
 	: runtime_base(endline, _synth, _config)
 {
@@ -29,7 +38,7 @@ void runtime_integer::synth_implementation() const
 // INBUFP pointer to the first non-zero character
 void runtime_integer::synth_INBUFP_INIT() const
 {
-	synth.synth() << R"(
+	SN R"(
 INBUFP_INIT
 	ldy #0
 INBUFP_INIT_LABEL_1
@@ -48,7 +57,7 @@ INBUFP_INIT_LABEL_0
 // and stores the result in location pointed by FASC_PTR
 void runtime_integer::synth_BCDByte2Ascii() const
 {
-	synth.synth() << R"(
+	SN R"(
 BCDByte2Ascii
 	lda FASC_RES,y
 	pha
@@ -72,7 +81,7 @@ Result is stored in FR0.
 */
 void runtime_integer::synth_BADD() const
 {
-	synth.synth() << R"(
+	SN R"(
 BADD
 	adw FR0 FR1 FR0
 	rts
@@ -86,7 +95,7 @@ Result is stored in FR0.
 */
 void runtime_integer::synth_BSUB() const
 {
-	synth.synth() << R"(
+	SN R"(
 BSUB
 	sbw FR0 FR1 FR0
 	rts
@@ -101,7 +110,7 @@ Result is stored in FR0.
 */
 void runtime_integer::synth_BMUL() const
 {
-	synth.synth() << R"(
+	SN R"(
 BMUL
 	lda #0
 	sta BMUL_RES
@@ -142,7 +151,7 @@ Inspired by: http://codebase64.org/doku.php?id=base:16bit_division_16-bit_result
 */
 void runtime_integer::synth_BDIV() const
 {
-	synth.synth() << R"(
+	SN R"(
 BDIV
 	lda #0
 	sta BDIV_REMAINDER
@@ -180,7 +189,7 @@ INBUFP should be set to indicate first significant character within LBUFF.
 */
 void runtime_integer::synth_FASC() const
 {
-	synth.synth() << R"(
+	SN R"(
 FASC
 	lda #0
 	sta FASC_RES+0
@@ -235,7 +244,7 @@ Compares two numbers (FR0 and FR1). Result is stored in A:
 */
 void runtime_integer::synth_COMPARE_NUMBER() const
 {
-	synth.synth() << R"(
+	SN R"(
 COMPARE_NUMBER
 	#if .word FR0 = FR1
 	lda #0
@@ -257,7 +266,7 @@ TRUE or FALSE value in FR0.
 */
 void runtime_integer::synth_COMPARE_FR0_FR1() const
 {
-	synth.synth() << R"(
+	SN R"(
 COMPARE_FR0_FR1
 	jsr COMPARE_NUMBER
 	cmp INTEGER_COMPARE_TMP
@@ -272,13 +281,13 @@ COMPARE_FR0_FR1_TRUE
 
 void runtime_integer::synth_TRUE_FALSE() const
 {
-	synth.synth(false) << "RUNTIME_INTEGER_FALSE dta a(0)" << E_;
-	synth.synth(false) << "RUNTIME_INTEGER_TRUE dta a(1)" << E_;
+	SN "RUNTIME_INTEGER_FALSE dta a(0)" << E_;
+	SN "RUNTIME_INTEGER_TRUE dta a(1)" << E_;
 }
 
 void runtime_integer::synth_FR0_boolean_invert() const
 {
-	synth.synth() << R"(
+	SN R"(
 FR0_boolean_invert
 	#if .word FR0 = RUNTIME_INTEGER_FALSE
 		mwa RUNTIME_INTEGER_TRUE FR0
@@ -293,7 +302,7 @@ FR0_boolean_invert
 // A=1 otherwise
 void runtime_integer::synth_Is_FR0_true() const
 {
-	synth.synth() << R"(
+	SN R"(
 Is_FR0_true
 	#if .word FR0 = RUNTIME_INTEGER_FALSE
 		lda #0
@@ -307,12 +316,12 @@ Is_FR0_true
 void runtime_integer::synth_helpers() const
 {
 	runtime_base::synth_helpers();
-	synth.synth(false) << "INTEGER_COMPARE_TMP dta b(0)" << E_;
+	SN "INTEGER_COMPARE_TMP dta b(0)" << E_;
 }
 
 void runtime_integer::synth_LOGICAL_AND() const
 {
-	synth.synth() << R"(
+	SN R"(
 LOGICAL_AND
 	#if .word FR0 <> #0 .and .word FR1 <> #0
 	mwa RUNTIME_INTEGER_TRUE FR0
@@ -325,7 +334,7 @@ LOGICAL_AND
 
 void runtime_integer::synth_LOGICAL_OR() const
 {
-	synth.synth() << R"(
+	SN R"(
 LOGICAL_OR
 	#if .word FR0 <> #0 .or .word FR1 <> #0
 	mwa RUNTIME_INTEGER_TRUE FR0
@@ -338,7 +347,7 @@ LOGICAL_OR
 
 void runtime_integer::synth_BINARY_XOR() const
 {
-	synth.synth() << R"(
+	SN R"(
 BINARY_XOR
 	lda FR0
 	eor FR1
@@ -352,7 +361,7 @@ BINARY_XOR
 
 void runtime_integer::synth_BINARY_AND() const
 {
-	synth.synth() << R"(
+	SN R"(
 BINARY_AND
 	lda FR0
 	and FR1
@@ -366,7 +375,7 @@ BINARY_AND
 
 void runtime_integer::synth_BINARY_OR() const
 {
-	synth.synth() << R"(
+	SN R"(
 BINARY_OR
 	lda FR0
 	ora FR1
@@ -380,15 +389,31 @@ BINARY_OR
 
 void runtime_integer::synth_PUT_ZERO_IN_FR0() const
 {
-	synth.synth(false) << "PUT_ZERO_IN_FR0" << E_;
-	synth.synth() << "mwa #0 FR0" << E_;
-	synth.synth() << "rts" << E_;
+	SN R"(
+PUT_ZERO_IN_FR0
+	mwa #0 FR0
+	rts
+)";
 }
 
 void runtime_integer::synth_PUT_RANDOM_IN_FR0() const
 {
-	synth.synth(false) << "PUT_RANDOM_IN_FR0" << E_;
-	synth.synth() << "mva RANDOM FR0" << E_;
-	synth.synth() << "mva RANDOM FR0+1" << E_;
-	synth.synth() << "rts" << E_;
+	SN R"(
+PUT_RANDOM_IN_FR0
+	mva RANDOM FR0
+	mva RANDOM FR0+1
+	rts
+)";
 }
+
+void runtime_integer::synth_EMPLACE_INPUT_BUFFER_INTO_INTEGER() const
+{
+	SN R"(
+EMPLACE_INPUT_BUFFER_INTO_INTEGER
+	rts
+)";
+}
+
+#undef SI
+#undef SN
+#undef SC
