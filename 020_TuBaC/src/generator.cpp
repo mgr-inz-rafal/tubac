@@ -884,6 +884,8 @@ void generator::init_string_comparison_type(context::COMPARE_TYPE compare) const
 
 void generator::inputline() const
 {
+	SI "lda #'?'" << E_;
+	SI "jsr PUTCHAR" << E_;
 	SI "jsr INPUTLINE" << E_;
 }
 
