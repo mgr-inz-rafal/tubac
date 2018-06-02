@@ -41,7 +41,7 @@ protected:
 	void synth_BINARY_XOR() const override;
 	void synth_BINARY_AND() const override;
 	void synth_BINARY_OR() const override;
-	void synth_EMPLACE_INPUT_BUFFER_INTO_INTEGER() const override;
+	void synth_CONVERT_INPUT_BUFFER_INTO_INTEGER() const override;
 
 public:
 	runtime_integer(char endline, synthesizer& _synth, const config& _tp);

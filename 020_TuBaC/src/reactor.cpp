@@ -395,7 +395,7 @@ void reactor::got_separator_comma()
 void reactor::got_inputable_separator()
 {
 	std::cout << "INPUTABLE SEPARATOR" << std::endl;
-	_g.inputline();
+	got_after_input();
 }
 
 void reactor::got_print()
@@ -424,7 +424,7 @@ void reactor::got_after_input()
 	std::cout << "AFTER INPUT" << std::endl;
 	_g.inputline();
 
-	bool emplace_into_string = ctx.get_last_variable_is_string();
+	const bool emplace_into_string = ctx.get_last_variable_is_string();
 	const std::string& variable_name = emplace_into_string ? ctx.string_array_get().get_name() : ctx.array_get().get_name();
 
 	_g.emplace_input_buffer(emplace_into_string, variable_name);

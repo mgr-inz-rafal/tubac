@@ -100,7 +100,7 @@ protected:
 	virtual void synth_Is_FR0_true() const = 0;
 	virtual void synth_PUT_ZERO_IN_FR0() const = 0;
 	virtual void synth_PUT_RANDOM_IN_FR0() const = 0;
-	virtual void synth_EMPLACE_INPUT_BUFFER_INTO_INTEGER() const = 0;
+	virtual void synth_CONVERT_INPUT_BUFFER_INTO_INTEGER() const = 0;
 
 
 	// Utility functions

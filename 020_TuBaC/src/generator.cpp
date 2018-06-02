@@ -899,7 +899,8 @@ void generator::emplace_input_buffer(bool into_string, const std::string& var_na
 	}
 	else
 	{
-		SI "jsr EMPLACE_INPUT_BUFFER_INTO_INTEGER" << E_;
+		SI "jsr CONVERT_INPUT_BUFFER_INTO_INTEGER" << E_;
+		SI "mwa FR0 " << token(token_provider::TOKENS::VARIABLE) << var_name << E_;
 	}
 }
 
