@@ -426,6 +426,7 @@ void reactor::got_after_input()
 
 	const bool emplace_into_string = ctx.get_last_variable_is_string();
 	const std::string& variable_name = emplace_into_string ? ctx.string_array_get().get_name() : ctx.array_get().get_name();
+	_g.new_variable(variable_name);
 
 	_g.emplace_input_buffer(emplace_into_string, variable_name);
 }
