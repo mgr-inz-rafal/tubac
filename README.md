@@ -55,7 +55,7 @@ In addition to the commands listed below compiler fully supports:
 |GO TO|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)|ditto|
 |GRAPHICS|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |IF...THEN|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
-|INPUT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|INPUT|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Integers (non-indexed) and strings supported, but only for default I/O channel|
 |INT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LEN|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
 |LET|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
