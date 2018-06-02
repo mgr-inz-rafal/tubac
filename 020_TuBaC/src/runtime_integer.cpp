@@ -406,10 +406,57 @@ PUT_RANDOM_IN_FR0
 )";
 }
 
+// This subroutine has been provided by Mono
 void runtime_integer::synth_EMPLACE_INPUT_BUFFER_INTO_INTEGER() const
 {
 	SN R"(
+value .ds 2
+emplace_helper_ptr dta b(0)
+EMPLACE_INPUT_BUFFER_INTO_INTEGER_helper
+	ldy emplace_helper_ptr
+	lda input_buffer,y
+	cmp #$9b
+	bne @+
+	lda #0
+@	inc emplace_helper_ptr
+	rts
 EMPLACE_INPUT_BUFFER_INTO_INTEGER
+	lda #0
+	sta emplace_helper_ptr
+	sta value
+	sta value+1
+?get:
+	jsr EMPLACE_INPUT_BUFFER_INTO_INTEGER_helper
+	sec
+	sbc #'0'
+	bcc ?ret
+	cmp #10
+	bcs ?ret
+	pha
+	lda value+1
+	pha
+	lda value
+	asl value
+	rol value+1
+	asl value
+	rol value+1
+	clc
+	adc value
+	sta value
+	pla
+	adc value+1
+	asl value
+	rol
+	sta value+1
+	pla
+	clc
+	adc value
+	sta value
+	bcc ?get
+	inc value+1
+	bcs ?get
+?ret:
+	mwa value FR0
 	rts
 )";
 }
