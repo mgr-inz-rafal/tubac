@@ -241,11 +241,12 @@ public:
 	void decrease_word(const std::string& ptr) const;
 	void put_byte_in_variable(const std::string& name, int value) const;
 	void do_string_comparison() const;
-	void string_comparison_handler(context& ctx);
+	void string_comparison_handler(context& ctx) const;
 	void init_string_comparison_type(context::COMPARE_TYPE compare) const;
 	void inputline() const;
 	void emplace_input_buffer(bool into_string, const std::string& var_name) const;
-	void calculate_single_indexed_string_length(const std::string& var_name);
-	void calculate_double_indexed_string_length();
+	void calculate_non_indexed_string_length(const std::string& var_name) const;
+	void calculate_single_indexed_string_length(const std::string& var_name) const;
+	void calculate_double_indexed_string_length() const;
 };
 

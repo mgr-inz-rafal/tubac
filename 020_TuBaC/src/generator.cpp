@@ -829,7 +829,7 @@ void generator::do_string_comparison() const
 	SI "#end" << E_;
 }
 
-void generator::string_comparison_handler(context& ctx)
+void generator::string_comparison_handler(context& ctx) const
 {
 	std::string length;
 	std::string first_index;
@@ -905,18 +905,22 @@ void generator::emplace_input_buffer(bool into_string, const std::string& var_na
 }
 
 // TODO: Mind the integer-vs-floating arithmetic here
-void generator::calculate_double_indexed_string_length()
+void generator::calculate_double_indexed_string_length() const
 {
 	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << " FR0" << E_;
 }
 
 // TODO: Mind the integer-vs-floating arithmetic here
-void generator::calculate_single_indexed_string_length(const std::string& var_name)
+void generator::calculate_single_indexed_string_length(const std::string& var_name) const
 {
 	SI "sbw " << get_string_array_token(var_name, token_provider::TOKENS::STRING_ARRAY_CURRENT) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << " FR0" << E_;
 }
 
 // TODO: Mind the integer-vs-floating arithmetic here
+void generator::calculate_non_indexed_string_length(const std::string& var_name) const
+{
+	SI "mwa " << get_string_array_token(var_name, token_provider::TOKENS::STRING_ARRAY_CURRENT) << " FR0" << E_;
+}
 
 #undef SI
 #undef SN
