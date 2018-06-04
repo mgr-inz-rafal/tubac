@@ -668,6 +668,10 @@ void reactor::got_len()
 			_g.calculate_non_indexed_string_length(ctx.string_array_get().get_name());
 		}
 	}
+	else
+	{
+		_g.calculate_string_literal_length(ctx.get_last_string_literal_id());
+	}
 	_g.push_from("FR0");
 }
 

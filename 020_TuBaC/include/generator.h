@@ -248,5 +248,6 @@ public:
 	void calculate_non_indexed_string_length(const std::string& var_name) const;
 	void calculate_single_indexed_string_length(const std::string& var_name) const;
 	void calculate_double_indexed_string_length() const;
+	void calculate_string_literal_length(int id) const;
 };
 

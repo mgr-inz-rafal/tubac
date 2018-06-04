@@ -922,6 +922,13 @@ void generator::calculate_non_indexed_string_length(const std::string& var_name)
 	SI "mwa " << get_string_array_token(var_name, token_provider::TOKENS::STRING_ARRAY_CURRENT) << " FR0" << E_;
 }
 
+// TODO: Mind the integer-vs-floating arithmetic here
+void generator::calculate_string_literal_length(int id) const
+{
+	SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << id << " FR0" << E_;
+}
+
+
 #undef SI
 #undef SN
 #undef SC
