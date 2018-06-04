@@ -904,11 +904,19 @@ void generator::emplace_input_buffer(bool into_string, const std::string& var_na
 	}
 }
 
-void generator::calculate_double_indexed_string_length(const std::string& var_name)
+// TODO: Mind the integer-vs-floating arithmetic here
+void generator::calculate_double_indexed_string_length()
 {
-	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX)<< ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << " FR0" << E_;
+	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << " FR0" << E_;
 }
 
+// TODO: Mind the integer-vs-floating arithmetic here
+void generator::calculate_single_indexed_string_length(const std::string& var_name)
+{
+	SI "sbw " << get_string_array_token(var_name, token_provider::TOKENS::STRING_ARRAY_CURRENT) << ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << " FR0" << E_;
+}
+
+// TODO: Mind the integer-vs-floating arithmetic here
 
 #undef SI
 #undef SN

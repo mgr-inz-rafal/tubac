@@ -245,6 +245,7 @@ public:
 	void init_string_comparison_type(context::COMPARE_TYPE compare) const;
 	void inputline() const;
 	void emplace_input_buffer(bool into_string, const std::string& var_name) const;
-	void calculate_double_indexed_string_length(const std::string& var_name);
+	void calculate_single_indexed_string_length(const std::string& var_name);
+	void calculate_double_indexed_string_length();
 };
 

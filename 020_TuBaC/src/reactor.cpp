@@ -654,7 +654,14 @@ void reactor::got_len()
 	{
 		if(ctx.get_is_string_dimensional())
 		{
-			_g.calculate_double_indexed_string_length(ctx.string_array_get().get_name());
+			if(ctx.string_array_get().is_two_dimensional())
+			{
+				_g.calculate_double_indexed_string_length();
+			}
+			else
+			{
+				_g.calculate_single_indexed_string_length(ctx.string_array_get().get_name());
+			}
 		}
 	}
 	_g.push_from("FR0");
