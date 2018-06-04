@@ -39,6 +39,7 @@
 #ifdef _WIN32
 const std::string linux_test_label = "LINUX_";
 #endif
+const std::string input_file_marker = ".input";
 #ifdef _WIN32
 #define CATCH_CONFIG_COLOUR_WINDOWS
 #ifdef NDEBUG
@@ -130,7 +131,7 @@ std::string parse_atari_listing_test(const std::string& str)
 // 1. By compiling with Tubac->Mads and running .xex
 // 2. By creating .atr disk and using TBXL to parse the program
 // Returns parsed output from both machines
-std::pair<std::string, std::string> execute_on_atari(std::string test_program)
+std::pair<std::string, std::string> execute_on_atari(std::string test_program, std::string input_parameters = "")
 {
 	try
 	{
@@ -174,6 +175,7 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 			   	"tools/atari800/.atari800.cfg"
 			},
 			atari_run_timeout);
+		pr_atari_binary << input_parameters << '\n';
 
 		process_executor pr_franny_create_image(
 			franny_path,
@@ -215,6 +217,7 @@ std::pair<std::string, std::string> execute_on_atari(std::string test_program)
 			<< "D2:AUTORUN.SYS\n"
 			<< (boost::format("ENTER \"D3:%1%\"\n") % test_tmp_source_name).str()
 			<< "RUN\n";
+		pr_atari_listing << input_parameters << '\n';
 
 		opt::optional<std::string> result_binary_test;
 		opt::optional<std::string> result_listing_test;
@@ -299,12 +302,21 @@ void remove_linux_specific_tests(std::vector<bf::path>& tests)
 }
 #endif
 
+void remove_input_files(std::vector<bf::path>& tests)
+{
+	tests.erase(
+		std::remove_if(tests.begin(), tests.end(),
+			[](auto& p) {
+				return p.filename().string().find(input_file_marker) != std::string::npos;
+			}), tests.end());
+}
+
 #define RUN_AND_CHECK(FILENAME, LISTING) \
 		{ \
 		std::string listing = atarize_listing(LISTING); \
 		INFO(listing) \
 		INFO(FILENAME) \
-		result = execute_on_atari(listing); \
+		result = execute_on_atari(listing, content_of_file(FILENAME + input_file_marker)); \
 		CHECK(result.first == result.second); \
 		}
 
@@ -319,6 +331,7 @@ TEST_CASE("Turbo Basic Compiler") {
 #ifdef _WIN32
 				remove_linux_specific_tests(tests);
 #endif
+			remove_input_files(tests);
 			for (auto& test : tests)
 			{
 				auto ifs = std::ifstream(test.string());
