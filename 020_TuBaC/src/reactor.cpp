@@ -414,7 +414,7 @@ void reactor::got_after_print() const
 	}
 }
 
-void reactor::got_input()
+void reactor::got_input() const
 {
 	std::cout << "INPUT" << std::endl;
 }
@@ -572,6 +572,7 @@ void reactor::got_string_array_first_dimension()
 {
 	std::cout << "SETUP FIRST DIMENSION OF ARRAY" << std::endl;
 	ctx.string_array_get().set_two_dimensional(false);
+	ctx.set_is_string_dimensional(true);
 	switch (ctx.get_string_assignment_array_side())
 	{
 	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
@@ -590,6 +591,7 @@ void reactor::got_string_array_second_dimension()
 {
 	std::cout << "SETUP SECOND DIMENSION OF STRING ARRAY" << std::endl;
 	ctx.string_array_get().set_two_dimensional(true);
+	ctx.set_is_string_dimensional(true);
 	switch (ctx.get_string_assignment_array_side())
 	{
 	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
@@ -635,20 +637,44 @@ void reactor::got_not() const
 	_g.push_from("FR0");
 }
 
+void reactor::got_len()
+{
+	std::cout << "LENGTH OF STRING: ";
+	if(-1 == ctx.get_last_string_literal_id())
+	{
+		std::cout << ctx.string_array_get().get_name();
+	}
+	else
+	{
+		std::cout << "LITERAL WITH ID=" << ctx.get_last_string_literal_id();
+	}
+	std::cout << std::endl;
+
+	if(-1 == ctx.get_last_string_literal_id())
+	{
+		if(ctx.get_is_string_dimensional())
+		{
+			_g.calculate_double_indexed_string_length(ctx.string_array_get().get_name());
+		}
+	}
+	_g.push_from("FR0");
+}
+
 void reactor::got_string_variable_before_dimensions()
 {
 	std::cout << "STRING VARIABLE NAME BEFORE DIMENSIONS" << std::endl;
+	ctx.set_is_string_dimensional(false);
 	_g.init_string_variable_offsets(ctx.string_array_get().get_name(), ctx.get_string_assignment_array_side());
 }
 
-void reactor::got_string_literal_for_assignment()
+void reactor::got_string_literal_for_assignment() const
 {
 	std::cout << "STRING LITERAL FOR ASSIGNMENT" << std::endl;
 	_g.init_string_literal_offsets(ctx);
 	_g.do_string_assignment();
 }
 
-void reactor::got_string_variable_for_assignment()
+void reactor::got_string_variable_for_assignment() const
 {
 	std::cout << "STRING VARIABLE FOR ASSIGNMENT" << std::endl;
 	_g.do_string_assignment();

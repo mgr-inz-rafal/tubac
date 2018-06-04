@@ -904,6 +904,12 @@ void generator::emplace_input_buffer(bool into_string, const std::string& var_na
 	}
 }
 
+void generator::calculate_double_indexed_string_length(const std::string& var_name)
+{
+	SI "sbw " << token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX)<< ' ' << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << " FR0" << E_;
+}
+
+
 #undef SI
 #undef SN
 #undef SC

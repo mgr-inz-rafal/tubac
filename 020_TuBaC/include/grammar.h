@@ -112,6 +112,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 		expr_factor =
 			string_comparison
 			|
+			LEN
+			|
 			NOT
 			|
 			RND
@@ -570,6 +572,11 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				boost::bind(&reactor::got_not, &r)
 			];
 
+		LEN = (qi::string("LEN(") >> (string_variable | string_literal) >> qi::string(")"))
+			[
+				boost::bind(&reactor::got_len, &r)
+			];
+
 		command =
 			(string_assignment)				|
 			(integer_assignment)			|
@@ -601,6 +608,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(LET)							|
 			(DIM)							|
 			(NOT)							|
+			(LEN)							|
 			(GOTO);
 	}
 
@@ -665,6 +673,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> DIM;
 	qi::rule<Iterator, Skipper> RND;
 	qi::rule<Iterator, Skipper> NOT;
+	qi::rule<Iterator, Skipper> LEN;
 };
 
 

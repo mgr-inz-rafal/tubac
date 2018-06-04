@@ -85,3 +85,13 @@ void context::set_last_variable_is_string(bool b)
 {
 	last_variable_is_string_ = b;
 }
+
+void context::set_is_string_dimensional(bool b)
+{
+	is_string_dimensional = b;
+}
+
+bool context::get_is_string_dimensional() const
+{
+	return is_string_dimensional;
+}

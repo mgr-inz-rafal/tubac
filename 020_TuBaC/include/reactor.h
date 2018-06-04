@@ -73,8 +73,8 @@ public:
 	void got_string_array_first_dimension();
 	void got_string_array_second_dimension();
 	void got_string_variable_before_dimensions();
-	void got_string_literal_for_assignment();
-	void got_string_variable_for_assignment();
+	void got_string_literal_for_assignment() const;
+	void got_string_variable_for_assignment() const;
 	void got_print_string_literal();
 	void got_print_string_variable();
 	void got_array_declaration();
@@ -111,7 +111,7 @@ public:
 	void got_separator_comma();
 	void got_print();
 	void got_after_print() const;
-	void got_input();
+	void got_input() const;
 	void got_inputable_separator();
 	void got_integer_variable_to_input(const std::string& s);
 	void got_after_input();
@@ -119,6 +119,7 @@ public:
 	void got_execute_string_array_assignment();
 	void got_random() const;
 	void got_not() const;
+	void got_len();
 	void got_string_comparison();
 	void got_string_comparison_not_equal();
 	void got_string_comparison_less_or_equal();
