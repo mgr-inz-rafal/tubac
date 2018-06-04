@@ -57,7 +57,7 @@ In addition to the commands listed below compiler fully supports:
 |IF...THEN|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |INPUT|![#1589F0](https://placehold.it/15/1589F0/000000?text=+)|Integers (non-indexed) and strings supported, but only for default I/O channel|
 |INT|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
-|LEN|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
+|LEN|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |LET|![#00ff00](https://placehold.it/15/00ff00/000000?text=+)||
 |LIST|![#000000](https://placehold.it/15/000000/000000?text=+)|It doesn't make sense to list compiled program.|
 |LOAD|![#f03c15](https://placehold.it/15/f03c15/000000?text=+)||
