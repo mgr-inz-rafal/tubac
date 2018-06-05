@@ -780,3 +780,13 @@ void reactor::reset_context()
 	ctx.string_array_assignment_side_reset();
 	ctx.set_last_string_literal_id(-1);
 }
+
+void reactor::got_data(const std::vector<char>& vec)
+{
+	std::cout << "DATA ELEMENT (";
+	for(char c: vec)
+	{
+		std::cout << c;
+	}
+	std::cout  << ')' << std::endl;
+}

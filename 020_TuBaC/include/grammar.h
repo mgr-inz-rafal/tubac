@@ -577,6 +577,15 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				boost::bind(&reactor::got_len, &r)
 			];
 
+		raw_data_element = qi::no_skip[*(~qi::char_(",") -qi::eol)]
+			[
+				boost::bind(&reactor::got_data, &r, ::_1)
+			];
+
+		raw_data = raw_data_element % ',';
+
+		DATA = qi::string("DATA") >> raw_data >> qi::eol;
+
 		command =
 			(string_assignment)				|
 			(integer_assignment)			|
@@ -609,6 +618,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(DIM)							|
 			(NOT)							|
 			(LEN)							|
+			(DATA)							|
 			(GOTO);
 	}
 
@@ -621,6 +631,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> string_comparison;
 	qi::rule<Iterator, std::string()> integer_variable_name;
 	qi::rule<Iterator, std::string()> string_variable_name;
+	qi::rule<Iterator, std::string()> raw_data;
+	qi::rule<Iterator, std::string()> raw_data_element;
 	qi::rule<Iterator, Skipper> integer_assignment;
 	qi::rule<Iterator, Skipper> integer_array_assignment;
 	qi::rule<Iterator, Skipper> string_assignment;
@@ -674,6 +686,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> RND;
 	qi::rule<Iterator, Skipper> NOT;
 	qi::rule<Iterator, Skipper> LEN;
+	qi::rule<Iterator, Skipper> DATA;
 };
 
 
