@@ -116,6 +116,17 @@ void generator::write_data_elements() const
 
 	std::for_each(data_elements.begin(), data_elements.end(), [this](const auto& element)
 	{
+		// For the convenience of the coder
+		// generate the "string-like" preview of the encoded data
+		// and put it as a comment in the assembly file
+		std::stringstream ss("; \"", std::ios::binary | std::ios::app | std::ios::out);
+		std::for_each(element.begin(), element.end(), [&ss](const auto& c)
+		{
+			ss << c;
+		});
+		ss << '"';
+
+		SI ss.str() << E_;
 		std::for_each(element.begin(), element.end(), [this](const auto& c)
 		{
 			SI "dta c\"" << static_cast<unsigned char>(c) << '"' << E_;
