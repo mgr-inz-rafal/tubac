@@ -15,6 +15,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <locale>
 
 #include "generator.h"
 #include "synthesizer.h"
@@ -122,7 +123,14 @@ void generator::write_data_elements() const
 		std::stringstream ss("; \"", std::ios::binary | std::ios::app | std::ios::out);
 		std::for_each(element.begin(), element.end(), [&ss](const auto& c)
 		{
-			ss << c;
+			if(std::isprint(c, std::locale()))
+			{
+				ss << c;
+			}
+			else
+			{
+				ss << '<' << std::hex << static_cast<unsigned int>(c) << std::dec << '>';
+			}
 		});
 		ss << '"';
 
