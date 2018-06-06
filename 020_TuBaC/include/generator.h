@@ -138,6 +138,7 @@ private:
 	char E_;
 	std::set<std::string> integers;
 	std::set<std::string> variables;
+	std::list<std::vector<char>> data_elements;
 	std::multimap<std::vector<char>, int> string_literals;	// TODO: Optimize for duplicated string literals
 	bool pokey_initialized;
 
@@ -150,6 +151,7 @@ private:
 	void write_stacks_initialization() const;
 	void write_stacks() const;
 	void write_integers() const;
+	void write_data_elements() const;
 	void write_variables() const;
 	void write_string_literals() const;
 	void write_atari_registers() const;
@@ -172,6 +174,7 @@ public:
 	generator(std::ostream& _stream, const config& _cfg);
 	~generator();
 
+	void new_data_element(const std::vector<char>& d);
 	void new_integer(const std::string& i);
 	int new_string_literal(const std::vector<char>& s);
 	void new_variable(const std::string& v);

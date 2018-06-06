@@ -781,7 +781,7 @@ void reactor::reset_context()
 	ctx.set_last_string_literal_id(-1);
 }
 
-void reactor::got_data(const std::vector<char>& vec)
+void reactor::got_data_element(const std::vector<char>& vec)
 {
 	std::cout << "DATA ELEMENT (";
 	for(char c: vec)
@@ -789,4 +789,6 @@ void reactor::got_data(const std::vector<char>& vec)
 		std::cout << c;
 	}
 	std::cout  << ')' << std::endl;
+
+	_g.new_data_element(vec);
 }

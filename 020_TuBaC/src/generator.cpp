@@ -107,6 +107,21 @@ void generator::write_code_footer() const
 	write_variables();
 	write_string_literals();
 	write_stacks();
+	write_data_elements();
+}
+
+void generator::write_data_elements() const
+{
+	SN "; Data elements" << E_;
+
+	std::for_each(data_elements.begin(), data_elements.end(), [this](const auto& element)
+	{
+		std::for_each(element.begin(), element.end(), [this](const auto& c)
+		{
+			SI "dta c\"" << static_cast<unsigned char>(c) << '"' << E_;
+		});
+		SI "dta b($9b)" << E_ << E_;
+	});
 }
 
 void generator::write_integers() const
@@ -926,6 +941,11 @@ void generator::calculate_non_indexed_string_length(const std::string& var_name)
 void generator::calculate_string_literal_length(int id) const
 {
 	SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << id << " FR0" << E_;
+}
+
+void generator::new_data_element(const std::vector<char>& d)
+{
+	data_elements.emplace_back(d);
 }
 
 

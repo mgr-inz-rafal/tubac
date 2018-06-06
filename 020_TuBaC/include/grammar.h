@@ -579,7 +579,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		raw_data_element = qi::no_skip[*(~qi::char_(",") -qi::eol)]
 			[
-				boost::bind(&reactor::got_data, &r, ::_1)
+				boost::bind(&reactor::got_data_element, &r, ::_1)
 			];
 
 		raw_data = raw_data_element % ',';
