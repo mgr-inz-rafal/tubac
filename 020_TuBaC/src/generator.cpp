@@ -122,7 +122,7 @@ void generator::write_data_elements() const
 		int element_line = element.first;
 		if(element_line != last_element_line)
 		{
-			SN "DATA_ELEMENTS_LINE_" << element_line << E_;
+			SN token(token_provider::TOKENS::DATA_LINE_INDICATOR) << element_line << E_;
 			last_element_line = element_line;
 		}
 
