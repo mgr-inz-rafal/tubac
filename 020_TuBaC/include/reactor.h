@@ -129,4 +129,6 @@ public:
 	void got_string_comparison_equal();
 	void got_string_literal_for_comparison() const;
 	void got_data_element(const std::vector<char>& vec);
+	void got_read() const;
+	void got_after_read();
 };

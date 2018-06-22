@@ -114,14 +114,23 @@ void generator::write_code_footer() const
 void generator::write_data_elements() const
 {
 	SN "; Data elements" << E_;
+	SN "DATA_ELEMENTS_BEGIN" << E_;
 
-	std::for_each(data_elements.begin(), data_elements.end(), [this](const auto& element)
+	int last_element_line = -1;
+	std::for_each(data_elements.begin(), data_elements.end(), [this, &last_element_line](const auto& element)
 	{
+		int element_line = element.first;
+		if(element_line != last_element_line)
+		{
+			SN "DATA_ELEMENTS_LINE_" << element_line << E_;
+			last_element_line = element_line;
+		}
+
 		// For the convenience of the coder
 		// generate the "string-like" preview of the encoded data
 		// and put it as a comment in the assembly file
 		std::stringstream ss("; \"", std::ios::binary | std::ios::app | std::ios::out);
-		std::for_each(element.begin(), element.end(), [&ss](const auto& c)
+		std::for_each(element.second.begin(), element.second.end(), [&ss](const auto& c)
 		{
 			if(std::isprint(c, std::locale()))
 			{
@@ -135,7 +144,7 @@ void generator::write_data_elements() const
 		ss << '"';
 
 		SI ss.str() << E_;
-		std::for_each(element.begin(), element.end(), [this](const auto& c)
+		std::for_each(element.second.begin(), element.second.end(), [this](const auto& c)
 		{
 			SI "dta c\"" << static_cast<unsigned char>(c) << '"' << E_;
 		});
@@ -962,7 +971,7 @@ void generator::calculate_string_literal_length(int id) const
 	SI "mwa " << token(token_provider::TOKENS::STRING_LITERAL_LENGTH) << id << " FR0" << E_;
 }
 
-void generator::new_data_element(const std::vector<char>& d)
+void generator::new_data_element(const data_element_t& d)
 {
 	data_elements.emplace_back(d);
 }

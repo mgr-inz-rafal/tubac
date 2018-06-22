@@ -95,3 +95,13 @@ bool context::get_is_string_dimensional() const
 {
 	return is_string_dimensional;
 }
+
+int context::get_current_line() const
+{
+	return current_line;
+}
+
+void context::set_current_line(int line_)
+{
+	current_line = line_;
+}

@@ -21,6 +21,7 @@ void reactor::got_line_number(const int& i)
 {
 	std::cout << std::endl << "*** LINE " << i << " ***" << std::endl;
 	reset_context();
+	ctx.set_current_line(i);
 	_g.new_line(i);
 }
 
@@ -436,6 +437,7 @@ void reactor::got_integer_variable_to_input(const std::string& s)
 	std::cout << "INTEGER VARIABLE TO INPUT: " << s << std::endl;
 	ctx.set_last_variable_is_string(false);
 	ctx.array_get().set_name(s);
+	_g.new_variable(s);
 }
 
 void reactor::got_integer_array_name(const std::string& s)
@@ -790,5 +792,15 @@ void reactor::got_data_element(const std::vector<char>& vec)
 	}
 	std::cout  << ')' << std::endl;
 
-	_g.new_data_element(vec);
+	_g.new_data_element({ctx.get_current_line(), vec});
+}
+
+void reactor::got_read() const
+{
+	std::cout << "READ" << std::endl;
+}
+
+void reactor::got_after_read()
+{
+	std::cout << "AFTER READ" << std::endl;
 }

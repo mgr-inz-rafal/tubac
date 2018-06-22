@@ -23,6 +23,7 @@ public:
 	};
 
 private:
+	int current_line;
 	bool invert_logical_value;
 	bool is_string_dimensional;
 	ARRAY_ASSIGNMENT_SIDE array_assignment_side;
@@ -39,6 +40,8 @@ private:
 	COMPARE_TYPE compare_type;
 
 public:
+	int get_current_line() const;
+	void set_current_line(int line_);
 	COMPARE_TYPE get_compare_type() const;
 	void set_compare_type(const COMPARE_TYPE compare_type);
 	basic_array& array_get();

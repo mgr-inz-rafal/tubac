@@ -135,10 +135,11 @@ private:
 	int string_literal_id = 0;
 	///////////////////////////////////////////////////////////////////////////////////////////
 
+	using data_element_t = std::pair<int, std::vector<char>>;
 	char E_;
 	std::set<std::string> integers;
 	std::set<std::string> variables;
-	std::list<std::vector<char>> data_elements;
+	std::list<data_element_t> data_elements;
 	std::multimap<std::vector<char>, int> string_literals;	// TODO: Optimize for duplicated string literals
 	bool pokey_initialized;
 
@@ -174,7 +175,7 @@ public:
 	generator(std::ostream& _stream, const config& _cfg);
 	~generator();
 
-	void new_data_element(const std::vector<char>& d);
+	void new_data_element(const data_element_t& d);
 	void new_integer(const std::string& i);
 	int new_string_literal(const std::vector<char>& s);
 	void new_variable(const std::string& v);

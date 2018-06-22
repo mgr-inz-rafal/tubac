@@ -366,6 +366,15 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 					boost::bind(&reactor::got_after_input, &r)
 				];
 
+		READ = (qi::string("READ")
+				[
+					boost::bind(&reactor::got_read, &r)
+				]
+					>> *inputable)
+				[
+					boost::bind(&reactor::got_after_read, &r)
+				];
+
 		SOUND = (qi::string("SOUND") >> boost::spirit::repeat(3)[expr >> ','] >> expr)
 			[
 				boost::bind(&reactor::got_sound, &r)
@@ -619,6 +628,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(NOT)							|
 			(LEN)							|
 			(DATA)							|
+			(READ)							|
 			(GOTO);
 	}
 
@@ -687,6 +697,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> NOT;
 	qi::rule<Iterator, Skipper> LEN;
 	qi::rule<Iterator, Skipper> DATA;
+	qi::rule<Iterator, Skipper> READ;
 };
 
 
