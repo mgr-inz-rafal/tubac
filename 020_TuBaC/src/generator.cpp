@@ -927,9 +927,13 @@ void generator::init_string_comparison_type(context::COMPARE_TYPE compare) const
 
 void generator::inputline() const
 {
+	SI "jsr INPUTLINE" << E_;
+}
+
+void generator::show_input_prompt() const
+{
 	SI "lda #'?'" << E_;
 	SI "jsr PUTCHAR" << E_;
-	SI "jsr INPUTLINE" << E_;
 }
 
 void generator::emplace_input_buffer(bool into_string, const std::string& var_name) const

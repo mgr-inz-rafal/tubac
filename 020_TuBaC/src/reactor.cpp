@@ -415,15 +415,20 @@ void reactor::got_after_print() const
 	}
 }
 
-void reactor::got_input() const
+void reactor::got_input()
 {
 	std::cout << "INPUT" << std::endl;
+	ctx.set_input_source(context::INPUT_SOURCE::INPUT);
 }
 
 void reactor::got_after_input()
 {
 	std::cout << "AFTER INPUT" << std::endl;
-	_g.inputline();
+	if(context::INPUT_SOURCE::INPUT == ctx.get_input_source())
+	{
+		_g.show_input_prompt();
+		_g.inputline();
+	}
 
 	const bool emplace_into_string = ctx.get_last_variable_is_string();
 	const std::string& variable_name = emplace_into_string ? ctx.string_array_get().get_name() : ctx.array_get().get_name();
@@ -795,9 +800,10 @@ void reactor::got_data_element(const std::vector<char>& vec)
 	_g.new_data_element({ctx.get_current_line(), vec});
 }
 
-void reactor::got_read() const
+void reactor::got_read()
 {
 	std::cout << "READ" << std::endl;
+	ctx.set_input_source(context::INPUT_SOURCE::READ);
 }
 
 void reactor::got_after_read()

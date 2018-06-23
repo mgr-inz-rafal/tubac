@@ -8,6 +8,12 @@
 class context
 {
 public:
+	enum class INPUT_SOURCE
+	{
+		INPUT,
+		READ
+	};
+
 	enum class ARRAY_ASSIGNMENT_SIDE
 	{
 		LEFT,
@@ -38,8 +44,11 @@ private:
 	int last_string_literal_id_;
 	bool last_variable_is_string_;
 	COMPARE_TYPE compare_type;
+	INPUT_SOURCE input_source;
 
 public:
+	void set_input_source(const INPUT_SOURCE input_source_);
+	INPUT_SOURCE get_input_source() const;
 	int get_current_line() const;
 	void set_current_line(int line_);
 	COMPARE_TYPE get_compare_type() const;

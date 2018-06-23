@@ -111,7 +111,7 @@ public:
 	void got_separator_comma();
 	void got_print();
 	void got_after_print() const;
-	void got_input() const;
+	void got_input();
 	void got_inputable_separator();
 	void got_integer_variable_to_input(const std::string& s);
 	void got_after_input();
@@ -129,6 +129,6 @@ public:
 	void got_string_comparison_equal();
 	void got_string_literal_for_comparison() const;
 	void got_data_element(const std::vector<char>& vec);
-	void got_read() const;
+	void got_read();
 	void got_after_read();
 };

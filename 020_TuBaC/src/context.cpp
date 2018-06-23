@@ -105,3 +105,13 @@ void context::set_current_line(int line_)
 {
 	current_line = line_;
 }
+
+void context::set_input_source(const INPUT_SOURCE input_source_)
+{
+	input_source = input_source_;
+}
+
+context::INPUT_SOURCE context::get_input_source() const
+{
+	return input_source;
+}
