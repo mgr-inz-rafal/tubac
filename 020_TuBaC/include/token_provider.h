@@ -15,6 +15,8 @@
 #include <string>
 #include <map>
 
+#include "token.h"
+
 class token_provider
 {
 public:
@@ -75,7 +77,7 @@ public:
 
 private:
 	const std::string TOKEN_INDICATOR = "___TUBAC___";
-	std::map<TOKENS, std::string> TOKEN_MAP = {
+	std::map<TOKENS, token> TOKEN_MAP = {
 		{ TOKENS::PROGRAM_START,			make_token("PROGRAM_START") },
 		{ TOKENS::PROGRAM_END,				make_token("PROGRAM_ENDS_HERE") },
 		{ TOKENS::EXPRESSION_STACK,			make_token("EXPRESSION_STACK") },
@@ -129,7 +131,7 @@ private:
 		{ TOKENS::DATA_ELEMENTS_BEGIN,		make_token("DATA_ELEMENTS_BEGIN") }
 		
 	};
-	std::string make_token(const std::string& name) const;
+	token make_token(const std::string& name) const;
 
 public:
 	const std::string& get(TOKENS token) const;

@@ -177,6 +177,7 @@
     <ClCompile Include="src\runtime_integer.cpp" />
     <ClCompile Include="src\stack.cpp" />
     <ClCompile Include="src\synthesizer.cpp" />
+    <ClCompile Include="src\token.cpp" />
     <ClCompile Include="src\token_provider.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +196,7 @@
     <ClInclude Include="include\stack.h" />
     <ClInclude Include="include\synthesizer.h" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\token.h" />
     <ClInclude Include="include\token_provider.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

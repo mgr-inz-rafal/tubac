@@ -11,15 +11,17 @@
  * ----------------------------------------------------------------------------
  */
 
+#include "token.h"
 #include "token_provider.h"
 
 const std::string& token_provider::get(TOKENS token) const
 {
-	return TOKEN_MAP.at(token);
+	return TOKEN_MAP.at(token).get_label();
 }
 
-std::string token_provider::make_token(const std::string& name) const
+// TODO: No longer necessary, delegate to "token" class
+token token_provider::make_token(const std::string& name) const
 {
-	return TOKEN_INDICATOR + name;
+	return token(TOKEN_INDICATOR + name);
 }
 
