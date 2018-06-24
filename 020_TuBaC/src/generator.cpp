@@ -68,6 +68,7 @@ void generator::write_code_header() const {
 	SI "mva #10 PTABW" << E_;
 
 	write_stacks_initialization();
+	init_pointer(token(token_provider::TOKENS::CURRENT_DATA_PTR), token(token_provider::TOKENS::DATA_ELEMENTS_BEGIN));
 }
 
 void generator::write_stacks() const
@@ -114,7 +115,7 @@ void generator::write_code_footer() const
 void generator::write_data_elements() const
 {
 	SN "; Data elements" << E_;
-	SN "DATA_ELEMENTS_BEGIN" << E_;
+	SN token(token_provider::TOKENS::DATA_ELEMENTS_BEGIN) << E_;
 
 	int last_element_line = -1;
 	std::for_each(data_elements.begin(), data_elements.end(), [this, &last_element_line](const auto& element)
@@ -311,6 +312,7 @@ void generator::write_internal_variables() const {
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR), true);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH), false);
 	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH), false);
+	spawn_compiler_variable(token(token_provider::TOKENS::CURRENT_DATA_PTR), true);
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {
