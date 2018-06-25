@@ -77,6 +77,7 @@ public:
 
 private:
 	const std::string TOKEN_INDICATOR = "___TUBAC___";
+	// TODO: Introduce ZeroPageToken: public Token
 	std::map<TOKENS, token> TOKEN_MAP = {
 		{ TOKENS::PROGRAM_START,			make_token("PROGRAM_START") },
 		{ TOKENS::PROGRAM_END,				make_token("PROGRAM_ENDS_HERE") },
@@ -91,9 +92,9 @@ private:
 		{ TOKENS::FOR_STEP_STACK,			make_token("FOR_STEP_STACK") },
 		{ TOKENS::FOR_STEP_STACK_PTR,		make_token("FOR_STEP_STACK_PTR") },
 		{ TOKENS::INTEGER,					make_token("INTEGER_") },
-		{ TOKENS::PUSH_POP_PTR_TO_INC_DEC,	make_token("PUSH_POP_PTR_TO_INC_DEC") },
-		{ TOKENS::PUSH_POP_VALUE_PTR,		make_token("PUSH_POP_VALUE_PTR") },
-		{ TOKENS::PUSH_POP_TARGET_STACK_PTR,make_token("PUSH_POP_TARGET_STACK_PTR") },
+		{ TOKENS::PUSH_POP_PTR_TO_INC_DEC,	make_token("PUSH_POP_PTR_TO_INC_DEC", true, true) },
+		{ TOKENS::PUSH_POP_VALUE_PTR,		make_token("PUSH_POP_VALUE_PTR", true, true) },
+		{ TOKENS::PUSH_POP_TARGET_STACK_PTR,make_token("PUSH_POP_TARGET_STACK_PTR", true, true) },
 		{ TOKENS::LINE_INDICATOR,			make_token("LINE_NUMBER_") },
 		{ TOKENS::DATA_LINE_INDICATOR,		make_token("DATA_ELEMENTS_LINE_") },
 		{ TOKENS::VARIABLE,					make_token("VARIABLE_") },
@@ -113,26 +114,27 @@ private:
 		{ TOKENS::STRING_ARRAY_CAPACITY,	make_token("STRING_ARRAY_CAPACITY_") },
 		{ TOKENS::STRING_ARRAY_CURRENT,		make_token("STRING_ARRAY_CURRENT_") },
 		{ TOKENS::STRING_ARRAY_CONTENT,		make_token("STRING_ARRAY_CONTENT_") },
-		{ TOKENS::STRING_LEFT_BASE,			make_token("STRING_LEFT_BASE_") },
-		{ TOKENS::STRING_LEFT_FIRST_INDEX,	make_token("STRING_LEFT_FIRST_INDEX_") },
-		{ TOKENS::STRING_LEFT_SECOND_INDEX,	make_token("STRING_LEFT_SECOND_INDEX_") },
-		{ TOKENS::STRING_LEFT_PTR,			make_token("STRING_LEFT_PTR") },
-		{ TOKENS::STRING_RIGHT_BASE,		make_token("STRING_RIGHT_BASE_") },
-		{ TOKENS::STRING_RIGHT_FIRST_INDEX,	make_token("STRING_RIGHT_FIRST_INDEX_") },
-		{ TOKENS::STRING_RIGHT_SECOND_INDEX,make_token("STRING_RIGHT_SECOND_INDEX_") },
-		{ TOKENS::STRING_RIGHT_PTR,			make_token("STRING_RIGHT_PTR") },
-		{ TOKENS::STRING_ASSIGNMENT_COUNTER,make_token("STRING_ASSIGNMENT_COUNTER") },
-		{ TOKENS::STRING_PRINTED_LENGTH,	make_token("STRING_PRINTED_LENGTH") },
-		{ TOKENS::STRING_CMP_LEFT_PTR,		make_token("STRING_CMP_LEFT_PTR") },
-		{ TOKENS::STRING_CMP_RIGHT_PTR,		make_token("STRING_CMP_RIGHT_PTR") },
-		{ TOKENS::STRING_CMP_LEFT_LENGTH,	make_token("STRING_COMPARISON_LEFT_LENGTH") },
-		{ TOKENS::STRING_CMP_RIGHT_LENGTH,	make_token("STRING_COMPARISON_RIGHT_LENGTH") },
-		{ TOKENS::CURRENT_DATA_PTR,			make_token("CURRENT_DATA_PTR") },
+		{ TOKENS::STRING_LEFT_BASE,			make_token("STRING_LEFT_BASE_", true, true) },
+		{ TOKENS::STRING_LEFT_FIRST_INDEX,	make_token("STRING_LEFT_FIRST_INDEX_", true) },
+		{ TOKENS::STRING_LEFT_SECOND_INDEX,	make_token("STRING_LEFT_SECOND_INDEX_", true) },
+		{ TOKENS::STRING_LEFT_PTR,			make_token("STRING_LEFT_PTR", true, true) },
+		{ TOKENS::STRING_RIGHT_BASE,		make_token("STRING_RIGHT_BASE_", true) },
+		{ TOKENS::STRING_RIGHT_FIRST_INDEX,	make_token("STRING_RIGHT_FIRST_INDEX_", true) },
+		{ TOKENS::STRING_RIGHT_SECOND_INDEX,make_token("STRING_RIGHT_SECOND_INDEX_", true) },
+		{ TOKENS::STRING_RIGHT_PTR,			make_token("STRING_RIGHT_PTR", true, true) },
+		{ TOKENS::STRING_ASSIGNMENT_COUNTER,make_token("STRING_ASSIGNMENT_COUNTER", true, true) },
+		{ TOKENS::STRING_PRINTED_LENGTH,	make_token("STRING_PRINTED_LENGTH", true) },
+		{ TOKENS::STRING_CMP_LEFT_PTR,		make_token("STRING_CMP_LEFT_PTR", true, true) },
+		{ TOKENS::STRING_CMP_RIGHT_PTR,		make_token("STRING_CMP_RIGHT_PTR", true, true) },
+		{ TOKENS::STRING_CMP_LEFT_LENGTH,	make_token("STRING_COMPARISON_LEFT_LENGTH", true) },
+		{ TOKENS::STRING_CMP_RIGHT_LENGTH,	make_token("STRING_COMPARISON_RIGHT_LENGTH", true) },
+		{ TOKENS::CURRENT_DATA_PTR,			make_token("CURRENT_DATA_PTR", true, true) },
 		{ TOKENS::DATA_ELEMENTS_BEGIN,		make_token("DATA_ELEMENTS_BEGIN") }
 		
 	};
-	token make_token(const std::string& name) const;
+	token make_token(const std::string& name, bool b1 = false, bool b2 = false) const;
 
 public:
 	const std::string& get(TOKENS token) const;
+	auto& get_all_tokens() const { return TOKEN_MAP; };
 };

@@ -16,6 +16,7 @@
 #include <sstream>
 #include <iostream>
 #include <locale>
+#include <algorithm>
 
 #include "generator.h"
 #include "synthesizer.h"
@@ -295,24 +296,15 @@ void generator::push_from_variable(const std::string& source) const {
 }
 
 void generator::write_internal_variables() const {
-	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_TARGET_STACK_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_PTR_TO_INC_DEC), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::PUSH_POP_VALUE_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_BASE), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX), false);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_SECOND_INDEX), false);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_LEFT_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_BASE), false);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX), false);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX), false);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_RIGHT_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_ASSIGNMENT_COUNTER), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_PRINTED_LENGTH), false);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_LEFT_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_RIGHT_PTR), true);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_LEFT_LENGTH), false);
-	spawn_compiler_variable(token(token_provider::TOKENS::STRING_CMP_RIGHT_LENGTH), false);
-	spawn_compiler_variable(token(token_provider::TOKENS::CURRENT_DATA_PTR), true);
+	const auto& tokens = cfg.get_token_provider().get_all_tokens();
+
+	std::for_each(tokens.begin(), tokens.end(), [this](const auto& token)
+	{
+		if(token.second.should_spawn())
+		{
+			spawn_compiler_variable(token.second.get_label(), token.second.should_spawn_on_zero_page());
+		}
+	});
 }
 
 void generator::spawn_compiler_variable(const std::string& name, bool zero_page) const {

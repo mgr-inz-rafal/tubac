@@ -20,8 +20,8 @@ const std::string& token_provider::get(TOKENS token) const
 }
 
 // TODO: No longer necessary, delegate to "token" class
-token token_provider::make_token(const std::string& name) const
+token token_provider::make_token(const std::string& name, bool b1, bool b2) const
 {
-	return token(TOKEN_INDICATOR + name);
+	return token(TOKEN_INDICATOR + name, b1, b2);
 }
 
