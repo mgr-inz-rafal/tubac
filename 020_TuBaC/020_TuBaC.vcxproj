@@ -179,6 +179,8 @@
     <ClCompile Include="src\synthesizer.cpp" />
     <ClCompile Include="src\token.cpp" />
     <ClCompile Include="src\token_provider.cpp" />
+    <ClCompile Include="src\variable_token.cpp" />
+    <ClCompile Include="src\zero_page_token.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\algorithm.h" />
@@ -198,6 +200,8 @@
     <ClInclude Include="include\targetver.h" />
     <ClInclude Include="include\token.h" />
     <ClInclude Include="include\token_provider.h" />
+    <ClInclude Include="include\variable_token.h" />
+    <ClInclude Include="include\zero_page_token.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

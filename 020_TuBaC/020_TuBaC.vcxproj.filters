@@ -63,6 +63,12 @@
     <ClCompile Include="src\token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\variable_token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zero_page_token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\command_line.h">
@@ -114,6 +120,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\variable_token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zero_page_token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

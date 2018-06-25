@@ -300,9 +300,9 @@ void generator::write_internal_variables() const {
 
 	std::for_each(tokens.begin(), tokens.end(), [this](const auto& token)
 	{
-		if(token.second.should_spawn())
+		if(token.second->should_spawn())
 		{
-			spawn_compiler_variable(token.second.get_label(), token.second.should_spawn_on_zero_page());
+			spawn_compiler_variable(token.second->get_label(), token.second->should_spawn_on_zero_page());
 		}
 	});
 }
