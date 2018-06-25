@@ -23,6 +23,9 @@ if(Boost_FOUND)
         src/runtime_integer.cpp
         src/number_type_base.cpp
         src/stack.cpp
+	src/token.cpp
+	src/variable_token.cpp
+	src/zero_page_token.cpp
     )
     target_link_libraries(tubac ${Boost_LIBRARIES})
 endif()
