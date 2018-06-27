@@ -146,6 +146,7 @@ void generator::write_data_elements() const
 		ss << '"';
 
 		SI ss.str() << E_;
+		SI "dta a(" << 1+element.second.size() << ')' << E_;
 		std::for_each(element.second.begin(), element.second.end(), [this](const auto& c)
 		{
 			SI "dta c\"" << static_cast<unsigned char>(c) << '"' << E_;	// TODO: Replace with dta b($$) to cover unprintable characters
@@ -933,7 +934,10 @@ void generator::init_emplacement_buffer_source_for_input_operation() const
 
 void generator::init_emplacement_buffer_source_for_read_operation() const
 {
-	SI "mwa #" << token(token_provider::TOKENS::DATA_ELEMENTS_BEGIN) << ' ' << token(token_provider::TOKENS::INPUT_BUFFER_SOURCE) << E_;
+	SI "mwa " << token(token_provider::TOKENS::CURRENT_DATA_PTR) << ' ' << token(token_provider::TOKENS::INPUT_BUFFER_LENGTH) << E_;
+	SI "inw " << token(token_provider::TOKENS::CURRENT_DATA_PTR) << E_;
+	SI "inw " << token(token_provider::TOKENS::CURRENT_DATA_PTR) << E_;
+	SI "mwa " << token(token_provider::TOKENS::CURRENT_DATA_PTR) << ' ' << token(token_provider::TOKENS::INPUT_BUFFER_SOURCE) << E_;
 }
 
 void generator::show_input_prompt() const
