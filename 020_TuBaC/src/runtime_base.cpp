@@ -872,8 +872,13 @@ void runtime_base::synth_EMPLACE_INPUT_BUFFER_INTO_STRING() const
 	SN "EMPLACE_INPUT_BUFFER_INTO_STRING" << E_;
 	SI "mwa " << token(token_provider::TOKENS::INPUT_BUFFER_SOURCE) << ' ' << token(token_provider::TOKENS::STRING_RIGHT_BASE) << E_;
 	SI "mwa #0 " << token(token_provider::TOKENS::STRING_RIGHT_FIRST_INDEX) << E_;
-	SI "mwa ICBLL " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
-	SI "dew ___TUBAC___STRING_RIGHT_SECOND_INDEX_" << E_;
+	SI "ldy #0" << E_;
+	SI "lda (" << token(token_provider::TOKENS::INPUT_BUFFER_LENGTH) << "),y" << E_;
+	SI "sta " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
+	SI "iny" << E_;
+	SI "lda (" << token(token_provider::TOKENS::INPUT_BUFFER_LENGTH) << "),y" << E_;
+	SI "sta " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << "+1" << E_;
+	SI "dew " << token(token_provider::TOKENS::STRING_RIGHT_SECOND_INDEX) << E_;
 
 	SI "mwa string_variable_content " << token(token_provider::TOKENS::STRING_LEFT_BASE) << E_;
 	SI "mwa #0 " << token(token_provider::TOKENS::STRING_LEFT_FIRST_INDEX) << E_;

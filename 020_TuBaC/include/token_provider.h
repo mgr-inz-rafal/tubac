@@ -76,7 +76,8 @@ public:
 		STRING_CMP_RIGHT_LENGTH,
 		CURRENT_DATA_PTR,
 		DATA_ELEMENTS_BEGIN,
-		INPUT_BUFFER_SOURCE
+		INPUT_BUFFER_SOURCE,
+		INPUT_BUFFER_LENGTH
 	};
 
 private:
@@ -132,7 +133,8 @@ private:
 		{ TOKENS::STRING_CMP_RIGHT_LENGTH,	std::make_shared<variable_token>("STRING_COMPARISON_RIGHT_LENGTH")	},
 		{ TOKENS::CURRENT_DATA_PTR,			std::make_shared<zero_page_token>("CURRENT_DATA_PTR")				},
 		{ TOKENS::DATA_ELEMENTS_BEGIN,		std::make_shared<token>("DATA_ELEMENTS_BEGIN")						},
-		{ TOKENS::INPUT_BUFFER_SOURCE,		std::make_shared<variable_token>("INPUT_BUFFER_SOURCE")				}
+		{ TOKENS::INPUT_BUFFER_SOURCE,		std::make_shared<variable_token>("INPUT_BUFFER_SOURCE")				},
+		{ TOKENS::INPUT_BUFFER_LENGTH,		std::make_shared<zero_page_token>("INPUT_BUFFER_LENGTH")			}
 	};
 
 public:

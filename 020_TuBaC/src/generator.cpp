@@ -922,8 +922,18 @@ void generator::init_string_comparison_type(context::COMPARE_TYPE compare) const
 
 void generator::inputline() const
 {
-	SI "mwa #input_buffer " << token(token_provider::TOKENS::INPUT_BUFFER_SOURCE) << E_;
 	SI "jsr INPUTLINE" << E_;
+}
+
+void generator::init_emplacement_buffer_source_for_input_operation() const
+{
+	SI "mwa #input_buffer " << token(token_provider::TOKENS::INPUT_BUFFER_SOURCE) << E_;
+	SI "mwa #ICBLL " << token(token_provider::TOKENS::INPUT_BUFFER_LENGTH) << E_;
+}
+
+void generator::init_emplacement_buffer_source_for_read_operation() const
+{
+	SI "mwa #" << token(token_provider::TOKENS::DATA_ELEMENTS_BEGIN) << ' ' << token(token_provider::TOKENS::INPUT_BUFFER_SOURCE) << E_;
 }
 
 void generator::show_input_prompt() const

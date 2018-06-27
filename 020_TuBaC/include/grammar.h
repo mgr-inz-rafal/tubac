@@ -372,7 +372,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 				]
 					>> *inputable)
 				[
-					boost::bind(&reactor::got_after_read, &r)
+					boost::bind(&reactor::got_after_input, &r)
 				];
 
 		SOUND = (qi::string("SOUND") >> boost::spirit::repeat(3)[expr >> ','] >> expr)

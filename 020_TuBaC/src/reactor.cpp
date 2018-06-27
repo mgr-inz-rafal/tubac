@@ -421,11 +421,6 @@ void reactor::got_read()
 	ctx.set_input_source(context::INPUT_SOURCE::READ);
 }
 
-void reactor::got_after_read()
-{
-	std::cout << "AFTER READ" << std::endl;
-}
-
 void reactor::got_input()
 {
 	std::cout << "INPUT" << std::endl;
@@ -435,10 +430,16 @@ void reactor::got_input()
 void reactor::got_after_input()
 {
 	std::cout << "AFTER INPUT" << std::endl;
-	if(context::INPUT_SOURCE::INPUT == ctx.get_input_source())
+	switch(ctx.get_input_source())
 	{
+	case context::INPUT_SOURCE::INPUT:
 		_g.show_input_prompt();
+		_g.init_emplacement_buffer_source_for_input_operation();
 		_g.inputline();
+		break;
+	case context::INPUT_SOURCE::READ:
+		_g.init_emplacement_buffer_source_for_read_operation();
+		break;
 	}
 
 	const bool emplace_into_string = ctx.get_last_variable_is_string();
@@ -594,12 +595,12 @@ void reactor::got_string_array_first_dimension()
 	switch (ctx.get_string_assignment_array_side())
 	{
 	case context::ARRAY_ASSIGNMENT_SIDE::LEFT:
-		_g.pop_to("___TUBAC___STRING_LEFT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		_g.pop_to("___TUBAC___STRING_LEFT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider. No! Keep strong decoupling and generate dedicated methods in generator
 		_g.decrease_word("___TUBAC___STRING_LEFT_FIRST_INDEX_");
 		_g.put_byte_in_variable("LEFT_HAS_SECOND", 0);
 		break;
 	case context::ARRAY_ASSIGNMENT_SIDE::RIGHT:
-		_g.pop_to("___TUBAC___STRING_RIGHT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider
+		_g.pop_to("___TUBAC___STRING_RIGHT_FIRST_INDEX_");		// TODO: Reactor clearly needs access to token_provider. No! Keep strong decoupling and generate dedicated methods in generator
 		_g.decrease_word("___TUBAC___STRING_RIGHT_FIRST_INDEX_");
 		break;
 	}

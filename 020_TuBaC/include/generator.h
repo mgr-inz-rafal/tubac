@@ -254,5 +254,7 @@ public:
 	void calculate_single_indexed_string_length(const std::string& var_name) const;
 	void calculate_double_indexed_string_length() const;
 	void calculate_string_literal_length(int id) const;
+	void init_emplacement_buffer_source_for_input_operation() const;
+	void init_emplacement_buffer_source_for_read_operation() const;
 };
 
