@@ -135,7 +135,7 @@ private:
 	int string_literal_id = 0;
 	///////////////////////////////////////////////////////////////////////////////////////////
 
-	using data_element_t = std::pair<int, std::vector<char>>;
+	using data_element_t = std::pair<int, std::vector<char>>;	// TODO: use std::byte
 	char E_;
 	std::set<std::string> integers;
 	std::set<std::string> variables;

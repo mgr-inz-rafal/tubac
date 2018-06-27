@@ -148,7 +148,7 @@ void generator::write_data_elements() const
 		SI ss.str() << E_;
 		std::for_each(element.second.begin(), element.second.end(), [this](const auto& c)
 		{
-			SI "dta c\"" << static_cast<unsigned char>(c) << '"' << E_;
+			SI "dta c\"" << static_cast<unsigned char>(c) << '"' << E_;	// TODO: Replace with dta b($$) to cover unprintable characters
 		});
 		SI "dta b($9b)" << E_ << E_;
 	});
@@ -321,6 +321,7 @@ void generator::spawn_compiler_variable(const std::string& name, bool zero_page)
 }
 
 void generator::init_pointer(const std::string& name, const std::string& source) const {
+	// TODO: Add in-place initialization
 	SN "; Init pointer '" << name << "' with address of '" << source << '\'' << E_;
 	SI "lda <" << source << E_;
 	SI "sta " << name << E_;
@@ -909,10 +910,10 @@ void generator::init_string_comparison_type(context::COMPARE_TYPE compare) const
 		SI "mva #0 STRING_COMPARISON_TYPE" << E_;
 		break;
 	case context::COMPARE_TYPE::GREATER:
-		SI "mva #1 STRING_COMPARISON_TYPE" << E_;;
+		SI "mva #1 STRING_COMPARISON_TYPE" << E_;
 		break;
 	case context::COMPARE_TYPE::LESS:
-		SI "mva #2 STRING_COMPARISON_TYPE" << E_;;
+		SI "mva #2 STRING_COMPARISON_TYPE" << E_;
 		break;
 	default: 
 		std::cout << "Internal compiler error: Unknown compare type: " << static_cast<int>(compare) << std::endl;
@@ -921,6 +922,7 @@ void generator::init_string_comparison_type(context::COMPARE_TYPE compare) const
 
 void generator::inputline() const
 {
+	SI "mwa #input_buffer " << token(token_provider::TOKENS::INPUT_BUFFER_SOURCE) << E_;
 	SI "jsr INPUTLINE" << E_;
 }
 
@@ -973,7 +975,6 @@ void generator::new_data_element(const data_element_t& d)
 {
 	data_elements.emplace_back(d);
 }
-
 
 #undef SI
 #undef SN
