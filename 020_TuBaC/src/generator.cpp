@@ -964,7 +964,7 @@ void generator::emplace_input_buffer(bool into_string, const std::string& var_na
 void generator::adjust_read_data_pointer() const
 {
 	SI "ldy #0" << E_;
-	SI "adw ___TUBAC___CURRENT_DATA_PTR (___TUBAC___INPUT_BUFFER_LENGTH),y" << E_;
+	SI "adw " << token(token_provider::TOKENS::CURRENT_DATA_PTR) << " (" << token(token_provider::TOKENS::INPUT_BUFFER_LENGTH) << "),y" << E_;
 }
 
 // TODO: Mind the integer-vs-floating arithmetic here
@@ -998,7 +998,7 @@ void generator::new_data_element(const data_element_t& d)
 
 void generator::reset_data_pointer_to_line(int line) const
 {
-	SI "mwa #___TUBAC___DATA_ELEMENTS_LINE_100 ___TUBAC___CURRENT_DATA_PTR" << E_;
+	SI "mwa #" << token(token_provider::TOKENS::DATA_LINE_INDICATOR) << line << ' ' << token(token_provider::TOKENS::CURRENT_DATA_PTR) << E_;
 }
 
 #undef SI
