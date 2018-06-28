@@ -961,6 +961,12 @@ void generator::emplace_input_buffer(bool into_string, const std::string& var_na
 	}
 }
 
+void generator::adjust_read_data_pointer() const
+{
+	SI "ldy #0" << E_;
+	SI "adw ___TUBAC___CURRENT_DATA_PTR (___TUBAC___INPUT_BUFFER_LENGTH),y" << E_;
+}
+
 // TODO: Mind the integer-vs-floating arithmetic here
 void generator::calculate_double_indexed_string_length() const
 {

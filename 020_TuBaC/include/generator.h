@@ -250,6 +250,7 @@ public:
 	void inputline() const;
 	void show_input_prompt() const;
 	void emplace_input_buffer(bool into_string, const std::string& var_name) const;
+	void adjust_read_data_pointer() const;
 	void calculate_non_indexed_string_length(const std::string& var_name) const;
 	void calculate_single_indexed_string_length(const std::string& var_name) const;
 	void calculate_double_indexed_string_length() const;

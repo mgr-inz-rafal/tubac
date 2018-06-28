@@ -447,6 +447,11 @@ void reactor::got_after_input()
 	_g.new_variable(variable_name);
 
 	_g.emplace_input_buffer(emplace_into_string, variable_name);
+
+	if(context::INPUT_SOURCE::READ == ctx.get_input_source())
+	{
+		_g.adjust_read_data_pointer();
+	}
 }
 
 void reactor::got_integer_variable_to_input(const std::string& s)
