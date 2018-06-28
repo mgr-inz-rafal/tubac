@@ -130,4 +130,5 @@ public:
 	void got_string_literal_for_comparison() const;
 	void got_data_element(const std::vector<char>& vec);
 	void got_read();
+	void got_restore(const int &i);
 };

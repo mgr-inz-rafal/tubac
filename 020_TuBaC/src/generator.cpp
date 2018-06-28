@@ -996,6 +996,11 @@ void generator::new_data_element(const data_element_t& d)
 	data_elements.emplace_back(d);
 }
 
+void generator::reset_data_pointer_to_line(int line) const
+{
+	SI "mwa #___TUBAC___DATA_ELEMENTS_LINE_100 ___TUBAC___CURRENT_DATA_PTR" << E_;
+}
+
 #undef SI
 #undef SN
 #undef SC

@@ -817,3 +817,8 @@ void reactor::got_data_element(const std::vector<char>& vec)
 	_g.new_data_element({ctx.get_current_line(), vec});
 }
 
+void reactor::got_restore(const int &i)
+{
+	std::cout << "DATA RESTORE TO LINE " << i << std::endl;
+	_g.reset_data_pointer_to_line(i);
+}
