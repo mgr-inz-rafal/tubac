@@ -595,10 +595,16 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		DATA = qi::string("DATA") >> raw_data >> qi::eol;
 
-		RESTORE = qi::string("RESTORE") >> qi::int_
-			[
-				boost::bind(&reactor::got_restore, &r, ::_1)
-			];
+		RESTORE = 
+			qi::string("RESTORE")
+				[
+					boost::bind(&reactor::got_restore_to_first_data, &r)
+				]
+			|
+			qi::string("RESTORE") >> qi::int_
+				[
+					boost::bind(&reactor::got_restore, &r, ::_1)
+				];
 		
 		command =
 			(string_assignment)				|

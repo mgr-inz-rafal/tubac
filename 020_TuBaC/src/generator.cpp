@@ -1001,6 +1001,11 @@ void generator::reset_data_pointer_to_line(int line) const
 	SI "mwa #" << token(token_provider::TOKENS::DATA_LINE_INDICATOR) << line << ' ' << token(token_provider::TOKENS::CURRENT_DATA_PTR) << E_;
 }
 
+void generator::reset_data_pointer_to_first_line() const
+{
+	SI "mwa #" << token(token_provider::TOKENS::DATA_ELEMENTS_BEGIN) << ' ' << token(token_provider::TOKENS::CURRENT_DATA_PTR) << E_;
+}
+
 #undef SI
 #undef SN
 #undef SC

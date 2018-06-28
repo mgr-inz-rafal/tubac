@@ -822,3 +822,9 @@ void reactor::got_restore(const int &i)
 	std::cout << "DATA RESTORE TO LINE " << i << std::endl;
 	_g.reset_data_pointer_to_line(i);
 }
+
+void reactor::got_restore_to_first_data()
+{
+	std::cout << "DATA RESTORE TO FIRST" << std::endl;
+	_g.reset_data_pointer_to_first_line();
+}
