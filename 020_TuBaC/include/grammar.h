@@ -595,7 +595,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		DATA = qi::string("DATA") >> raw_data >> qi::eol;
 
-		RESTORE = qi::string("RESTORE") >> expr >> qi::eol;
+		RESTORE = qi::string("RESTORE") >> qi::int_ >> qi::eol;
 
 		command =
 			(string_assignment)				|
