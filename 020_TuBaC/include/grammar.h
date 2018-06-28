@@ -595,6 +595,8 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 
 		DATA = qi::string("DATA") >> raw_data >> qi::eol;
 
+		RESTORE = qi::string("RESTORE") >> expr >> qi::eol;
+
 		command =
 			(string_assignment)				|
 			(integer_assignment)			|
@@ -629,6 +631,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 			(LEN)							|
 			(DATA)							|
 			(READ)							|
+			(RESTORE)						|
 			(GOTO);
 	}
 
@@ -698,6 +701,7 @@ struct tbxl_grammar : qi::grammar<Iterator, Skipper>
 	qi::rule<Iterator, Skipper> LEN;
 	qi::rule<Iterator, Skipper> DATA;
 	qi::rule<Iterator, Skipper> READ;
+	qi::rule<Iterator, Skipper> RESTORE;
 };
 
 
