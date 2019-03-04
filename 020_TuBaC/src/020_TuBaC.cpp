@@ -20,18 +20,27 @@
 // to acknowledge that you have received this warning. (compiling source file src\020_TuBaC.cpp)
 #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 
-#include <boost/program_options.hpp>
+//error C4996 : 'std::fpos<_Mbstatet>::seekpos' : warning STL4019 : The member std::fpos::seekpos() is non - Standard, and is
+//preserved only for compatibility with workarounds for old versions of Visual C++.It will be removed in a future release, and in
+//this release always returns 0. Please use standards - conforming mechanisms to manipulate fpos, such as conversions to and from
+//streamoff, or an integral type, instead.If you are receiving this message while compiling Boost.IOStreams,
+//a fix has been submitted upstream to make Boost use standards - conforming mechanisms, as it does for other compilers.
+//You can define _SILENCE_FPOS_SEEKPOS_DEPRECATION_WARNING to acknowledge that you have received this warning,
+//or define _REMOVE_FPOS_SEEKPOS to remove std::fpos::seekpos entirely.
+#define _SILENCE_FPOS_SEEKPOS_DEPRECATION_WARNING
+
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/program_options.hpp>
 
 #include <fstream>
-#include <string>
 #include <stdexcept>
+#include <string>
 
 #include "command_line.h"
 #include "config.h"
+#include "generator.h"
 #include "grammar.h"
 #include "reactor.h"
-#include "generator.h"
 #include "synthesizer.h"
 #include "token_provider.h"
 
